@@ -8,6 +8,7 @@ export default function ContactPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Form state
@@ -47,12 +48,37 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage('');
 
-    // Simulation d'envoi asynchrone
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+    // Remplacez VOTRE_FORM_ID_FORMSPREE par l'ID obtenu sur Formspree (ex: "xpznvkyq")
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xaeywayk';
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Name: `${formData.firstName} ${formData.lastName}`,
+          Email: formData.email,
+          Phone: formData.phone || 'Non renseigné',
+          Subject: formData.subject,
+          Message: formData.message
+        })
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        setErrorMessage("Une erreur s'est produite lors de l'envoi. Veuillez réessayer.");
+      }
+    } catch (error) {
+      setErrorMessage("Impossible de contacter le serveur d'envoi. Vérifiez votre connexion.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -153,93 +179,83 @@ export default function ContactPage() {
           </ul>
         </div>
       </nav>
-{/* HERO SECTION - GET IN TOUCH */}
-<section className="relative overflow-hidden border-b border-slate-800/80 bg-[#040711] px-6 py-24 text-center md:px-12 md:py-32">
-  
-  {/* 1. Halo lumineux en arrière-plan (Glow Gradient Cyan / Sky) */}
-  <div 
-    className="pointer-events-none absolute left-1/2 top-1/2 h-[350px] w-[650px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-cyan-500/15 via-sky-500/15 to-transparent blur-[120px]" 
-  />
 
-    {/* Effet d'onde géophysique en arrière-plan */}
+      {/* HERO SECTION - GET IN TOUCH */}
+      <section className="relative overflow-hidden border-b border-slate-800/80 bg-[#040711] px-6 py-24 text-center md:px-12 md:py-32">
+        
+        {/* Halo lumineux */}
+        <div 
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[350px] w-[650px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-cyan-500/15 via-sky-500/15 to-transparent blur-[120px]" 
+        />
+
+        {/* Effet d'onde géophysique */}
         <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
           <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/10 animate-ping [animation-duration:4s]" />
           <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/5 animate-ping [animation-duration:6s] delay-1000" />
         </div>
-        
-  {/* 2. Représentation vectorielle : Onde sinusoïdale & Signal sismique */}
-  <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden opacity-40">
-    <svg 
-      className="h-full w-full" 
-      viewBox="0 0 1400 500" 
-      preserveAspectRatio="none" 
-      fill="none"
-    >
-      {/* Onde sinusoïdale fluide */}
-      <path 
-        d="M -100,280 C 300,360 500,160 900,280 C 1200,370 1400,210 1600,260" 
-        stroke="url(#gradient-wave-1)" 
-        strokeWidth="1.5" 
-        opacity="0.8"
-      />
+            
+        {/* Représentation vectorielle SVG */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden opacity-40">
+          <svg 
+            className="h-full w-full" 
+            viewBox="0 0 1400 500" 
+            preserveAspectRatio="none" 
+            fill="none"
+          >
+            <path 
+              d="M -100,280 C 300,360 500,160 900,280 C 1200,370 1400,210 1600,260" 
+              stroke="url(#gradient-wave-1)" 
+              strokeWidth="1.5" 
+              opacity="0.8"
+            />
+            <path 
+              d="M -100,310 C 320,390 520,190 920,310 C 1220,400 1420,240 1600,290" 
+              stroke="url(#gradient-wave-2)" 
+              strokeWidth="1" 
+              opacity="0.3"
+            />
+            <path 
+              d="M 80,295 L 200,295 L 215,220 L 230,370 L 245,160 L 260,410 L 275,210 L 290,340 L 305,270 L 320,310 L 335,295 L 580,295" 
+              stroke="#06b6d4" 
+              strokeWidth="1.5" 
+              opacity="0.6" 
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <line x1="260" y1="100" x2="260" y2="420" stroke="#38bdf8" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.25" />
+            <defs>
+              <linearGradient id="gradient-wave-1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="#0ea5e9" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#6366f1" stopOpacity="0.3" />
+              </linearGradient>
+              <linearGradient id="gradient-wave-2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#0284c7" stopOpacity="0.1" />
+                <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.1" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
 
-      {/* Seconde couche d'onde parallèle */}
-      <path 
-        d="M -100,310 C 320,390 520,190 920,310 C 1220,400 1420,240 1600,290" 
-        stroke="url(#gradient-wave-2)" 
-        strokeWidth="1" 
-        opacity="0.3"
-      />
+        {/* Contenu principal Hero */}
+        <div className="relative z-10 mx-auto max-w-4xl">
+          <span className="mb-8 inline-block rounded-full border border-cyan-500/30 bg-cyan-950/40 px-4 py-1.5 text-xs font-semibold tracking-wide text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)] backdrop-blur-md">
+            Get in Touch
+          </span>
 
-      {/* Sismogramme (Signal à pics - Cyan) */}
-      <path 
-        d="M 80,295 L 200,295 L 215,220 L 230,370 L 245,160 L 260,410 L 275,210 L 290,340 L 305,270 L 320,310 L 335,295 L 580,295" 
-        stroke="#06b6d4" 
-        strokeWidth="1.5" 
-        opacity="0.6" 
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+          <h1 className="mb-6 text-4xl font-extrabold leading-[1.15] tracking-tight text-white sm:text-5xl md:text-6xl">
+            Take the Next Step in Your<br />
+            <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
+              Geophysical Journey
+            </span>
+          </h1>
 
-      {/* Axe vertical discret */}
-      <line x1="260" y1="100" x2="260" y2="420" stroke="#38bdf8" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.25" />
-
-      {/* Dégradés pour les tracés SVG */}
-      <defs>
-        <linearGradient id="gradient-wave-1" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.3" />
-          <stop offset="50%" stopColor="#0ea5e9" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#6366f1" stopOpacity="0.3" />
-        </linearGradient>
-        <linearGradient id="gradient-wave-2" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#0284c7" stopOpacity="0.1" />
-          <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.1" />
-        </linearGradient>
-      </defs>
-    </svg>
-  </div>
-
-  {/* 3. Contenu principal */}
-  <div className="relative z-10 mx-auto max-w-4xl">
-    {/* Badge Cyan */}
-    <span className="mb-8 inline-block rounded-full border border-cyan-500/30 bg-cyan-950/40 px-4 py-1.5 text-xs font-semibold tracking-wide text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)] backdrop-blur-md">
-      Get in Touch
-    </span>
-
-    {/* Titre avec Dégradé Cyan -> Sky -> Indigo */}
-    <h1 className="mb-6 text-4xl font-extrabold leading-[1.15] tracking-tight text-white sm:text-5xl md:text-6xl">
-      Take the Next Step in Your<br />
-      <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
-        Geophysical Journey
-      </span>
-    </h1>
-
-    <p className="mx-auto max-w-2xl text-base font-normal leading-relaxed text-slate-400 sm:text-lg md:text-xl">
-      Have questions about our AI research, training programs, or consulting services? Connect directly with our institutional team.
-    </p>
-  </div>
-</section>
+          <p className="mx-auto max-w-2xl text-base font-normal leading-relaxed text-slate-400 sm:text-lg md:text-xl">
+            Have questions about our AI research, training programs, or consulting services? Connect directly with our institutional team.
+          </p>
+        </div>
+      </section>
 
       {/* MAIN CONTENT */}
       <main className="relative z-10 mx-auto max-w-7xl px-6 py-16 md:px-12 flex-1 w-full">
@@ -305,7 +321,7 @@ export default function ContactPage() {
             <div className="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-cyan-500 via-indigo-500 to-transparent" />
 
             {isSubmitted ? (
-              <div className="py-12 text-center space-y-4">
+              <div className="py-12 text-center space-y-4 animate-in fade-in duration-300">
                 <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400 mx-auto text-2xl">
                   ✓
                 </div>
@@ -326,6 +342,12 @@ export default function ContactPage() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 
+                {errorMessage && (
+                  <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-400 text-xs text-center">
+                    {errorMessage}
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="firstName" className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
