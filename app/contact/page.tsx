@@ -148,8 +148,8 @@ export default function ContactPage() {
                 <div>
                   <h3 className="text-white font-semibold text-base mb-1">Direct Email</h3>
                   <p className="text-slate-400 text-xs mb-2">Our technical team responds within 24 hours.</p>
-                  <a href="mailto:contact@gsri.com" className="text-cyan-400 hover:text-cyan-300 font-medium text-sm transition-colors">
-                    contact@gsri.com
+                  <a href="mailto:io@geosignalanalytics.com" className="text-cyan-400 hover:text-cyan-300 font-medium text-sm transition-colors">
+                    io@geosignalanalytics.com
                   </a>
                 </div>
               </div>

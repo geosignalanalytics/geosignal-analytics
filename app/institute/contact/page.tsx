@@ -259,8 +259,8 @@ export default function ContactPage() {
                 <h3 className="text-base font-semibold text-white group-hover:text-cyan-300 transition-colors">Direct Email</h3>
                 <p className="text-slate-400 text-xs leading-relaxed">For general inquiries, research, and technical support.</p>
               </div>
-              <a href="mailto:research@geosignalanalytics.com" className="text-cyan-400 font-medium text-xs sm:text-sm hover:underline mt-4 block break-all">
-                research@geosignalanalytics.com
+              <a href="mailto:io@geosignalanalytics.com" className="text-cyan-400 font-medium text-xs sm:text-sm hover:underline mt-4 block break-all">
+                io@geosignalanalytics.com
               </a>
             </div>
 
