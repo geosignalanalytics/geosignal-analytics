@@ -160,24 +160,26 @@ export default function AboutPage() {
           }}
         />
 
-        <div className="relative mx-auto max-w-4xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
-            About us
-          </p>
+        <div className="relative mx-auto max-w-7xl">
+          <div className="max-w-4xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
+              About us
+            </p>
 
-          <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-7">
-            A research background, applied to real projects
-          </h1>
+            <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-7">
+              A research background, applied to real projects
+            </h1>
 
-          <p className="text-slate-400 text-base md:text-lg mb-5 leading-relaxed">
-            GeoSignal Analytics grew out of academic work in computational geophysics, brought into daily use
-            across energy, water, and environmental projects. The research side didn't stop when the
-            consulting side started; the two still feed each other.
-          </p>
-          <p className="text-slate-400 text-base md:text-lg leading-relaxed">
-            In practice, that means subsurface exploration, water resource management, and QHSE compliance
-            work that's grounded in physics rather than in a model's best guess.
-          </p>
+            <p className="text-slate-400 text-base md:text-lg mb-5 leading-relaxed">
+              GeoSignal Analytics grew out of academic work in computational geophysics, brought into daily use
+              across energy, water, and environmental projects. The research side didn't stop when the
+              consulting side started; the two still feed each other.
+            </p>
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed">
+              In practice, that means subsurface exploration, water resource management, and QHSE compliance
+              work that's grounded in physics rather than in a model's best guess.
+            </p>
+          </div>
         </div>
       </section>
 
