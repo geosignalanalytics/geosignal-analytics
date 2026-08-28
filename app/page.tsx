@@ -168,34 +168,36 @@ export default function Home() {
           }}
         />
 
-        <div className="relative mx-auto max-w-5xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
-            Applied Geophysics &amp; Earth Data Science
-          </p>
+        <div className="relative mx-auto max-w-7xl">
+          <div className="max-w-4xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
+              Applied Geophysics &amp; Earth Data Science
+            </p>
 
-          <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white max-w-4xl mb-7">
-            Subsurface imaging and signal processing for organizations that need to know what the ground actually looks like.
-          </h1>
+            <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-7">
+              Subsurface imaging and signal processing for organizations that need to know what the ground actually looks like.
+            </h1>
 
-          <p className="text-slate-400 text-base md:text-lg max-w-2xl mb-10 leading-relaxed">
-            We process seismic and geospatial data using physics-based methods refined with machine learning.
-            Our clients work in resource exploration, water infrastructure, and land engineering, where a wrong
-            reading of the subsurface isn't something you can afford.
-          </p>
+            <p className="text-slate-400 text-base md:text-lg max-w-2xl mb-10 leading-relaxed">
+              We process seismic and geospatial data using physics-based methods refined with machine learning.
+              Our clients work in resource exploration, water infrastructure, and land engineering, where a wrong
+              reading of the subsurface isn't something you can afford.
+            </p>
 
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="#sectors"
-              className="rounded-md bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition-colors"
-            >
-              See our services
-            </Link>
-            <Link
-              href="/contact"
-              className="rounded-md border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-200 hover:border-slate-500 hover:text-white transition-colors"
-            >
-              Talk to our team
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="#sectors"
+                className="rounded-md bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition-colors"
+              >
+                See our services
+              </Link>
+              <Link
+                href="/contact"
+                className="rounded-md border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-200 hover:border-slate-500 hover:text-white transition-colors"
+              >
+                Talk to our team
+              </Link>
+            </div>
           </div>
         </div>
       </section>
