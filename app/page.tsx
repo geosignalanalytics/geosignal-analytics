@@ -5,372 +5,481 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function Home() {
-  // État pour gérer les accordéons de la section FAQ
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<'en' | 'fr'>('en');
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
+  const navLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
+    { href: '/institute', label: 'GeoSignal Institute' },
+    { href: '/services', label: 'Services' },
+  ];
+
   const faqs = [
     {
       q: "How does GeoSignal Analytics integrate AI into seismic data processing?",
-      a: "We combine physics-informed machine learning algorithms (such as PINNs and multidimensional reconstruction frameworks) with traditional wave equation solvers. This drastically suppresses noise and interpolates missing spatial data while preserving physical wavefield validity."
+      a: "We don't let a model run unconstrained. Machine learning handles noise suppression and gap-filling, but it's built on top of standard wave-equation solvers, so a result that isn't physically plausible gets rejected before it reaches interpretation."
     },
     {
-      q: "What is the distinction between GeoSignal Analytics and GeoSignal Institute?",
-      a: "GeoSignal Analytics is the commercial parent entity delivering specialized consulting, industrial processing, and enterprise geoscientific solutions. GeoSignal Institute serves as our dedicated academic R&D arm, advancing open research, publications, and professional training."
+      q: "What's the difference between GeoSignal Analytics and GeoSignal Institute?",
+      a: "Analytics is the commercial side — consulting and processing work for clients. The Institute is where the research, publications and training happen. Methods generally get proven at the Institute before they're used on paid work."
     },
     {
-      q: "What types of industries do you partner with?",
-      a: "We support natural resource exploration (minerals, hydrocarbons), hydrogeological and water infrastructure projects, civil geotechnical engineering, and environmental compliance organizations."
+      q: "Which industries do you typically work with?",
+      a: "Mostly resource exploration (minerals and hydrocarbons), water infrastructure, geotechnical engineering, and a smaller amount of environmental compliance work."
     },
     {
-      q: "Can your workflows integrate with existing seismic and GIS software?",
-      a: "Yes. Our processing pipelines export high-resolution deliverables in standard industry formats (SEG-Y, GeoTIFF, SHP, NetCDF) compatible with standard interpretation tools."
+      q: "Will your output work with the software we already use?",
+      a: "In most cases, yes — we export in SEG-Y, GeoTIFF, SHP or NetCDF depending on the deliverable. If your stack needs something unusual, it's worth checking with us before the project starts rather than after."
     }
   ];
 
   return (
-    <div className="min-h-screen bg-[#050b14] text-slate-100 font-sans selection:bg-cyan-500 selection:text-white flex flex-col antialiased">
-      
-      {/* 1. LA BARRE DE NAVIGATION */}
-      <nav className="sticky top-0 z-50 border-b border-slate-800 bg-[#050b14]/90 px-6 py-4 backdrop-blur-md md:px-12">
+    <div className="min-h-screen bg-[#060a12] text-slate-100 font-sans selection:bg-cyan-500 selection:text-white flex flex-col antialiased">
+
+      {/* NAVIGATION */}
+      <nav className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#060a12] px-6 py-3.5 md:px-12">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex items-center rounded-lg bg-white px-2.5 py-1 transition-transform group-hover:scale-105">
-              <Image 
-                src="/images/logo.png" 
-                alt="GeoSignal Analytics Logo" 
-                width={150} 
-                height={40} 
-                className="h-8 w-auto object-contain"
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex items-center rounded-md bg-white px-2.5 py-1">
+              <Image
+                src="/images/logo.png"
+                alt="GeoSignal Analytics"
+                width={150}
+                height={40}
+                className="h-7 w-auto object-contain"
                 priority
               />
             </div>
           </Link>
 
-          <ul className="hidden md:flex items-center gap-8 font-medium text-slate-400 text-sm md:text-base m-0 p-0 list-none">
-            <li>
-              <Link href="/" className="text-white font-semibold transition-colors hover:text-cyan-400">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="transition-colors hover:text-white">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link href="/institute" className="transition-colors hover:text-cyan-400">
-                GeoSignal Institute
-              </Link>
-            </li>
-            <li>
-              <Link href="/services" className="transition-colors hover:text-white">
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="transition-colors hover:text-white">
-                Contact
-              </Link>
-            </li>
+          {/* Liens desktop */}
+          <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={
+                    link.href === '/'
+                      ? 'text-white border-b-2 border-cyan-500 pb-[18px] -mb-[14px]'
+                      : 'hover:text-slate-200 transition-colors'
+                  }
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
           </ul>
+
+          {/* Zone droite : langue + contact + burger */}
+          <div className="flex items-center gap-3">
+            {/* Sélecteur de langue */}
+            <button
+              onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              aria-label="Switch language"
+            >
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>
+                EN
+              </span>
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>
+                FR
+              </span>
+            </button>
+
+            <Link
+              href="/contact"
+              className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
+            >
+              Contact
+            </Link>
+
+            {/* Burger mobile */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8"
+              aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-transform duration-200 ${mobileMenuOpen ? 'rotate-45 translate-y-[6.5px]' : ''}`} />
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-transform duration-200 ${mobileMenuOpen ? '-rotate-45 -translate-y-[6.5px]' : ''}`} />
+            </button>
+          </div>
         </div>
+
+        {/* Menu mobile déroulant */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mx-auto max-w-7xl mt-4 pb-2 border-t border-slate-800/70 pt-4">
+            <ul className="flex flex-col gap-1 text-sm font-medium m-0 p-0 list-none">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`block rounded-md px-3 py-2.5 transition-colors ${
+                      link.href === '/' ? 'text-white bg-[#0b1329]' : 'text-slate-400 hover:bg-[#0b1329] hover:text-white'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors"
+                >
+                  Contact
+                </Link>
+              </li>
+            </ul>
+
+            {/* Sélecteur langue mobile */}
+            <div className="flex items-center gap-2 mt-4 px-3 sm:hidden">
+              <span className="text-xs text-slate-500">Language</span>
+              <button
+                onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+                className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              >
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+              </button>
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* 2. HERO SECTION */}
-      <section 
-        className="relative overflow-hidden border-b border-slate-800 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900/50 via-[#050b14] to-[#050b14] px-6 py-28 text-center md:px-12"
-      >
-        {/* Effet d'onde géophysique en arrière-plan */}
-        <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
-          <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/10 animate-ping [animation-duration:4s]" />
-          <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/5 animate-ping [animation-duration:6s] delay-1000" />
-        </div>
+      {/* HERO */}
+      <section className="relative border-b border-slate-800/70 px-6 pt-20 pb-24 md:px-12 md:pt-28 md:pb-32">
+        <div
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+            maskImage: 'radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 100%)',
+          }}
+        />
 
-        {/* Conteneur principal (z-10 pour rester au-dessus de l'onde) */}
-        <div className="relative mx-auto max-w-5xl z-10">
-          <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-[#0b1329] border border-cyan-500/30 rounded-full mb-6">
-            Advanced Applied Geophysics &amp; Data Science
-          </span>
-          
-          {/* Titre principal avec dégradé cyan animé */}
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-6 leading-tight bg-gradient-to-r from-white via-cyan-400 to-white bg-[length:200%_auto] text-transparent bg-clip-text animate-[gradient_8s_ease_infinite]">
-            Earth Intelligence Powered by Advanced Geophysics
-          </h1>
-          
-          <p className="text-slate-300 text-base sm:text-xl max-w-3xl mx-auto mb-10 leading-relaxed font-normal">
-            Delivering high-resolution subsurface imaging, AI-driven signal reconstruction, and environmental risk assessment for industrial and resource operations.
+        <div className="relative mx-auto max-w-5xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
+            Applied Geophysics &amp; Earth Data Science
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link 
-              href="#sectors" 
-              className="inline-flex items-center gap-2 rounded-xl bg-cyan-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-cyan-600/20 transition-all hover:bg-cyan-500"
+
+          <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white max-w-4xl mb-7">
+            Subsurface imaging and signal processing for organizations that need to know what the ground actually looks like.
+          </h1>
+
+          <p className="text-slate-400 text-base md:text-lg max-w-2xl mb-10 leading-relaxed">
+            We process seismic and geospatial data using physics-based methods refined with machine learning —
+            for teams in resource exploration, water infrastructure, and land engineering who cannot afford
+            a wrong reading of the subsurface.
+          </p>
+
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="#sectors"
+              className="rounded-md bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition-colors"
             >
-              Explore Our Services
+              See our services
             </Link>
-            <Link 
-              href="/contact" 
-              className="inline-flex items-center gap-2 rounded-xl bg-[#0b1329] border border-slate-800 px-7 py-3.5 text-sm font-semibold text-slate-200 transition-all hover:bg-slate-800 hover:text-white"
+            <Link
+              href="/contact"
+              className="rounded-md border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-200 hover:border-slate-500 hover:text-white transition-colors"
             >
-              Get In Touch
+              Talk to our team
             </Link>
           </div>
         </div>
       </section>
 
-
-      {/* MAIN CONTAINER (ALIGNEMENT HOMOGÈNE DES MARGES) */}
+      {/* MAIN CONTAINER */}
       <main className="mx-auto max-w-7xl px-6 md:px-12 py-16 w-full space-y-24 flex-1">
 
-        {/* 3. KEY SECTORS */}
+        {/* SERVICES */}
         <section id="sectors" className="scroll-mt-24">
-          <div className="text-center mb-16 flex flex-col items-center">
-            <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-300 bg-[#080f1e] border border-slate-800 rounded-full mb-4">
-              Core Capabilities
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white max-w-4xl mx-auto leading-tight mb-4 tracking-tight">
-              Data-Driven Solutions for Earth &amp; Resources
+          <div className="max-w-2xl mb-14">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-3">
+              What we do
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
+              Six areas, one working method
             </h2>
-            <p className="text-slate-400 max-w-3xl mx-auto text-sm sm:text-base leading-relaxed">
-              GeoSignal Analytics bridges physical earth principles and modern computational architectures, providing targeted expertise across key industrial sectors.
+            <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+              Each engagement starts the same way: understand the physical problem before choosing the tool.
+              Below is where that method gets applied.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            {/* Service 1 */}
-            <div className="bg-[#0b1329] p-8 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition duration-300 flex flex-col justify-between shadow-xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+            <div className="lg:col-span-7 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-white mb-3">Advanced Geophysics &amp; AI</h3>
+                <span className="text-xs font-mono text-slate-600">01</span>
+                <h3 className="text-xl font-bold text-white mt-2 mb-3">Advanced Geophysics &amp; AI</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Proprietary algorithmic frameworks and machine learning models for high-resolution seismic data processing, spatial alias recovery, and multidimensional signal denoising.
+                  Seismic data processing built on wave-equation solvers, extended with machine learning models
+                  where they genuinely help — mainly for noise suppression and filling gaps in spatial coverage.
+                  We stay close to the physics; the model doesn't get to invent a subsurface that isn't there.
                 </p>
               </div>
-              <Link href="/services/advanced-geophysics-and-ai" className="inline-flex items-center text-xs font-semibold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors">
-                Learn more &rarr;
+              <Link href="/services/advanced-geophysics-and-ai" className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
+                Read about this service
               </Link>
             </div>
 
-            {/* Service 2 */}
-            <div className="bg-[#0b1329] p-8 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition duration-300 flex flex-col justify-between shadow-xl">
+            <div className="lg:col-span-5 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-white mb-3">Geoscience &amp; Exploration</h3>
+                <span className="text-xs font-mono text-slate-600">02</span>
+                <h3 className="text-lg font-bold text-white mt-2 mb-3">Geoscience &amp; Exploration</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Integrated geological and geophysical characterization to de-risk resource exploration, locate mineralized structures, and optimize field acquisition campaigns.
+                  Combined geological and geophysical reads to narrow down where a field campaign should
+                  actually focus, before money gets spent on the ground.
                 </p>
               </div>
-              <Link href="/services/geoscience-and-exploration" className="inline-flex items-center text-xs font-semibold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors">
-                Learn more &rarr;
+              <Link href="/services/geoscience-and-exploration" className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
+                Read about this service
               </Link>
             </div>
 
-            {/* Service 3 */}
-            <div className="bg-[#0b1329] p-8 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition duration-300 flex flex-col justify-between shadow-xl">
+            <div className="lg:col-span-4 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-white mb-3">Water Resources</h3>
+                <span className="text-xs font-mono text-slate-600">03</span>
+                <h3 className="text-lg font-bold text-white mt-2 mb-3">Water Resources</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Hydrogeophysical surveys, aquifer mapping, and predictive groundwater modeling designed to ensure sustainable water management for municipal and industrial use.
+                  Hydrogeophysical surveys and aquifer mapping to support decisions on where water actually is,
+                  and how it moves.
                 </p>
               </div>
-              <Link href="/services/water-resources" className="inline-flex items-center text-xs font-semibold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors">
-                Learn more &rarr;
+              <Link href="/services/water-resources" className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
+                Read about this service
               </Link>
             </div>
 
-            {/* Service 4 */}
-            <div className="bg-[#0b1329] p-8 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition duration-300 flex flex-col justify-between shadow-xl">
+            <div className="lg:col-span-4 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-white mb-3">Mapping, GIS &amp; Remote Sensing</h3>
+                <span className="text-xs font-mono text-slate-600">04</span>
+                <h3 className="text-lg font-bold text-white mt-2 mb-3">Mapping, GIS &amp; Remote Sensing</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Multi-spectral spatial data integration, thematic GIS mapping, and satellite image analysis for precise territorial monitoring and environmental asset tracking.
+                  Spatial data brought into one coherent picture — satellite imagery, thematic mapping,
+                  and monitoring over time.
                 </p>
               </div>
-              <Link href="/services/mapping-gis-and-remote-sensing" className="inline-flex items-center text-xs font-semibold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors">
-                Learn more &rarr;
+              <Link href="/services/mapping-gis-and-remote-sensing" className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
+                Read about this service
               </Link>
             </div>
 
-            {/* Service 5 */}
-            <div className="bg-[#0b1329] p-8 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition duration-300 flex flex-col justify-between shadow-xl">
+            <div className="lg:col-span-4 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col justify-between">
               <div>
-                <h3 className="text-xl font-bold text-white mb-3">Environmental Solutions</h3>
+                <span className="text-xs font-mono text-slate-600">05</span>
+                <h3 className="text-lg font-bold text-white mt-2 mb-3">Environmental Solutions</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Non-invasive shallow subsurface imaging, hazard monitoring, and environmental baseline studies supporting sustainable infrastructure and land remediation.
+                  Shallow subsurface imaging for hazard checks and baseline studies, done without disturbing
+                  the site.
                 </p>
               </div>
-              <Link href="/services/environmental-solutions" className="inline-flex items-center text-xs font-semibold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors">
-                Learn more &rarr;
+              <Link href="/services/environmental-solutions" className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
+                Read about this service
               </Link>
             </div>
 
-            {/* Service 6 */}
-            <div className="bg-[#0b1329] p-8 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition duration-300 flex flex-col justify-between shadow-xl">
-              <div>
-                <h3 className="text-xl font-bold text-white mb-3">QHSE Advisory</h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Rigorous operational safety frameworks, ISO-compliant risk management, and environmental auditing tailored for complex field acquisition programs.
+            <div className="lg:col-span-12 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="md:max-w-2xl">
+                <span className="text-xs font-mono text-slate-600">06</span>
+                <h3 className="text-lg font-bold text-white mt-2 mb-2">QHSE Advisory</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  Safety and risk frameworks for field acquisition programs, aligned with ISO practice —
+                  built by people who've actually run field crews, not just written the policy.
                 </p>
               </div>
-              <Link href="/services/qhse" className="inline-flex items-center text-xs font-semibold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors">
-                Learn more &rarr;
+              <Link href="/services/qhse" className="shrink-0 text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
+                Read about this service
               </Link>
             </div>
 
           </div>
         </section>
-        
-        {/* 4. THE GEOSIGNAL APPROACH */}
-        <section className="bg-[#080f1e]/60 border border-slate-800/80 rounded-3xl p-8 md:p-12 shadow-2xl">
-          <div className="text-center mb-12 flex flex-col items-center">
-            <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-[#0b1329] border border-slate-800 rounded-full mb-4">
-              Operational Methodology
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white max-w-3xl mx-auto leading-tight mb-4">
-              Integrated Physics and Analytics
+
+        {/* MÉTHODOLOGIE */}
+        <section>
+          <div className="max-w-2xl mb-14">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-3">
+              How we work
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
+              Physics first, machine learning second
             </h2>
-            <p className="text-slate-300 max-w-3xl mx-auto text-sm sm:text-base leading-relaxed">
-              We eliminate traditional gaps between data acquisition, signal processing, and interpretation. By blending physical constraints with machine learning, we turn complex earth measurements into clear decisions.
+            <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+              A model that produces a clean-looking image but violates wave physics isn't useful — it's just
+              confident-looking noise. Everything we do is built around that constraint.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-[#0b1329] p-6 rounded-xl border border-slate-800/60">
-              <h3 className="text-lg font-bold text-white mb-2">Physics-Informed Processing</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Combining mathematical wavefield theory with machine learning models ensures algorithm predictions strictly satisfy real wave physics.
+          <div className="divide-y divide-slate-800/80 border-t border-b border-slate-800/80">
+
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 py-7">
+              <span className="md:col-span-2 text-xs font-mono text-slate-600">01</span>
+              <h3 className="md:col-span-3 text-base font-bold text-white">Physics-informed processing</h3>
+              <p className="md:col-span-7 text-slate-400 text-sm leading-relaxed">
+                Wavefield theory sets the boundaries; the learning model works inside them. It's slower to build
+                than a purely data-driven pipeline, but it doesn't hallucinate structure that contradicts basic physics.
               </p>
             </div>
 
-            <div className="bg-[#0b1329] p-6 rounded-xl border border-slate-800/60">
-              <h3 className="text-lg font-bold text-white mb-2">Multi-Disciplinary Synthesis</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Fusing seismic, hydrogeological, and GIS data streams to provide single-source structural clarity for exploration and engineering teams.
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 py-7">
+              <span className="md:col-span-2 text-xs font-mono text-slate-600">02</span>
+              <h3 className="md:col-span-3 text-base font-bold text-white">Cross-discipline reads</h3>
+              <p className="md:col-span-7 text-slate-400 text-sm leading-relaxed">
+                Seismic, hydrogeological and GIS data rarely get looked at together, even though they should be.
+                We read them as one dataset, which is usually where the real answer is hiding.
               </p>
             </div>
 
-            <div className="bg-[#0b1329] p-6 rounded-xl border border-slate-800/60">
-              <h3 className="text-lg font-bold text-white mb-2">Full Lifecycle Data Management</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Assisting partners from initial survey geometry optimization to final 3D structural model delivery and compliance reporting.
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 py-7">
+              <span className="md:col-span-2 text-xs font-mono text-slate-600">03</span>
+              <h3 className="md:col-span-3 text-base font-bold text-white">Full-lifecycle involvement</h3>
+              <p className="md:col-span-7 text-slate-400 text-sm leading-relaxed">
+                We're involved from survey design through to the final 3D model and reporting — not handed
+                a dataset midway and asked to make it look presentable.
               </p>
             </div>
 
-            <div className="bg-[#0b1329] p-6 rounded-xl border border-slate-800/60">
-              <h3 className="text-lg font-bold text-white mb-2">Standards Compliance</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Maintaining high operational standards (ISO/QHSE) across all survey design, data collection, and processing executions.
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 py-7">
+              <span className="md:col-span-2 text-xs font-mono text-slate-600">04</span>
+              <h3 className="md:col-span-3 text-base font-bold text-white">Standards compliance</h3>
+              <p className="md:col-span-7 text-slate-400 text-sm leading-relaxed">
+                ISO-aligned QHSE practice across survey design, data collection and processing — not a
+                certificate on a wall, but a checklist that actually gets followed on site.
               </p>
             </div>
+
           </div>
         </section>
 
-        {/* 5. CASE STUDY HIGHLIGHT */}
-        <section className="bg-[#0b1329] border border-slate-800/80 rounded-3xl p-8 md:p-12 shadow-2xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            <div className="lg:col-span-5 space-y-4">
-              <span className="inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-[#080f1e] border border-slate-800 rounded-full">
-                Technical Application
-              </span>
+        {/* CASE STUDY */}
+        <section>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+
+            <div className="lg:col-span-5 space-y-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500">
+                Case study
+              </p>
               <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
-                High-Fidelity Subsurface Imaging Through Multidimensional Reconstruction
+                Reading through the noise on a heavily aliased seismic volume
               </h2>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Severe spatial aliasing and random noise frequently degrade raw seismic datasets, causing structural uncertainties. Our proprietary 5D reconstruction algorithms restore complex wavefields and improve target resolution before drilling or engineering commitments.
+              <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                Spatial aliasing and random noise are common on raw seismic datasets and tend to introduce
+                structural uncertainty right where accuracy matters most. On a recent volume, we applied a
+                5D reconstruction approach to rebuild the wavefield before it reached the interpretation stage —
+                the kind of step that's easy to skip and expensive to skip badly.
               </p>
-              <ul className="space-y-2 text-slate-400 text-xs sm:text-sm pt-2">
-                <li className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
-                  Enhanced Signal-to-Noise Ratio (SNR)
+              <ul className="space-y-2.5 text-slate-400 text-sm pt-1">
+                <li className="flex gap-2.5">
+                  <span className="text-slate-600">—</span>
+                  Signal-to-noise ratio improved without smoothing over real structure
                 </li>
-                <li className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
-                  Preservation of subtle structural amplitude variations
+                <li className="flex gap-2.5">
+                  <span className="text-slate-600">—</span>
+                  Amplitude variations preserved, which matters for later interpretation
                 </li>
-                <li className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
-                  Streamlined, high-performance computing pipelines
+                <li className="flex gap-2.5">
+                  <span className="text-slate-600">—</span>
+                  Processing pipeline kept lean enough to run on standard field hardware
                 </li>
               </ul>
             </div>
 
             <div className="lg:col-span-7">
-              <div className="relative rounded-2xl border border-slate-800 bg-[#050b14] p-3 shadow-inner">
-                <Image 
-                  src="/images/seismic-3d-model.jpeg" 
-                  alt="3D Seismic Reconstruction Model" 
-                  width={800} 
-                  height={500} 
-                  className="w-full h-auto rounded-xl object-cover"
+              <div className="rounded-xl border border-slate-800 bg-[#0b1329] p-2.5">
+                <Image
+                  src="/images/seismic-3d-model.jpeg"
+                  alt="3D seismic reconstruction model"
+                  width={800}
+                  height={500}
+                  className="w-full h-auto rounded-lg object-cover"
                 />
               </div>
+              <p className="text-xs text-slate-600 mt-3">
+                Reconstructed 3D volume after aliasing correction, prior to interpretation handoff.
+              </p>
             </div>
 
           </div>
         </section>
 
-        {/* 6. TECHNICAL & SCIENTIFIC VALIDATION */}
+        {/* VALIDATION SCIENTIFIQUE & INDUSTRIELLE */}
         <section>
-          <div className="text-center mb-12 flex flex-col items-center">
-            <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-300 bg-[#080f1e] border border-slate-800 rounded-full mb-4">
-              Foundational Excellence
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white max-w-3xl mx-auto leading-tight mb-4">
-              Scientific &amp; Industrial Validation
+          <div className="max-w-2xl mb-14">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-3">
+              Track record
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
+              Tested against real data, not clean demos
             </h2>
-            <p className="text-slate-400 max-w-3xl mx-auto text-sm sm:text-base leading-relaxed">
-              Our methods undergo peer review and extensive empirical testing to ensure accuracy across varied geological settings.
+            <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+              Methods that only work on tidy synthetic datasets don't survive contact with a real field.
+              Ours are built and stress-tested the other way around.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-[#0b1329] p-8 rounded-2xl border border-slate-800/80 shadow-xl">
-              <h3 className="text-xl font-bold text-white mb-3">Algorithmic Rigor</h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Our multidimensional filtering methodologies (including rank-reduction and adaptive sparse inversion techniques) are routinely stress-tested against highly corrupted field data to maintain amplitude stability and structural continuity.
+            <div className="bg-[#0b1329] p-8 rounded-xl border border-slate-800/80">
+              <h3 className="text-lg font-bold text-white mb-3">Built to handle bad data</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Our filtering methods — rank-reduction, adaptive sparse inversion — get run against
+                deliberately corrupted field data before they're trusted on a real project. If a method
+                only performs well on clean input, it doesn't leave the lab.
               </p>
             </div>
 
-            <div className="bg-[#0b1329] p-8 rounded-2xl border border-slate-800/80 shadow-xl">
-              <h3 className="text-xl font-bold text-white mb-3">Applied Industry Experience</h3>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                By integrating academic insights from the GeoSignal Institute directly into commercial operations, we ensure state-of-the-art technological advancement is paired with practical field utility.
+            <div className="bg-[#0b1329] p-8 rounded-xl border border-slate-800/80">
+              <h3 className="text-lg font-bold text-white mb-3">Research feeding practice</h3>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                The GeoSignal Institute handles the academic side — publications, open research, training.
+                What holds up there is what eventually makes it into client-facing work, not the reverse.
               </p>
             </div>
           </div>
         </section>
 
-        {/* 7. FAQ SECTION */}
-        <section className="bg-[#080f1e]/40 border border-slate-800/80 rounded-3xl p-8 md:p-12 shadow-xl">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-[#0b1329] border border-slate-800 rounded-full mb-4">
-              Frequently Asked Questions
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white">
-              Questions &amp; Insights
+        {/* FAQ */}
+        <section>
+          <div className="max-w-2xl mb-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-3">
+              Questions we actually get asked
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
+              FAQ
             </h2>
           </div>
 
-          <div className="max-w-3xl mx-auto space-y-4">
+          <div className="max-w-3xl space-y-3">
             {faqs.map((faq, index) => (
-              <div 
-                key={index} 
-                className="bg-[#0b1329] border border-slate-800/80 rounded-xl overflow-hidden transition-colors"
+              <div
+                key={index}
+                className="border border-slate-800/80 rounded-lg overflow-hidden"
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full flex items-center justify-between p-5 text-left text-sm sm:text-base font-semibold text-white hover:text-cyan-400 transition-colors"
+                  className="w-full flex items-center justify-between gap-4 p-5 text-left text-sm sm:text-[15px] font-semibold text-white hover:bg-[#0b1329]/50 transition-colors"
                 >
                   <span>{faq.q}</span>
-                  <span className="ml-4 text-cyan-400 font-bold text-lg">
-                    {openFaq === index ? '−' : '+'}
-                  </span>
+                  <span
+                    className={`shrink-0 w-4 h-4 border-r-[1.5px] border-b-[1.5px] border-slate-500 transition-transform duration-200 ${
+                      openFaq === index ? '-rotate-[135deg] mt-1' : 'rotate-45 -mt-1'
+                    }`}
+                  />
                 </button>
                 {openFaq === index && (
-                  <div className="px-5 pb-5 text-xs sm:text-sm text-slate-300 border-t border-slate-800/60 pt-3 leading-relaxed">
+                  <div className="px-5 pb-5 text-sm text-slate-400 leading-relaxed">
                     {faq.a}
                   </div>
                 )}
@@ -381,34 +490,35 @@ export default function Home() {
 
       </main>
 
-      {/* 8. FOOTER (PARFAITEMENT ALIGNÉ AVEC LE CONTENEUR PRINCIPAL) */}
+      {/* FOOTER */}
       <footer className="w-full border-t border-slate-800/80 bg-[#030712] px-6 py-14 text-slate-400 text-sm md:px-12 mt-auto">
         <div className="mx-auto max-w-7xl">
-          
+
           <div className="grid grid-cols-1 gap-10 pb-12 lg:grid-cols-12">
-            
+
             {/* MARQUE & NEWSLETTER */}
             <div className="lg:col-span-5 space-y-4 pr-0 lg:pr-8">
               <h3 className="text-lg font-bold text-white tracking-wide">
                 GeoSignal Analytics
               </h3>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-                Advanced geophysics, computational data science, and environmental risk assessment for industry and research.
+                Applied geophysics, computational data science, and environmental risk assessment
+                for industry and research.
               </p>
 
               <div className="pt-3 space-y-2">
                 <span className="block text-xs font-semibold text-white">
-                  Stay updated with our technical publications
+                  Occasional technical notes, no spam
                 </span>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
                   <input
                     type="email"
                     placeholder="name@company.com"
-                    className="w-full rounded-lg border border-slate-800 bg-[#0b1329]/70 px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
+                    className="w-full rounded-md border border-slate-800 bg-[#0b1329]/70 px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
                   />
                   <button
                     type="submit"
-                    className="shrink-0 rounded-lg bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
+                    className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
                   >
                     Subscribe
                   </button>
@@ -460,21 +570,17 @@ export default function Home() {
 
           {/* BOTTOM BAR */}
           <div className="border-t border-slate-800/80 pt-6">
-            <div className="flex flex-col items-center justify-between gap-4 text-xs text-slate-400 text-center md:flex-row md:text-left">
-              
-              <div className="bg-white rounded-lg px-3 py-1.5 shadow-md flex items-center justify-center">
-                <Image 
-                  src="/images/logo.png" 
-                  alt="GeoSignal Analytics Logo" 
-                  width={120} 
-                  height={35} 
-                  className="h-8 w-auto object-contain"
+            <div className="flex flex-col items-center justify-between gap-4 text-xs text-slate-500 text-center md:flex-row md:text-left">
+
+              <div className="bg-white rounded-md px-3 py-1.5 flex items-center justify-center">
+                <Image
+                  src="/images/logo.png"
+                  alt="GeoSignal Analytics"
+                  width={120}
+                  height={35}
+                  className="h-7 w-auto object-contain"
                 />
               </div>
-
-              <p className="text-slate-400">
-                Developed and designed by Dr. Innocent Oboué, PhD
-              </p>
 
               <p className="text-slate-500">
                 © {new Date().getFullYear()} GeoSignal Analytics — All Rights Reserved
