@@ -27,7 +27,7 @@ export default function Home() {
     },
     {
       q: "What's the difference between GeoSignal Analytics and GeoSignal Institute?",
-      a: "Analytics is the commercial side — consulting and processing work for clients. The Institute is where the research, publications and training happen. Methods generally get proven at the Institute before they're used on paid work."
+      a: "Analytics is the commercial side: consulting and processing work for clients. The Institute is where the research, publications and training happen. Methods generally get proven at the Institute before they're used on paid work."
     },
     {
       q: "Which industries do you typically work with?",
@@ -35,7 +35,7 @@ export default function Home() {
     },
     {
       q: "Will your output work with the software we already use?",
-      a: "In most cases, yes — we export in SEG-Y, GeoTIFF, SHP or NetCDF depending on the deliverable. If your stack needs something unusual, it's worth checking with us before the project starts rather than after."
+      a: "In most cases, yes. We export in SEG-Y, GeoTIFF, SHP or NetCDF depending on the deliverable. If your stack needs something unusual, it's worth checking with us before the project starts rather than after."
     }
   ];
 
@@ -178,9 +178,9 @@ export default function Home() {
           </h1>
 
           <p className="text-slate-400 text-base md:text-lg max-w-2xl mb-10 leading-relaxed">
-            We process seismic and geospatial data using physics-based methods refined with machine learning —
-            for teams in resource exploration, water infrastructure, and land engineering who cannot afford
-            a wrong reading of the subsurface.
+            We process seismic and geospatial data using physics-based methods refined with machine learning.
+            Our clients work in resource exploration, water infrastructure, and land engineering, where a wrong
+            reading of the subsurface isn't something you can afford.
           </p>
 
           <div className="flex flex-wrap gap-3">
@@ -226,7 +226,7 @@ export default function Home() {
                 <h3 className="text-xl font-bold text-white mt-2 mb-3">Advanced Geophysics &amp; AI</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
                   Seismic data processing built on wave-equation solvers, extended with machine learning models
-                  where they genuinely help — mainly for noise suppression and filling gaps in spatial coverage.
+                  where they genuinely help, mainly for noise suppression and filling gaps in spatial coverage.
                   We stay close to the physics; the model doesn't get to invent a subsurface that isn't there.
                 </p>
               </div>
@@ -268,7 +268,7 @@ export default function Home() {
                 <span className="text-xs font-mono text-slate-600">04</span>
                 <h3 className="text-lg font-bold text-white mt-2 mb-3">Mapping, GIS &amp; Remote Sensing</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Spatial data brought into one coherent picture — satellite imagery, thematic mapping,
+                  Spatial data brought into one coherent picture: satellite imagery, thematic mapping,
                   and monitoring over time.
                 </p>
               </div>
@@ -296,8 +296,8 @@ export default function Home() {
                 <span className="text-xs font-mono text-slate-600">06</span>
                 <h3 className="text-lg font-bold text-white mt-2 mb-2">QHSE Advisory</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
-                  Safety and risk frameworks for field acquisition programs, aligned with ISO practice —
-                  built by people who've actually run field crews, not just written the policy.
+                  Safety and risk frameworks for field acquisition programs, aligned with ISO practice
+                  and built by people who've actually run field crews, not just written the policy.
                 </p>
               </div>
               <Link href="/services/qhse" className="shrink-0 text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
@@ -318,8 +318,8 @@ export default function Home() {
               Physics first, machine learning second
             </h2>
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-              A model that produces a clean-looking image but violates wave physics isn't useful — it's just
-              confident-looking noise. Everything we do is built around that constraint.
+              A model that produces a clean-looking image but violates wave physics isn't useful. It's just
+              confident-looking noise, and everything we do is built around avoiding that trap.
             </p>
           </div>
 
@@ -347,8 +347,8 @@ export default function Home() {
               <span className="md:col-span-2 text-xs font-mono text-slate-600">03</span>
               <h3 className="md:col-span-3 text-base font-bold text-white">Full-lifecycle involvement</h3>
               <p className="md:col-span-7 text-slate-400 text-sm leading-relaxed">
-                We're involved from survey design through to the final 3D model and reporting — not handed
-                a dataset midway and asked to make it look presentable.
+                We're involved from survey design through to the final 3D model and reporting. It's rare that
+                we're handed a dataset midway and asked to make it look presentable.
               </p>
             </div>
 
@@ -356,7 +356,7 @@ export default function Home() {
               <span className="md:col-span-2 text-xs font-mono text-slate-600">04</span>
               <h3 className="md:col-span-3 text-base font-bold text-white">Standards compliance</h3>
               <p className="md:col-span-7 text-slate-400 text-sm leading-relaxed">
-                ISO-aligned QHSE practice across survey design, data collection and processing — not a
+                ISO-aligned QHSE practice across survey design, data collection and processing. Not a
                 certificate on a wall, but a checklist that actually gets followed on site.
               </p>
             </div>
@@ -378,8 +378,8 @@ export default function Home() {
               <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
                 Spatial aliasing and random noise are common on raw seismic datasets and tend to introduce
                 structural uncertainty right where accuracy matters most. On a recent volume, we applied a
-                5D reconstruction approach to rebuild the wavefield before it reached the interpretation stage —
-                the kind of step that's easy to skip and expensive to skip badly.
+                5D reconstruction approach to rebuild the wavefield before it reached the interpretation stage.
+                It's the kind of step that's easy to skip, and expensive to skip badly.
               </p>
               <ul className="space-y-2.5 text-slate-400 text-sm pt-1">
                 <li className="flex gap-2.5">
@@ -434,16 +434,16 @@ export default function Home() {
             <div className="bg-[#0b1329] p-8 rounded-xl border border-slate-800/80">
               <h3 className="text-lg font-bold text-white mb-3">Built to handle bad data</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
-                Our filtering methods — rank-reduction, adaptive sparse inversion — get run against
-                deliberately corrupted field data before they're trusted on a real project. If a method
-                only performs well on clean input, it doesn't leave the lab.
+                Our filtering methods, including rank-reduction and adaptive sparse inversion, get run
+                against deliberately corrupted field data before they're trusted on a real project. If a
+                method only performs well on clean input, it doesn't leave the lab.
               </p>
             </div>
 
             <div className="bg-[#0b1329] p-8 rounded-xl border border-slate-800/80">
               <h3 className="text-lg font-bold text-white mb-3">Research feeding practice</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
-                The GeoSignal Institute handles the academic side — publications, open research, training.
+                The GeoSignal Institute handles the academic side: publications, open research, training.
                 What holds up there is what eventually makes it into client-facing work, not the reverse.
               </p>
             </div>
