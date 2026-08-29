@@ -49,6 +49,7 @@ const RESEARCH_AREAS = [
 export default function InstitutePage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<'en' | 'fr'>('en');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -128,15 +129,29 @@ export default function InstitutePage() {
             </li>
 
             <li><Link href="/services" className="hover:text-slate-200 transition-colors">Services</Link></li>
-            <li>
-              <Link
-                href="/contact"
-                className="rounded-md border border-slate-700 px-4 py-1.5 text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
-              >
-                Contact
-              </Link>
-            </li>
           </ul>
+
+          {/* Zone droite : langue + contact + burger */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              aria-label="Switch language"
+            >
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>
+                EN
+              </span>
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>
+                FR
+              </span>
+            </button>
+
+            <Link
+              href="/contact"
+              className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
+            >
+              Contact
+            </Link>
 
           {/* Bouton Mobile */}
           <button 
@@ -149,6 +164,7 @@ export default function InstitutePage() {
             <span className={`block h-[1.5px] w-6 bg-slate-200 transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
             <span className={`block h-[1.5px] w-6 bg-slate-200 transition-transform duration-200 ${mobileMenuOpen ? '-rotate-45 -translate-y-[6.5px]' : ''}`} />
           </button>
+          </div>
         </div>
 
         {/* Menu Mobile */}
@@ -190,6 +206,17 @@ export default function InstitutePage() {
                   {item.label}
                 </Link>
               ))}
+            </div>
+
+            <div className="flex items-center gap-2 mt-4 px-3 sm:hidden">
+              <span className="text-xs text-slate-500">Language</span>
+              <button
+                onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+                className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              >
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+              </button>
             </div>
           </div>
         )}
