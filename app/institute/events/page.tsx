@@ -38,12 +38,28 @@ const eventsData: EventItem[] = [
   }
 ];
 
+const DROPDOWN_LINKS = [
+  { label: 'Overview', href: '/institute' },
+  { label: 'About Us', href: '/institute/about' },
+  { label: 'Research', href: '/institute/research' },
+  { label: 'Publications', href: '/institute/publications' },
+  { label: 'Training', href: '/institute/training' },
+  { label: 'People', href: '/institute/people' },
+  { label: 'Events & Seminars', href: '/institute/events' },
+  { label: 'News & Updates', href: '/institute/news' },
+  { label: 'Software & Open Source', href: '/institute/software' },
+  { label: 'Careers & Opportunities', href: '/institute/careers' },
+  { label: 'Blog', href: '/institute/blog' },
+  { label: 'Contact', href: '/institute/contact' },
+];
+
 export default function EventsPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<'en' | 'fr'>('en');
   const [filterStatus, setFilterStatus] = useState<string>('All');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Fermeture du menu si clic à l'extérieur ou Échap
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -53,7 +69,6 @@ export default function EventsPage() {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') setIsOpen(false);
     }
-
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -68,21 +83,16 @@ export default function EventsPage() {
   }, [filterStatus]);
 
   return (
-    <div className="min-h-screen bg-[#070b12] text-slate-100 font-sans selection:bg-sky-500 selection:text-white flex flex-col antialiased relative">
-      
-      {/* Subtle Tech Grid Overlay */}
-      <div 
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#1f29370f_1px,transparent_1px),linear-gradient(to_bottom,#1f29370f_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" 
-      />
+    <div className="min-h-screen bg-[#060a12] text-slate-100 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col antialiased">
 
-      {/* 1. NAVBAR */}
-      <nav className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#070b12]/85 px-6 py-4 backdrop-blur-xl md:px-12">
+      {/* NAVIGATION */}
+      <nav className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#060a12] px-6 py-3.5 md:px-12">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group focus:outline-none">
-            <div className="flex items-center rounded-lg bg-white px-3 py-1.5 shadow-sm ring-1 ring-white/20 transition-all group-hover:scale-105">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex items-center rounded-md bg-white px-2.5 py-1">
               <Image 
                 src="/images/logo-institute.jpeg" 
-                alt="GeoSignal Institute Logo" 
+                alt="GeoSignal Institute" 
                 width={140} 
                 height={40} 
                 className="h-7 w-auto object-contain"
@@ -91,28 +101,19 @@ export default function EventsPage() {
             </div>
           </Link>
 
-          <ul className="hidden md:flex items-center gap-8 font-medium text-slate-300 text-sm md:text-base m-0 p-0 list-none">
-            <li>
-              <Link href="/" className="transition-colors hover:text-sky-400">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="transition-colors hover:text-sky-400">
-                About
-              </Link>
-            </li>
+          <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
+            <li><Link href="/" className="hover:text-slate-200 transition-colors">Home</Link></li>
+            <li><Link href="/about" className="hover:text-slate-200 transition-colors">About</Link></li>
 
-            {/* MENU DÉROULANT GEOSIGNAL INSTITUTE */}
             <li className="relative" ref={dropdownRef}>
               <button 
                 onClick={() => setIsOpen(!isOpen)} 
-                className="flex items-center gap-1.5 text-white font-semibold transition-colors hover:text-sky-400 focus:outline-none cursor-pointer"
+                className="flex items-center gap-1.5 text-white border-b-2 border-cyan-500 pb-[18px] -mb-[14px] focus:outline-none"
                 aria-expanded={isOpen}
               >
                 GeoSignal Institute 
                 <svg 
-                  className={`h-4 w-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-sky-400' : 'text-slate-400'}`} 
+                  className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180 text-cyan-400' : 'text-slate-500'}`} 
                   fill="none" 
                   viewBox="0 0 24 24" 
                   stroke="currentColor"
@@ -122,26 +123,14 @@ export default function EventsPage() {
               </button>
 
               {isOpen && (
-                <div className="absolute right-0 mt-3 w-64 rounded-2xl border border-slate-800 bg-[#0c121e]/95 p-2 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-2 duration-200 z-50">
-                  {[
-                    { label: 'Overview', href: '/institute' },
-                    { label: 'About Us', href: '/institute/about' },
-                    { label: 'Research', href: '/institute/research' },
-                    { label: 'Publications', href: '/institute/publications' },
-                    { label: 'Training', href: '/institute/training' },
-                    { label: 'People', href: '/institute/people' },
-                    { label: 'Events & Seminars', href: '/institute/events' },
-                    { label: 'Software & Open Source', href: '/institute/software' },
-                    { label: 'Careers & Opportunities', href: '/institute/careers' },
-                    { label: 'Blog', href: '/institute/blog' },
-                    { label: 'Contact', href: '/institute/contact' },
-                  ].map((item) => (
+                <div className="absolute right-0 mt-4 w-60 rounded-lg border border-slate-800 bg-[#0b1329] p-1.5 shadow-xl z-50">
+                  {DROPDOWN_LINKS.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsOpen(false)}
-                      className={`block rounded-xl px-4 py-2.5 text-xs sm:text-sm transition-all hover:bg-slate-800/70 hover:text-sky-300 hover:translate-x-1 ${
-                        item.href === '/institute/events' ? 'bg-slate-800/80 text-sky-400 font-semibold' : 'text-slate-300'
+                      className={`block rounded-md px-3.5 py-2 text-[13px] transition-colors hover:bg-[#060a12] hover:text-white ${
+                        item.href === '/institute/events' ? 'text-cyan-400 font-semibold' : 'text-slate-400'
                       }`}
                     >
                       {item.label}
@@ -151,66 +140,122 @@ export default function EventsPage() {
               )}
             </li>
 
-            <li>
-              <Link href="/services" className="transition-colors hover:text-sky-400">
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="transition-colors hover:text-sky-400">
-                Contact
-              </Link>
-            </li>
+            <li><Link href="/services" className="hover:text-slate-200 transition-colors">Services</Link></li>
           </ul>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              aria-label="Switch language"
+            >
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+            </button>
+
+            <Link
+              href="/contact"
+              className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
+            >
+              Contact
+            </Link>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8"
+              aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-transform duration-200 ${mobileMenuOpen ? 'rotate-45 translate-y-[6.5px]' : ''}`} />
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-transform duration-200 ${mobileMenuOpen ? '-rotate-45 -translate-y-[6.5px]' : ''}`} />
+            </button>
+          </div>
         </div>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden mx-auto max-w-7xl mt-4 pb-2 border-t border-slate-800/70 pt-4">
+            <ul className="flex flex-col gap-1 text-sm font-medium m-0 p-0 list-none">
+              <li><Link href="/" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Home</Link></li>
+              <li><Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">About</Link></li>
+              <li><Link href="/services" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Services</Link></li>
+              <li><Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Contact</Link></li>
+            </ul>
+            <div className="mt-3 pt-3 border-t border-slate-800/70">
+              <span className="block px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-cyan-500">GeoSignal Institute</span>
+              {DROPDOWN_LINKS.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block rounded-md px-3 py-2 text-[13px] hover:bg-[#0b1329] hover:text-white transition-colors ${
+                    item.href === '/institute/events' ? 'text-cyan-400 font-semibold' : 'text-slate-400'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+            <div className="flex items-center gap-2 mt-4 px-3 sm:hidden">
+              <span className="text-xs text-slate-500">Language</span>
+              <button
+                onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+                className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              >
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+              </button>
+            </div>
+          </div>
+        )}
       </nav>
 
-{/* 2. HERO SECTION */}
-<section 
-  className="relative overflow-hidden border-b border-slate-800/80 bg-[#050b14] px-6 py-20 text-center md:px-12 md:py-28"
-  style={{ 
-    backgroundImage: `linear-gradient(180deg, rgba(5, 11, 20, 0.85) 0%, rgba(7, 11, 18, 0.98) 100%), url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1920&q=80')`,
-    backgroundPosition: 'center',
-    backgroundSize: 'cover'
-  }}
->
-      {/* Effet d'onde géophysique en arrière-plan */}
-        <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
-          <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/10 animate-ping [animation-duration:4s]" />
-          <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/5 animate-ping [animation-duration:6s] delay-1000" />
-        </div>
-        
-  <div className="relative z-10 mx-auto max-w-4xl">
-    <span className="mb-6 inline-block rounded-full border border-sky-500/30 bg-sky-500/10 px-4 py-1.5 text-xs font-semibold tracking-wide text-sky-400 shadow-inner">
-      Community &amp; Knowledge Exchange
-    </span>
-    <h1 className="mb-6 text-3xl font-extrabold leading-tight tracking-tight text-white drop-shadow-md sm:text-5xl md:text-6xl">
-      Events &amp; <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">Seminars</span>
-    </h1>
-    <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-300 drop-shadow sm:text-lg">
-      Workshops, webinars, and scientific gatherings hosted by GeoSignal Research Institute to foster academic exchange and industrial innovation.
-    </p>
-  </div>
-</section>
+      {/* HERO */}
+      <section className="relative border-b border-slate-800/70 px-6 pt-20 pb-24 md:px-12 md:pt-28 md:pb-32">
+        <div
+          className="absolute inset-0 opacity-[0.08] pointer-events-none"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+            maskImage: 'radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 100%)',
+          }}
+        />
+        <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[300px] w-[600px] rounded-full bg-cyan-500/10 blur-[100px]" />
 
-      {/* 3. MAIN CONTENT CONTAINER */}
+        <div className="relative mx-auto max-w-7xl">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
+              Community &amp; knowledge exchange
+            </p>
+            <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-7">
+              Events &amp; seminars
+            </h1>
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed">
+              Workshops, webinars, and research gatherings hosted by the Institute. Usually small,
+              usually technical.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* MAIN CONTENT */}
       <main className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 py-16 flex-1 w-full space-y-10">
-        
-        {/* CONTROL & FILTER BAR */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/40 border border-slate-800/80 p-4 rounded-2xl shadow-xl backdrop-blur-md">
-          <div className="text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-sky-400"></span>
-            Filter Events Status:
+
+        {/* FILTER BAR */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0b1329] border border-slate-800/80 p-4 rounded-xl">
+          <div className="text-sm font-medium text-slate-400">
+            Filter by status
           </div>
           <div className="flex items-center gap-2">
             {['All', 'Upcoming', 'Past'].map((status) => (
               <button
                 key={status}
                 onClick={() => setFilterStatus(status)}
-                className={`px-4 py-1.5 text-xs font-semibold rounded-xl border transition-all cursor-pointer ${
+                className={`px-4 py-1.5 text-xs font-semibold rounded-md border transition-colors cursor-pointer ${
                   filterStatus === status
-                    ? 'bg-sky-500 border-sky-400 text-slate-950 shadow-md shadow-sky-500/20 font-bold'
-                    : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                    ? 'bg-cyan-600 border-cyan-500 text-white'
+                    : 'bg-[#060a12] border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
                 }`}
               >
                 {status}
@@ -225,117 +270,97 @@ export default function EventsPage() {
             filteredEvents.map((ev) => (
               <article 
                 key={ev.id} 
-                className="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 sm:p-8 hover:border-slate-700 transition-all duration-300 shadow-xl backdrop-blur-md space-y-4"
+                className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-6 sm:p-8 space-y-4"
               >
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-md">
-                      {ev.status}
-                    </span>
-                    <span className="text-xs font-medium text-sky-400 bg-sky-500/10 border border-sky-500/20 px-2.5 py-1 rounded-md">
-                      {ev.category}
-                    </span>
-                  </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-md">
+                    {ev.status}
+                  </span>
+                  <span className="text-xs font-medium text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-1 rounded-md">
+                    {ev.category}
+                  </span>
                 </div>
 
                 <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug">
                   {ev.title}
                 </h2>
 
-                {/* Metadata: Location & Date */}
-                <div className="text-xs sm:text-sm text-slate-300 flex flex-wrap items-center gap-4 font-medium pt-1">
-                  <div className="flex items-center gap-1.5 text-sky-400">
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span>{ev.location}</span>
-                  </div>
-
+                <div className="text-sm text-slate-400 flex flex-wrap items-center gap-4 pt-1">
+                  <span>{ev.location}</span>
                   <span className="text-slate-700 hidden sm:inline">•</span>
-
-                  <div className="flex items-center gap-1.5 text-slate-300">
-                    <svg className="h-4 w-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span>{ev.date}</span>
-                  </div>
+                  <span>{ev.date}</span>
                 </div>
 
-                <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+                <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
                   {ev.description}
                 </p>
 
-                <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                <div className="pt-4 border-t border-slate-800/80">
                   <Link
                     href={ev.link || "/institute/contact"}
-                    className="inline-flex items-center gap-2 text-xs sm:text-sm text-sky-400 hover:text-sky-300 font-semibold transition group"
+                    className="text-sm text-cyan-500 hover:text-cyan-400 font-medium transition-colors"
                   >
-                    Register Interest / Inquire
-                    <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
+                    Register interest / inquire
                   </Link>
                 </div>
               </article>
             ))
           ) : (
-            <div className="text-center py-12 bg-slate-900/30 border border-slate-800 rounded-2xl backdrop-blur-md">
+            <div className="text-center py-12 bg-[#0b1329] border border-slate-800/80 rounded-xl">
               <p className="text-slate-400 text-sm">
-                No events found matching the selected status.
+                No events found for this status.
               </p>
             </div>
           )}
         </div>
 
-        {/* INVITATION SPEAKERS / HOSTING */}
-        <div className="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-8 text-center space-y-4 shadow-xl backdrop-blur-md">
+        {/* HOST A SEMINAR */}
+        <div className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-8 text-center space-y-4">
           <h3 className="text-xl font-bold text-white tracking-tight">
-            Host a Seminar or Present Your Research
+            Want to host a seminar or present your research?
           </h3>
-          <p className="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-            We regularly invite external researchers, postdocs, and industry experts to present their scientific breakthroughs. Get in touch with our team to schedule a webinar or joint workshop.
+          <p className="text-slate-400 text-sm max-w-xl mx-auto leading-relaxed">
+            We regularly invite external researchers, postdocs, and industry experts to present. Get in
+            touch to schedule a webinar or joint workshop.
           </p>
           <div className="pt-2">
             <Link
               href="/institute/contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-sky-500 hover:bg-sky-400 px-6 py-2.5 text-xs sm:text-sm font-semibold text-slate-950 shadow-md shadow-sky-500/20 transition-all hover:scale-105"
+              className="inline-flex items-center rounded-md bg-cyan-600 hover:bg-cyan-500 px-6 py-2.5 text-sm font-semibold text-white transition-colors"
             >
-              Propose a Presentation ↗
+              Propose a presentation
             </Link>
           </div>
         </div>
 
       </main>
 
-      {/* 4. FOOTER */}
-      <footer className="relative z-10 w-full border-t border-slate-800/80 bg-[#04070d] px-6 py-14 text-slate-400 text-sm md:px-12 mt-auto">
+      {/* FOOTER */}
+      <footer className="relative z-10 w-full border-t border-slate-800/80 bg-[#030712] px-6 py-14 text-slate-400 text-sm md:px-12 mt-auto">
         <div className="mx-auto max-w-7xl">
-          {/* TOP GRID */}
           <div className="grid grid-cols-1 gap-10 pb-12 lg:grid-cols-12">
             
-            {/* BRAND & NEWSLETTER */}
             <div className="lg:col-span-5 space-y-4 pr-0 lg:pr-8">
-              <h3 className="text-base font-semibold text-white tracking-wide">
+              <h3 className="text-lg font-bold text-white tracking-wide">
                 GeoSignal Institute
               </h3>
-              <p className="text-slate-400 text-xs leading-relaxed max-w-md">
-                Bridging Earth Sciences and Artificial Intelligence through academic rigor and scientific excellence.
+              <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
+                The research and publications arm of GeoSignal Analytics.
               </p>
 
               <div className="pt-3 space-y-2">
-                <span className="block text-xs font-medium text-slate-300">
-                  Join our newsletter
+                <span className="block text-xs font-semibold text-white">
+                  Occasional research updates, no spam
                 </span>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
                   <input
                     type="email"
                     placeholder="name@email.com"
-                    className="w-full rounded-lg border border-slate-800 bg-slate-900/60 px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-sky-500 focus:outline-none transition-colors"
+                    className="w-full rounded-md border border-slate-800 bg-[#0b1329]/70 px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
                   />
                   <button
                     type="submit"
-                    className="shrink-0 rounded-lg bg-slate-800 hover:bg-slate-700 px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors cursor-pointer"
+                    className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors cursor-pointer"
                   >
                     Subscribe
                   </button>
@@ -343,13 +368,10 @@ export default function EventsPage() {
               </div>
             </div>
 
-            {/* NAVIGATION LINKS */}
             <div className="lg:col-span-7 grid grid-cols-3 gap-6 text-xs sm:text-sm">
               <div>
-                <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Links
-                </h4>
-                <ul className="space-y-2 text-slate-400 text-xs">
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">Links</h4>
+                <ul className="space-y-2.5 text-slate-400">
                   <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
                   <li><Link href="/institute/about" className="hover:text-white transition-colors">The Institute Approach</Link></li>
                   <li><Link href="/institute/publications" className="hover:text-white transition-colors">Publications</Link></li>
@@ -359,10 +381,8 @@ export default function EventsPage() {
               </div>
 
               <div>
-                <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Pages
-                </h4>
-                <ul className="space-y-2 text-slate-400 text-xs">
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">Pages</h4>
+                <ul className="space-y-2.5 text-slate-400">
                   <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
                   <li><Link href="/institute" className="hover:text-white transition-colors">Overview</Link></li>
                   <li><Link href="/institute/blog" className="hover:text-white transition-colors">Blog</Link></li>
@@ -372,10 +392,8 @@ export default function EventsPage() {
               </div>
 
               <div>
-                <h4 className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Socials &amp; Academic
-                </h4>
-                <ul className="space-y-2 text-slate-400 text-xs">
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">Socials &amp; Academic</h4>
+                <ul className="space-y-2.5 text-slate-400">
                   <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
                   <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a></li>
                   <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter / X</a></li>
@@ -384,34 +402,24 @@ export default function EventsPage() {
                 </ul>
               </div>
             </div>
-
           </div>
 
-          {/* BOTTOM BAR */}
           <div className="border-t border-slate-800/80 pt-6">
-            <div className="flex flex-col items-center justify-between gap-4 text-xs text-slate-500 md:flex-row">
-              <div className="flex items-center">
-                <div className="rounded-md bg-white/90 px-2.5 py-1">
-                  <Image 
-                    src="/images/logo-institute.jpeg" 
-                    alt="GeoSignal Institute Logo" 
-                    width={110} 
-                    height={30} 
-                    className="h-6 w-auto object-contain"
-                  />
-                </div>
+            <div className="flex flex-col items-center justify-between gap-4 text-xs text-slate-500 text-center md:flex-row md:text-left">
+              <div className="bg-white rounded-md px-3 py-1.5 flex items-center justify-center">
+                <Image 
+                  src="/images/logo-institute.jpeg" 
+                  alt="GeoSignal Institute" 
+                  width={110} 
+                  height={30} 
+                  className="h-7 w-auto object-contain"
+                />
               </div>
-
-              <div className="text-center md:text-left text-slate-400">
-                Developed and designed by Dr. Innocent Oboué, PhD
-              </div>
-
-              <div className="text-center md:text-right text-slate-500">
+              <p className="text-slate-500">
                 © {new Date().getFullYear()} GeoSignal Institute — All Rights Reserved
-              </div>
+              </p>
             </div>
           </div>
-
         </div>
       </footer>
     </div>
