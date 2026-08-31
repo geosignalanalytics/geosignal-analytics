@@ -122,19 +122,13 @@ export default function WaterResourcesPage() {
           backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.70), rgba(0, 0, 0, 0.85)), url('/images/water-resources-bg.jpg')"
         }}
       >
-      {/* EFFET D'ONDE GÉOPHYSIQUE / ACOUSTIQUE (Radar/Sonar) */}
-<div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
-  {/* Première onde */}
-  <div 
-    className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full bg-cyan-500/5 border border-cyan-500/30 animate-ping" 
-    style={{ animationDuration: '4s', animationDelay: '0s' }}
-  />
-  {/* Deuxième onde (parfaitement décalée de 2 secondes) */}
-  <div 
-    className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full bg-cyan-500/5 border border-cyan-500/20 animate-ping" 
-    style={{ animationDuration: '4s', animationDelay: '4s' }}
-  />
-</div>
+        {/* EFFET D'ONDE GÉOPHYSIQUE / ACOUSTIQUE (Radar/Sonar) */}
+        <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
+          {/* Première onde */}
+          <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/10 animate-ping [animation-duration:4s]" />
+          {/* Deuxième onde avec délai corrigé et même durée pour un rythme régulier */}
+          <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/5 animate-ping [animation-duration:4s] [animation-delay:2s]" />
+        </div>
 
         <div className="max-w-4xl mx-auto z-10 relative">
           <div className="inline-block px-3 py-1 mb-6 text-xs font-semibold tracking-wider text-cyan-400 uppercase bg-cyan-950/60 border border-cyan-800 rounded-full">
