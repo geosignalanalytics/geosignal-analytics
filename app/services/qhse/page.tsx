@@ -277,7 +277,7 @@ export default function QHSEAuditingPage() {
         </div>
       </main>
 
-      {/* MÉTHODOLOGIE */}
+      {/* METHODOLOGY */}
       <section className="border-t border-slate-800/80 bg-[#030712] px-6 py-16 md:px-12">
         <div className="max-w-5xl mx-auto">
           <div className="mb-10">
@@ -396,9 +396,6 @@ export default function QHSEAuditingPage() {
                   className="h-8 w-auto object-contain"
                 />
               </div>
-              <p className="text-slate-500 m-0">
-                Developed and designed by Dr. Innocent Oboué, PhD
-              </p>
               <p className="text-slate-500 m-0">
                 © {currentYear ?? 2026} GeoSignal Analytics — All rights reserved
               </p>
