@@ -137,9 +137,6 @@ export default function QHSEAuditingPage() {
               <Link href="/services" className="text-white border-b-2 border-cyan-500 pb-[18px] -mb-[14px]">
                 Services
               </Link>
-            </li>
-            <li><Link href="/contact" className="hover:text-slate-200 transition-colors">Contact</Link></li>
-          </ul>
 
           <div className="flex items-center gap-3">
             <Link
