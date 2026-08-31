@@ -395,7 +395,10 @@ export default function QHSEAuditingPage() {
                   height={35}
                   className="h-8 w-auto object-contain"
                 />
-             
+              </div>
+              <p className="text-slate-500 m-0">
+                Developed and designed by Dr. Innocent Oboué, PhD
+              </p>
               <p className="text-slate-500 m-0">
                 © {currentYear ?? 2026} GeoSignal Analytics — All rights reserved
               </p>
