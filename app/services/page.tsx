@@ -91,7 +91,9 @@ export default function ServicesPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentYear, setCurrentYear] = useState<number | null>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const dropdownRef = useRef<HTMLLIElement>(null);
+  const mobileNavRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
@@ -102,9 +104,15 @@ export default function ServicesPage() {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
+      if (mobileNavRef.current && !mobileNavRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
     }
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') setIsOpen(false);
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+        setMobileMenuOpen(false);
+      }
     }
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleKeyDown);
@@ -118,9 +126,9 @@ export default function ServicesPage() {
     <div className="min-h-screen bg-[#060a12] text-slate-100 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col antialiased">
 
       {/* NAVIGATION */}
-      <nav aria-label="Main Navigation" className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#060a12] px-6 py-3.5 md:px-12">
+      <nav aria-label="Main Navigation" ref={mobileNavRef} className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#060a12] px-6 py-3.5 md:px-12">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3">
             <div className="flex items-center rounded-md bg-white px-2.5 py-1">
               <Image
                 src="/images/logo-institute.jpeg"
@@ -133,6 +141,7 @@ export default function ServicesPage() {
             </div>
           </Link>
 
+          {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
             <li><Link href="/" className="hover:text-slate-200 transition-colors">Home</Link></li>
             <li><Link href="/about" className="hover:text-slate-200 transition-colors">About</Link></li>
@@ -188,7 +197,7 @@ export default function ServicesPage() {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8"
+              className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8"
               aria-label="Toggle menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -199,6 +208,7 @@ export default function ServicesPage() {
           </div>
         </div>
 
+        {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden mx-auto max-w-7xl mt-4 pb-2 border-t border-slate-800/70 pt-4">
             <ul className="flex flex-col gap-1 text-sm font-medium m-0 p-0 list-none">
@@ -401,9 +411,6 @@ export default function ServicesPage() {
                   className="h-8 w-auto object-contain"
                 />
               </div>
-              <p className="text-slate-500 m-0">
-                Developed and designed by Dr. Innocent Oboué, PhD
-              </p>
               <p className="text-slate-500 m-0">
                 © {currentYear ?? 2026} GeoSignal Research Institute — All rights reserved
               </p>
