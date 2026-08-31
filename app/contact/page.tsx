@@ -99,10 +99,10 @@ export default function ContactPage() {
         setIsSubmitted(true);
       } else {
         const data = await response.json();
-        setErrorMessage(data?.error || "Un problème est survenu à l'envoi. Réessayez.");
+        setErrorMessage(data?.error || "An error occurred while sending. Please try again.");
       }
     } catch (error) {
-      setErrorMessage('Connexion impossible. Vérifiez votre réseau et réessayez.');
+      setErrorMessage('Connection failed. Please check your network and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -240,14 +240,14 @@ export default function ContactPage() {
         <div className="relative mx-auto max-w-7xl">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
-              Contact
+              Contact Us
             </p>
             <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-5">
-              Contactez l&apos;équipe de l&apos;Institut
+              Get in Touch with the Institute Team
             </h1>
             <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-2">
-              Une question sur nos recherches, une formation, ou un projet de collaboration ?
-              Écrivez-nous, on vous répond directement.
+              Have questions about our research, training programs, or potential collaborations? 
+              Send us a message and we will respond directly.
             </p>
           </div>
         </div>
@@ -261,7 +261,7 @@ export default function ContactPage() {
           <div className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-6">
             <h3 className="text-white font-semibold text-sm mb-2">Email</h3>
             <p className="text-slate-400 text-xs leading-relaxed mb-4">
-              Pour toute question générale, technique ou de recherche.
+              For general inquiries, technical details, or research inquiries.
             </p>
             <a href="mailto:io@geosignalanalytics.com" className="text-cyan-400 text-xs sm:text-sm font-medium hover:text-cyan-300 transition-colors break-all">
               io@geosignalanalytics.com
@@ -269,9 +269,9 @@ export default function ContactPage() {
           </div>
 
           <div className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-6">
-            <h3 className="text-white font-semibold text-sm mb-2">Téléphone / WhatsApp</h3>
+            <h3 className="text-white font-semibold text-sm mb-2">Phone / WhatsApp</h3>
             <p className="text-slate-400 text-xs leading-relaxed mb-4">
-              Du lundi au vendredi, 8h–18h GMT.
+              Monday through Friday, 8am–6pm GMT.
             </p>
             <div className="space-y-1">
               <p className="text-cyan-400 text-xs sm:text-sm font-medium">+225 07 47 39 47 90</p>
@@ -280,12 +280,12 @@ export default function ContactPage() {
           </div>
 
           <div className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-6">
-            <h3 className="text-white font-semibold text-sm mb-2">Implantations</h3>
+            <h3 className="text-white font-semibold text-sm mb-2">Locations</h3>
             <p className="text-slate-400 text-xs leading-relaxed mb-4">
-              Activités de recherche et partenariats académiques.
+              Research activities and academic partnerships.
             </p>
             <p className="text-slate-300 text-xs font-medium">
-              Abidjan, Côte d&apos;Ivoire &amp; Hangzhou, Chine
+              Abidjan, Côte d&apos;Ivoire &amp; Hangzhou, China
             </p>
           </div>
         </div>
@@ -297,9 +297,9 @@ export default function ContactPage() {
               <div className="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400 mx-auto text-xl">
                 ✓
               </div>
-              <h3 className="text-xl font-bold text-white">Message envoyé</h3>
+              <h3 className="text-xl font-bold text-white">Message Sent</h3>
               <p className="text-slate-400 text-sm max-w-md mx-auto leading-relaxed">
-                Merci pour votre message. Notre équipe le lira et reviendra vers vous rapidement.
+                Thank you for reaching out. Our team will review your message and get back to you shortly.
               </p>
               <button
                 onClick={() => {
@@ -308,7 +308,7 @@ export default function ContactPage() {
                 }}
                 className="mt-2 rounded-md border border-slate-700 px-5 py-2 text-xs font-medium text-slate-200 hover:border-slate-500 hover:text-white transition-colors"
               >
-                Envoyer un autre message
+                Send another message
               </button>
             </div>
           ) : (
@@ -322,7 +322,7 @@ export default function ContactPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1.5">
                   <label htmlFor="firstName" className="block text-xs font-semibold text-slate-300">
-                    Prénom <span className="text-cyan-400">*</span>
+                    First Name <span className="text-cyan-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -337,7 +337,7 @@ export default function ContactPage() {
 
                 <div className="space-y-1.5">
                   <label htmlFor="lastName" className="block text-xs font-semibold text-slate-300">
-                    Nom <span className="text-cyan-400">*</span>
+                    Last Name <span className="text-cyan-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -369,7 +369,7 @@ export default function ContactPage() {
 
                 <div className="space-y-1.5">
                   <label htmlFor="phone" className="block text-xs font-semibold text-slate-300">
-                    Téléphone / WhatsApp
+                    Phone / WhatsApp
                   </label>
                   <input
                     type="tel"
@@ -384,7 +384,7 @@ export default function ContactPage() {
 
               <div className="space-y-1.5">
                 <label htmlFor="subject" className="block text-xs font-semibold text-slate-300">
-                  Sujet <span className="text-cyan-400">*</span>
+                  Subject <span className="text-cyan-400">*</span>
                 </label>
                 <select
                   id="subject"
@@ -393,10 +393,10 @@ export default function ContactPage() {
                   onChange={handleChange}
                   className="w-full rounded-md border border-slate-800 bg-[#060a12] px-3.5 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition-colors"
                 >
-                  <option value="Research Collaboration">Collaboration académique &amp; recherche</option>
-                  <option value="Training & Courses">Formations &amp; ateliers</option>
-                  <option value="Consultancy & Software">Traitement de données DAS &amp; conseil</option>
-                  <option value="General Inquiry">Autre demande</option>
+                  <option value="Research Collaboration">Academic Collaboration &amp; Research</option>
+                  <option value="Training & Courses">Training &amp; Workshops</option>
+                  <option value="Consultancy & Software">DAS Data Processing &amp; Consultancy</option>
+                  <option value="General Inquiry">General Inquiry</option>
                 </select>
               </div>
 
@@ -408,7 +408,7 @@ export default function ContactPage() {
                   id="message"
                   name="message"
                   rows={5}
-                  placeholder="Décrivez votre projet, votre question ou votre besoin de formation..."
+                  placeholder="Describe your project, question, or training requirements..."
                   value={formData.message}
                   onChange={handleChange}
                   className="w-full rounded-md border border-slate-800 bg-[#060a12] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors resize-y min-h-[130px]"
@@ -427,10 +427,10 @@ export default function ContactPage() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Envoi en cours...
+                    Sending...
                   </>
                 ) : (
-                  'Envoyer'
+                  'Send Message'
                 )}
               </button>
             </form>
@@ -450,12 +450,12 @@ export default function ContactPage() {
                 GeoSignal Institute
               </h3>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-                Le pôle recherche et publications de GeoSignal Analytics.
+                The research and publications division of GeoSignal Analytics.
               </p>
 
               <div className="pt-3 space-y-2">
                 <label htmlFor="newsletter-email" className="block text-xs font-semibold text-white">
-                  Actualités de recherche, sans spam
+                  Research updates, zero spam
                 </label>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
                   <input
@@ -468,7 +468,7 @@ export default function ContactPage() {
                     type="submit"
                     className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
                   >
-                    S&apos;inscrire
+                    Subscribe
                   </button>
                 </form>
               </div>
@@ -477,13 +477,13 @@ export default function ContactPage() {
             <div className="lg:col-span-7 grid grid-cols-3 gap-6 text-xs sm:text-sm pt-2 lg:pt-0">
               <div>
                 <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Liens
+                  Links
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
                   <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
-                  <li><Link href="/institute/about" className="hover:text-white transition-colors">L&apos;Institut</Link></li>
+                  <li><Link href="/institute/about" className="hover:text-white transition-colors">The Institute</Link></li>
                   <li><Link href="/institute/publications" className="hover:text-white transition-colors">Publications</Link></li>
-                  <li><Link href="/institute/training" className="hover:text-white transition-colors">Formations</Link></li>
+                  <li><Link href="/institute/training" className="hover:text-white transition-colors">Training</Link></li>
                   <li><Link href="/institute/software" className="hover:text-white transition-colors">Open Source</Link></li>
                 </ul>
               </div>
@@ -493,17 +493,17 @@ export default function ContactPage() {
                   Pages
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
-                  <li><Link href="/" className="hover:text-white transition-colors">Accueil</Link></li>
-                  <li><Link href="/institute" className="hover:text-white transition-colors">Vue d&apos;ensemble</Link></li>
+                  <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
+                  <li><Link href="/institute" className="hover:text-white transition-colors">Overview</Link></li>
                   <li><Link href="/institute/blog" className="hover:text-white transition-colors">Blog</Link></li>
                   <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-                  <li><Link href="/institute/careers" className="hover:text-white transition-colors">Carrières</Link></li>
+                  <li><Link href="/institute/careers" className="hover:text-white transition-colors">Careers</Link></li>
                 </ul>
               </div>
 
               <div>
                 <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Réseaux
+                  Social
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
                   <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
@@ -528,7 +528,7 @@ export default function ContactPage() {
                 />
               </div>
               <p className="text-slate-500 m-0">
-                © {currentYear ?? 2026} GeoSignal Research Institute — Tous droits réservés
+                © {currentYear ?? 2026} GeoSignal Research Institute — All rights reserved
               </p>
             </div>
           </div>
