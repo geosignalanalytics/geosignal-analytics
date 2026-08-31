@@ -1,372 +1,417 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState, useEffect, useRef } from 'react';
 
-export default function QHSEAuditingPage() {
-  // État du menu déroulant de la navigation
+const NAV_DROPDOWN_ITEMS = [
+  { href: '/institute', label: 'Overview' },
+  { href: '/institute/about', label: 'About Us' },
+  { href: '/institute/research', label: 'Research' },
+  { href: '/institute/publications', label: 'Publications' },
+  { href: '/institute/training', label: 'Training' },
+  { href: '/institute/people', label: 'People' },
+  { href: '/institute/events', label: 'Events & Seminars' },
+  { href: '/institute/news', label: 'News & Updates' },
+  { href: '/institute/software', label: 'Software & Open Source' },
+  { href: '/institute/careers', label: 'Careers & Opportunities' },
+  { href: '/institute/blog', label: 'Blog' },
+  { href: '/institute/contact', label: 'Contact' },
+];
+
+const services = [
+  {
+    id: 'subsurface-imaging',
+    title: 'AI-assisted subsurface imaging',
+    tagline: 'High-resolution seismic and geophysical processing',
+    description:
+      "We use machine learning models to improve seismic resolution, accelerate structural interpretation, and reveal geological details that are difficult to see in complex datasets.",
+    features: [
+      'Automatic fault and horizon detection',
+      'AI-assisted seismic inversion',
+      'Noise attenuation and signal enhancement',
+      '3D/4D structural modeling',
+    ],
+  },
+  {
+    id: 'das-processing',
+    title: 'DAS and signal processing',
+    tagline: 'Advanced processing for distributed acoustic sensing',
+    description:
+      "We process continuous, high-volume DAS (Distributed Acoustic Sensing) streams with custom-built algorithms designed to preserve signal integrity, filter ambient noise, and provide real-time monitoring.",
+    features: [
+      'Custom noise reduction algorithms',
+      'Real-time acoustic interpretation',
+      'High-throughput workflow optimization',
+      'Fiber optic applications for energy and infrastructure',
+    ],
+  },
+  {
+    id: 'resource-exploration',
+    title: 'GeoAI for resource exploration',
+    tagline: 'Evaluation of water reservoirs, minerals, and energy',
+    description:
+      "Our predictive models combine multi-physics geophysical data, geological constraints, and satellite imagery to identify high-potential target zones and reduce exploration risk.",
+    features: [
+      'Predictive modeling for groundwater mapping',
+      'Target generation for mineral exploration',
+      'Multi-data fusion (seismic, gravity, magnetic, borehole)',
+      'Uncertainty quantification in resource estimates',
+    ],
+  },
+  {
+    id: 'custom-geoai',
+    title: 'Custom GeoAI development',
+    tagline: 'Machine learning pipelines tailored to your data',
+    description:
+      "We build GeoAI workflows specific to your datasets and operational needs, integrated directly into your existing software stack.",
+    features: [
+      'Custom PyTorch / TensorFlow architectures',
+      'Automated classification of geological features',
+      'Integration with your GIS and geophysical platforms',
+      'Cloud and edge deployment at scale',
+    ],
+  },
+  {
+    id: 'consulting-audit',
+    title: 'Geophysical consulting and risk audit',
+    tagline: 'Independent technical expertise',
+    description:
+      "Independent review of your geophysical interpretations, acquisition designs, and AI model implementations to ensure scientific rigor and mitigate exploration risk.",
+    features: [
+      'Peer review of seismic and geophysical interpretations',
+      'Audit of acquisition strategy and design',
+      'Risk evaluation for drilling decisions',
+      'Strategic advice on GeoAI adoption',
+    ],
+  },
+];
+
+export default function ServicesPage() {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLLIElement>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Fermer le menu déroulant si clic à l'extérieur
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') setIsOpen(false);
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   return (
-    <main className="bg-black text-slate-200 antialiased selection:bg-cyan-500 selection:text-white min-h-screen font-sans">
-      
-      {/* 1. BARRE DE NAVIGATION */}
-      <nav className="sticky top-0 z-50 border-b border-slate-800 bg-[#050b14]/90 px-6 py-4 backdrop-blur-md md:px-12">
+    <div className="min-h-screen bg-[#060a12] text-slate-100 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col antialiased">
+
+      {/* NAVIGATION */}
+      <nav aria-label="Main Navigation" className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#060a12] px-6 py-3.5 md:px-12">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex items-center rounded-lg bg-white px-2.5 py-1 transition-transform group-hover:scale-105 shadow-md">
-              <Image 
-                src="/images/logo.png" 
-                alt="GeoSignal Analytics Logo" 
-                width={150} 
-                height={40} 
-                className="h-8 w-auto object-contain"
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex items-center rounded-md bg-white px-2.5 py-1">
+              <Image
+                src="/images/logo-institute.jpeg"
+                alt="GeoSignal Institute"
+                width={140}
+                height={40}
+                className="h-7 w-auto object-contain"
                 priority
               />
             </div>
           </Link>
 
-          <ul className="hidden md:flex items-center gap-8 font-medium text-slate-400 text-sm md:text-base m-0 p-0 list-none">
-            <li>
-              <Link href="/" className="transition-colors hover:text-white">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="transition-colors hover:text-white">
-                About
-              </Link>
-            </li>
-            
-            {/* DROPDOWN INSTITUTE */}
+          <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
+            <li><Link href="/" className="hover:text-slate-200 transition-colors">Home</Link></li>
+            <li><Link href="/about" className="hover:text-slate-200 transition-colors">About</Link></li>
+
             <li className="relative" ref={dropdownRef}>
-              <button 
-                onClick={() => setIsOpen(!isOpen)} 
-                className="flex items-center gap-1.5 transition-colors hover:text-white focus:outline-none cursor-pointer"
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center gap-1.5 text-slate-400 hover:text-slate-200 pb-[18px] -mb-[14px] focus:outline-none transition-colors"
+                aria-expanded={isOpen}
               >
-                <span>GeoSignal Institute</span>
-                <span className="text-xs transition-transform duration-200" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-                  ▼
-                </span>
+                GeoSignal Institute
+                <svg
+                  className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180 text-cyan-400' : 'text-slate-500'}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </button>
 
               {isOpen && (
-                <div className="absolute left-0 mt-3 w-56 rounded-xl border border-slate-800 bg-[#0b1329] p-2 shadow-2xl backdrop-blur-xl transition-all z-50">
-                  <Link href="/institute" onClick={() => setIsOpen(false)} className="block rounded-lg px-4 py-2 text-xs font-medium text-slate-300 hover:bg-[#1e293b] hover:text-white transition-colors">Overview</Link>
-                  <Link href="/institute/about" onClick={() => setIsOpen(false)} className="block rounded-lg px-4 py-2 text-xs font-medium text-slate-300 hover:bg-[#1e293b] hover:text-white transition-colors">About Us</Link>
-                  <Link href="/institute/training" onClick={() => setIsOpen(false)} className="block rounded-lg px-4 py-2 text-xs font-medium text-slate-300 hover:bg-[#1e293b] hover:text-white transition-colors">Training</Link>
-                  <Link href="/institute/research" onClick={() => setIsOpen(false)} className="block rounded-lg px-4 py-2 text-xs font-medium text-slate-300 hover:bg-[#1e293b] hover:text-white transition-colors">Research</Link>
-                  <Link href="/institute/publications" onClick={() => setIsOpen(false)} className="block rounded-lg px-4 py-2 text-xs font-medium text-slate-300 hover:bg-[#1e293b] hover:text-white transition-colors">Publications</Link>
+                <div className="absolute right-0 mt-4 w-60 rounded-lg border border-slate-800 bg-[#0b1329] p-1.5 shadow-xl z-50">
+                  {NAV_DROPDOWN_ITEMS.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="block rounded-md px-3.5 py-2 text-[13px] text-slate-400 transition-colors hover:bg-[#060a12] hover:text-white"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
               )}
             </li>
 
             <li>
-              <Link href="/services" className="text-cyan-400 font-semibold transition-colors">
+              <Link href="/services" className="text-white border-b-2 border-cyan-500 pb-[18px] -mb-[14px]">
                 Services
               </Link>
             </li>
-            <li>
-              <Link href="/contact" className="transition-colors hover:text-white">
-                Contact
-              </Link>
-            </li>
+            <li><Link href="/contact" className="hover:text-slate-200 transition-colors">Contact</Link></li>
           </ul>
+
+          <div className="flex items-center gap-3">
+            <Link
+              href="/contact"
+              className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
+            >
+              Contact
+            </Link>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8"
+              aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-transform duration-200 ${mobileMenuOpen ? 'rotate-45 translate-y-[6.5px]' : ''}`} />
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-transform duration-200 ${mobileMenuOpen ? '-rotate-45 -translate-y-[6.5px]' : ''}`} />
+            </button>
+          </div>
         </div>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden mx-auto max-w-7xl mt-4 pb-2 border-t border-slate-800/70 pt-4">
+            <ul className="flex flex-col gap-1 text-sm font-medium m-0 p-0 list-none">
+              <li><Link href="/" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Home</Link></li>
+              <li><Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">About</Link></li>
+              <li><Link href="/services" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-cyan-400 font-semibold">Services</Link></li>
+              <li><Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Contact</Link></li>
+            </ul>
+            <div className="mt-3 pt-3 border-t border-slate-800/70">
+              <span className="block px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-cyan-500">GeoSignal Institute</span>
+              {NAV_DROPDOWN_ITEMS.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block rounded-md px-3 py-2 text-[13px] text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* 2. SECTION HERO / INTRODUCTION */}
-      <section 
-        className="relative flex flex-col items-center justify-center text-center px-4 py-32 bg-cover bg-center bg-no-repeat border-b border-slate-800 overflow-hidden"
-        style={{
-          backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.55), rgba(5, 11, 20, 0.95)), url('/images/qhse-bg.jpg')"
-        }}
-      >
-        {/* Effet d'onde géophysique en arrière-plan */}
-        <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
-          <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/10 animate-ping [animation-duration:4s]" />
-          <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/5 animate-ping [animation-duration:6s] delay-1000" />
-        </div>
+      {/* HERO */}
+      <section className="relative border-b border-slate-800/70 px-6 pt-20 pb-24 md:px-12 md:pt-28 md:pb-32">
+        <div
+          className="absolute inset-0 opacity-[0.08] pointer-events-none"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+            maskImage: 'radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 100%)',
+          }}
+        />
+        <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[300px] w-[600px] rounded-full bg-cyan-500/10 blur-[100px]" />
 
-        <div className="max-w-5xl mx-auto z-10 relative">
-          <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 rounded-full">
-            Compliance & Operational Risk
-          </span>
-          
-          {/* Titre avec dégradé cyan animé */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6 leading-tight bg-gradient-to-r from-white via-cyan-400 to-white bg-[length:200%_auto] text-transparent bg-clip-text animate-[gradient_8s_ease_infinite]">
-            QHSE & Environmental Auditing
-          </h1>
-          
-          <p className="text-base sm:text-lg text-slate-300 max-w-4xl mx-auto mb-10 leading-relaxed font-medium">
-            We support organizations in implementing integrated management systems to ensure quality, environmental responsibility, and workplace safety. Our auditing services ensure full compliance with international standards, mitigating risks and enhancing operational excellence.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/contact" className="px-6 py-3 rounded-md bg-[#0a1954] hover:bg-blue-700 text-white font-medium transition-all duration-200 shadow-lg shadow-blue-950/50 hover:scale-[1.02]">
-              Discuss Your Project
-            </Link>
-            <Link href="#sub-services" className="px-6 py-3 rounded-md bg-[#0d6b82] hover:bg-cyan-700 text-white font-medium transition-all duration-200 shadow-lg shadow-cyan-950/50 hover:scale-[1.02]">
-              Explore Services
-            </Link>
-          </div>
-        </div>
-      </section>
-
-
-      {/* 3. SECTION CONTENUS / SOUS-SERVICES (Les 4 cartes) */}
-      <section id="sub-services" className="py-24 px-4 max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-white mb-4">Core Focus Areas</h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
-            Tailored auditing and management frameworks built for complex industrial, geophysical, and environmental projects.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          
-          {/* Carte 1 : Integrated Management System (QHSE) */}
-          <div className="bg-[#060a17] p-8 rounded-xl border border-[#1e2a52] flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-300 group">
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">
-                Integrated Management System (QHSE)
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Designing and implementing unified frameworks to manage Quality, Health, Safety, and Environment in demanding environments.
-              </p>
-              <ul className="text-slate-300 text-sm space-y-3 mb-6 list-none p-0">
-                <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 font-bold">•</span>
-                  <span><strong className="text-white">Focus Points:</strong> Gap analysis, QHSE policy development, and process optimization.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 font-bold">•</span>
-                  <span><strong className="text-white">The &quot;GeoSignal&quot; Edge:</strong> Tailored systems that integrate technical geophysical operations with rigorous safety protocols.</span>
-                </li>
-              </ul>
-            </div>
-            <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-sm font-medium inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-              Learn more ➔
-            </Link>
-          </div>
-
-          {/* Carte 2 : ISO 9001 - Quality Management */}
-          <div className="bg-[#060a17] p-8 rounded-xl border border-[#1e2a52] flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-300 group">
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">
-                ISO 9001 – Quality Management
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Ensuring your organization consistently provides products and services that meet customer and regulatory standards.
-              </p>
-              <ul className="text-slate-300 text-sm space-y-3 mb-6 list-none p-0">
-                <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 font-bold">•</span>
-                  <span><strong className="text-white">Focus Points:</strong> Quality control procedures, internal audits, and continuous improvement cycles.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 font-bold">•</span>
-                  <span><strong className="text-white">The &quot;GeoSignal&quot; Edge:</strong> Standardizing technical data delivery to ensure zero-defect reports for high-stakes field projects.</span>
-                </li>
-              </ul>
-            </div>
-            <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-sm font-medium inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-              Learn more ➔
-            </Link>
-          </div>
-
-          {/* Carte 3 : ISO 14001 - Environmental Management */}
-          <div className="bg-[#060a17] p-8 rounded-xl border border-[#1e2a52] flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-300 group">
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">
-                ISO 14001 – Environmental Management
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Improving environmental performance through efficient resource utilization and systematic waste reduction.
-              </p>
-              <ul className="text-slate-300 text-sm space-y-3 mb-6 list-none p-0">
-                <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 font-bold">•</span>
-                  <span><strong className="text-white">Focus Points:</strong> Environmental Impact Assessments (EIA), carbon footprint monitoring, and mitigation plans.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 font-bold">•</span>
-                  <span><strong className="text-white">The &quot;GeoSignal&quot; Edge:</strong> Specialized expertise in monitoring and minimizing the footprint of heavy field equipment.</span>
-                </li>
-              </ul>
-            </div>
-            <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-sm font-medium inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-              Learn more ➔
-            </Link>
-          </div>
-
-          {/* Carte 4 : ISO 45001 - Occupational Health & Safety */}
-          <div className="bg-[#060a17] p-8 rounded-xl border border-[#1e2a52] flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-300 group">
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors">
-                ISO 45001 – Health & Safety
-              </h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Proactive risk mitigation to prevent workplace injuries and create safe operational environments for field teams.
-              </p>
-              <ul className="text-slate-300 text-sm space-y-3 mb-6 list-none p-0">
-                <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 font-bold">•</span>
-                  <span><strong className="text-white">Focus Points:</strong> Hazard identification, risk assessment (HIRARC), and emergency response readiness.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 font-bold">•</span>
-                  <span><strong className="text-white">The &quot;GeoSignal&quot; Edge:</strong> Field-tested safety auditing for remote operations and high-risk technical surveys.</span>
-                </li>
-              </ul>
-            </div>
-            <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-sm font-medium inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-              Learn more ➔
-            </Link>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 4. SECTION PROCESSUS / METHODOLOGIE */}
-      <section className="py-20 px-4 bg-[#030712] border-t border-b border-slate-800/80">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-3">Our Auditing Methodology</h2>
-            <p className="text-slate-400 text-sm sm:text-base">A structured, four-step approach to achieving full regulatory compliance.</p>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-[#070d1e] p-6 rounded-lg border border-slate-800">
-              <span className="text-cyan-400 font-mono font-bold text-lg mb-2 block">01. Gap Analysis</span>
-              <p className="text-slate-300 text-xs sm:text-sm">Evaluating existing operations against target ISO standards to identify vulnerabilities.</p>
-            </div>
-            <div className="bg-[#070d1e] p-6 rounded-lg border border-slate-800">
-              <span className="text-cyan-400 font-mono font-bold text-lg mb-2 block">02. System Design</span>
-              <p className="text-slate-300 text-xs sm:text-sm">Developing custom protocols, documentation, and risk mitigation strategies.</p>
-            </div>
-            <div className="bg-[#070d1e] p-6 rounded-lg border border-slate-800">
-              <span className="text-cyan-400 font-mono font-bold text-lg mb-2 block">03. Audit Execution</span>
-              <p className="text-slate-300 text-xs sm:text-sm">Rigorous field and office evaluations to ensure seamless protocol adoption.</p>
-            </div>
-            <div className="bg-[#070d1e] p-6 rounded-lg border border-slate-800">
-              <span className="text-cyan-400 font-mono font-bold text-lg mb-2 block">04. Certification</span>
-              <p className="text-slate-300 text-xs sm:text-sm">Guiding your team through official certification and continuous improvement.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION CTA / GET IN TOUCH */}
-      <section className="py-16 px-4 bg-black flex justify-center items-center">
-        <Link 
-          href="/contact" 
-          className="flex items-center gap-2 px-8 py-3.5 rounded-md bg-[#0a1954] hover:bg-blue-700 text-white font-medium transition-all duration-200 shadow-xl shadow-blue-950/40 hover:scale-105"
-        >
-          Get in touch ↗
-        </Link>
-      </section>
-
-      {/* 5. PIED DE PAGE (FOOTER) */}
-      <footer className="bg-black border-t border-slate-900 pt-16 pb-12 px-6 lg:px-16 text-slate-400">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-16">
-          
-          {/* Colonne 1 : Infos de la marque + Newsletter */}
-          <div className="lg:col-span-2 flex flex-col gap-6">
-            <h3 className="text-white text-xl font-bold">GeoSignal Analytics</h3>
-            <p className="text-sm text-slate-300 leading-relaxed max-w-sm">
-              Where Geophysics Meets Artificial Intelligence. Delivering high-fidelity subsurface and environmental solutions across the globe.
+        <div className="relative mx-auto max-w-7xl">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
+              Services
             </p>
-            <div>
-              <p className="text-white text-sm font-semibold mb-3">Join our newsletter</p>
-              <form className="flex items-center gap-2 max-w-sm" onSubmit={(e) => e.preventDefault()}>
-                <input 
-                  type="email" 
-                  placeholder="name@email.com" 
-                  className="bg-[#0a0f1d] border border-slate-800 rounded-md px-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 flex-1"
+            <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-5">
+              Technical and Industrial Services
+            </h1>
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-10">
+              GeoAI workflows, custom signal processing, and subsurface imaging serving energy, mining, and hydrogeology operations.
+            </p>
+            <Link
+              href="/contact"
+              className="rounded-md bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition-colors inline-block"
+            >
+              Request a technical consultation
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* MAIN CONTENT */}
+      <main className="max-w-5xl mx-auto px-6 md:px-12 py-16 flex-1 w-full space-y-6">
+
+        {services.map((service) => (
+          <article
+            key={service.id}
+            id={service.id}
+            className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-8 md:p-10"
+          >
+            <h2 className="text-2xl font-bold text-white mb-2">
+              {service.title}
+            </h2>
+            <div className="text-sm font-semibold text-cyan-400 mb-4">
+              {service.tagline}
+            </div>
+            <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-6">
+              {service.description}
+            </p>
+
+            <div className="border-t border-slate-800/80 pt-6">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block mb-4">
+                Key highlights
+              </span>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 list-none p-0 m-0">
+                {service.features.map((feature, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-sm text-slate-400">
+                    <svg className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+
+        {/* CALL TO ACTION */}
+        <div className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-8 md:p-10 text-center">
+          <h3 className="text-2xl font-bold text-white mb-4">
+            Have a specific GeoAI requirement?
+          </h3>
+          <p className="text-slate-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-8">
+            Custom model development, expert review, or specialized DAS processing—let&apos;s discuss your project.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-block rounded-md bg-cyan-600 hover:bg-cyan-500 px-6 py-3 text-sm font-semibold text-white transition-colors"
+          >
+            Contact the team
+          </Link>
+        </div>
+
+      </main>
+
+      {/* FOOTER */}
+      <footer className="w-full border-t border-slate-800/80 bg-[#030712] px-6 py-14 text-slate-400 text-sm md:px-12 mt-auto">
+        <div className="mx-auto max-w-7xl">
+
+          <div className="grid grid-cols-1 gap-10 pb-12 lg:grid-cols-12">
+
+            <div className="lg:col-span-5 space-y-4 pr-0 lg:pr-8">
+              <h3 className="text-lg font-bold text-white tracking-wide">
+                GeoSignal Research Institute
+              </h3>
+              <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
+                The research and publications hub of GeoSignal Analytics.
+              </p>
+
+              <div className="pt-3 space-y-2">
+                <label htmlFor="newsletter-email" className="block text-xs font-semibold text-white">
+                  Research updates, spam-free
+                </label>
+                <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
+                  <input
+                    id="newsletter-email"
+                    type="email"
+                    placeholder="name@email.com"
+                    className="w-full rounded-md border border-slate-800 bg-[#0b1329]/70 px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
+                  />
+                  <button
+                    type="submit"
+                    className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
+                  >
+                    Subscribe
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 grid grid-cols-3 gap-6 text-xs sm:text-sm pt-2 lg:pt-0">
+              <div>
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
+                  Services
+                </h4>
+                <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
+                  <li><Link href="#subsurface-imaging" className="hover:text-white transition-colors">Subsurface imaging</Link></li>
+                  <li><Link href="#das-processing" className="hover:text-white transition-colors">DAS processing</Link></li>
+                  <li><Link href="#resource-exploration" className="hover:text-white transition-colors">Resource exploration</Link></li>
+                  <li><Link href="#custom-geoai" className="hover:text-white transition-colors">Custom GeoAI</Link></li>
+                  <li><Link href="#consulting-audit" className="hover:text-white transition-colors">Consulting &amp; audit</Link></li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
+                  Pages
+                </h4>
+                <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
+                  <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
+                  <li><Link href="/institute" className="hover:text-white transition-colors">Overview</Link></li>
+                  <li><Link href="/institute/blog" className="hover:text-white transition-colors">Blog</Link></li>
+                  <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+                  <li><Link href="/institute/careers" className="hover:text-white transition-colors">Careers</Link></li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
+                  Social
+                </h4>
+                <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
+                  <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
+                  <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a></li>
+                  <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a></li>
+                  <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a></li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <div className="border-t border-slate-800/80 pt-6">
+            <div className="flex flex-col items-center justify-between gap-4 text-xs text-slate-500 text-center md:flex-row md:text-left">
+              <div className="bg-white rounded-md px-3 py-1.5 flex items-center justify-center">
+                <Image
+                  src="/images/logo-institute.jpeg"
+                  alt="GeoSignal Institute"
+                  width={120}
+                  height={35}
+                  className="h-8 w-auto object-contain"
                 />
-                <button 
-                  type="submit" 
-                  className="bg-[#0a1954] hover:bg-blue-800 text-white text-sm font-medium px-5 py-2 rounded-md transition-colors cursor-pointer"
-                >
-                  Subscribe
-                </button>
-              </form>
+              </div>
+              <p className="text-slate-500 m-0">
+                Developed and designed by Dr. Innocent Oboué, PhD
+              </p>
+              <p className="text-slate-500 m-0">
+                © {currentYear ?? 2026} GeoSignal Research Institute — All rights reserved
+              </p>
             </div>
           </div>
 
-          {/* Colonne 2 : Links */}
-          <div className="flex flex-col gap-3">
-            <h4 className="text-white font-semibold text-sm">Links</h4>
-            <ul className="space-y-2.5 text-sm list-none p-0 m-0">
-              <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
-              <li><Link href="#sub-services" className="hover:text-white transition-colors">The GeoSignal Approach</Link></li>
-              <li><Link href="/services" className="hover:text-white transition-colors">Case studies</Link></li>
-              <li><Link href="/about" className="hover:text-white transition-colors">Benefits</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">How We Collaborate</Link></li>
-            </ul>
-          </div>
-
-          {/* Colonne 3 : Pages */}
-          <div className="flex flex-col gap-3">
-            <h4 className="text-white font-semibold text-sm">Pages</h4>
-            <ul className="space-y-2.5 text-sm list-none p-0 m-0">
-              <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
-              <li><Link href="/institute" className="hover:text-white transition-colors">GeoSignal Institute</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-            </ul>
-          </div>
-
-          {/* Colonne 4 : Socials */}
-          <div className="flex flex-col gap-3">
-            <h4 className="text-white font-semibold text-sm">Socials</h4>
-            <ul className="space-y-2.5 text-sm list-none p-0 m-0">
-              <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a></li>
-              <li><a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Facebook</a></li>
-              <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
-              <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a></li>
-            </ul>
-          </div>
-
-        </div>
-
-        {/* Ligne inférieure du Footer */}
-        <div className="max-w-7xl mx-auto pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-slate-400">
-          
-          {/* Logo Footer - rendu identique au Header */}
-          <div className="flex items-center rounded-lg bg-white px-2.5 py-1 shadow-md">
-            <Image 
-              src="/images/logo.png" 
-              alt="GeoSignal Analytics Logo Footer" 
-              width={150} 
-              height={40} 
-              className="h-8 w-auto object-contain"
-            />
-          </div>
-
-          <div className="text-center md:text-left">
-            Developed and designed by Dr. Innocent Oboué, PhD
-          </div>
-          <div className="text-center md:text-right">
-            © 2026 GeoSignal Analytics LLC | All Rights Reserved
-          </div>
         </div>
       </footer>
-
-    </main>
+    </div>
   );
 }
