@@ -14,38 +14,39 @@ const NAV_DROPDOWN_ITEMS = [
 
 const SUB_SERVICES = [
   {
-    title: "Diagnostic de l'état des lieux",
+    title: 'Site Baseline & Assessment',
     summary:
-      "Cartographie de référence pour évaluer l'état actuel d'un site ou d'une région avant le démarrage d'un projet.",
-    focus: 'Classification de l\u2019occupation du sol, analyse topographique (MNT/MNS), inventaire des infrastructures.',
-    edge: "Imagerie satellite multi-temporelle pour suivre l'évolution du site et les changements environnementaux passés.",
+      'Baseline mapping to evaluate the existing state of a site or region before project execution.',
+    focus: 'Land-use/land-cover classification, elevation digital modeling (DEM/DSM), and infrastructure inventory.',
+    edge: 'Multi-temporal satellite imagery to track environmental changes and site evolution over time.',
   },
   {
-    title: 'Collecte de données et conception de bases de données',
+    title: 'Data Collection & Database Architecture',
     summary:
-      "Construction de bases de données géospatiales robustes, capables d'intégrer des sources de données variées.",
-    focus: 'Relevés GPS/GNSS sur le terrain, intégration des données géophysiques et de forage, architecture Cloud-GIS.',
-    edge: 'Workflows automatisés pour nettoyer et standardiser des données hétérogènes venant de différents services techniques.',
+      'Building robust spatial databases capable of seamlessly integrating multi-source datasets.',
+    focus: 'Field GPS/GNSS survey campaigns, integration of geophysical and borehole data, and cloud GIS setups.',
+    edge: 'Automated workflows for data cleaning and standardizing heterogeneous data from multiple departments.',
   },
   {
-    title: 'Cartographie thématique',
+    title: 'Thematic Mapping',
     summary:
-      "Production cartographique adaptée à des objectifs industriels, environnementaux ou sociaux précis.",
-    focus: 'Cartes de potentiel minéral, zones à risque d\u2019inondation, vulnérabilité des eaux souterraines, plans d\u2019urbanisme.',
-    edge: "Extraction automatique d'éléments (bâtiments, état de la végétation) à partir d'imagerie haute résolution.",
+      'Tailored mapping outputs designed for specific industrial, environmental, or social objectives.',
+    focus: 'Mineral potential mapping, flood hazard zoning, groundwater vulnerability, and urban planning.',
+    edge: 'Automated feature extraction (buildings, vegetation health) using high-resolution remote sensing data.',
   },
   {
-    title: 'Analyse de scénarios et planification',
+    title: 'Scenario Analysis & Strategic Planning',
     summary:
-      "Modélisation prédictive et simulations spatiales pour appuyer la planification stratégique d'infrastructures et de ressources.",
-    focus: "Analyse multicritère pour le choix de sites, simulations d'impact environnemental, optimisation logistique.",
-    edge: "Modèles 3D interactifs permettant aux parties prenantes de visualiser l'impact d'un projet avant sa mise en œuvre.",
+      'Predictive modeling and spatial simulations to support strategic infrastructure and resource planning.',
+    focus: 'Multi-criteria decision evaluation for site selection, environmental impact simulations, and logistics routing.',
+    edge: 'Interactive 3D spatial models allowing stakeholders to visualize project impacts prior to implementation.',
   },
 ];
 
 export default function MappingGISPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<'en' | 'fr'>('en');
   const [currentYear, setCurrentYear] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLLIElement>(null);
 
@@ -96,7 +97,7 @@ export default function MappingGISPage() {
             <li className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-1.5 text-slate-400 hover:text-slate-200 pb-[18px] -mb-[14px] focus:outline-none transition-colors"
+                className="flex items-center gap-1.5 text-slate-400 hover:text-slate-200 focus:outline-none transition-colors"
                 aria-expanded={isOpen}
               >
                 GeoSignal Institute
@@ -127,14 +128,24 @@ export default function MappingGISPage() {
             </li>
 
             <li>
-              <Link href="/services" className="text-white border-b-2 border-cyan-500 pb-[18px] -mb-[14px]">
+              <Link href="/services" className="text-white border-b-2 border-cyan-500 pb-1">
                 Services
               </Link>
             </li>
-            <li><Link href="/contact" className="hover:text-slate-200 transition-colors">Contact</Link></li>
           </ul>
 
           <div className="flex items-center gap-3">
+            {/* SÉLECTEUR DE LANGUE EN/FR */}
+            <button
+              onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
+              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              aria-label="Switch language"
+            >
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+            </button>
+
+            {/* BOUTON CONTACT */}
             <Link
               href="/contact"
               className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
@@ -201,27 +212,27 @@ export default function MappingGISPage() {
         <div className="relative mx-auto max-w-7xl">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
-              Données spatiales
+              Spatial Intelligence
             </p>
             <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-5">
-              Cartographie, SIG &amp; télédétection
+              Mapping, GIS &amp; Remote Sensing
             </h1>
             <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-10">
-              On transforme des données spatiales complexes en informations exploitables, pour appuyer
-              vos décisions, le suivi environnemental et la planification de projet.
+              Transforming complex spatial data into actionable intelligence to empower decision-making, 
+              environmental monitoring, and infrastructure planning.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/contact"
                 className="rounded-md bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition-colors inline-block"
               >
-                Discuter de votre projet
+                Discuss Your Project
               </Link>
               <Link
                 href="#sub-services"
                 className="rounded-md border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-200 hover:border-cyan-600 hover:text-white transition-colors inline-block"
               >
-                Voir les domaines
+                Explore Solutions
               </Link>
             </div>
           </div>
@@ -234,7 +245,7 @@ export default function MappingGISPage() {
           {SUB_SERVICES.map((service) => (
             <article
               key={service.title}
-              className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-8 flex flex-col justify-between"
+              className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-8 flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-300"
             >
               <div>
                 <h2 className="text-xl font-bold text-white mb-3">{service.title}</h2>
@@ -242,11 +253,11 @@ export default function MappingGISPage() {
 
                 <div className="border-t border-slate-800/80 pt-5 space-y-4">
                   <div className="space-y-1.5">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">Ce qu&apos;on couvre</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">Focus Points</span>
                     <p className="text-xs sm:text-sm text-slate-400">{service.focus}</p>
                   </div>
                   <div className="space-y-1.5 pt-3 border-t border-slate-800/40">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">Notre approche</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">The GeoSignal Edge</span>
                     <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">{service.edge}</p>
                   </div>
                 </div>
@@ -254,7 +265,7 @@ export default function MappingGISPage() {
 
               <div className="mt-6 pt-4 border-t border-slate-800/40">
                 <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors">
-                  En savoir plus <span>→</span>
+                  Learn More <span>→</span>
                 </Link>
               </div>
             </article>
@@ -266,7 +277,7 @@ export default function MappingGISPage() {
             href="/contact"
             className="inline-block rounded-md bg-cyan-600 hover:bg-cyan-500 px-8 py-3.5 text-sm font-semibold text-white transition-colors"
           >
-            Nous contacter
+            Get In Touch
           </Link>
         </div>
       </main>
@@ -282,13 +293,12 @@ export default function MappingGISPage() {
                 GeoSignal Analytics
               </h3>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-                Géophysique et intelligence artificielle, au service de projets d&apos;exploration
-                et d&apos;études environnementales.
+                Where Geophysics Meets Artificial Intelligence. Delivering high-fidelity subsurface and environmental solutions across the globe.
               </p>
 
               <div className="pt-3 space-y-2">
                 <label htmlFor="newsletter-email" className="block text-xs font-semibold text-white">
-                  Actualités de recherche, sans spam
+                  Join our newsletter
                 </label>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
                   <input
@@ -301,7 +311,7 @@ export default function MappingGISPage() {
                     type="submit"
                     className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
                   >
-                    S&apos;inscrire
+                    Subscribe
                   </button>
                 </form>
               </div>
@@ -313,12 +323,12 @@ export default function MappingGISPage() {
                   Services
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
-                  <li><Link href="/services/advanced-geophysics-and-ai" className="hover:text-white transition-colors">Géophysique avancée</Link></li>
+                  <li><Link href="/services/advanced-geophysics-and-ai" className="hover:text-white transition-colors">Advanced Geophysics</Link></li>
                   <li><Link href="/services/geoscience-and-exploration" className="hover:text-white transition-colors">Exploration</Link></li>
-                  <li><Link href="/services/water-resources" className="hover:text-white transition-colors">Ressources en eau</Link></li>
-                  <li><Link href="/services/mapping-gis-and-remote-sensing" className="hover:text-white transition-colors">SIG &amp; télédétection</Link></li>
-                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environnement</Link></li>
-                  <li><Link href="/services/qhse" className="hover:text-white transition-colors">Conseil QHSE</Link></li>
+                  <li><Link href="/services/water-resources" className="hover:text-white transition-colors">Water Resources</Link></li>
+                  <li><Link href="/services/mapping-gis-and-remote-sensing" className="hover:text-white transition-colors">GIS &amp; Remote Sensing</Link></li>
+                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environmental</Link></li>
+                  <li><Link href="/services/qhse" className="hover:text-white transition-colors">QHSE Advisory</Link></li>
                 </ul>
               </div>
 
@@ -327,8 +337,8 @@ export default function MappingGISPage() {
                   Pages
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
-                  <li><Link href="/" className="hover:text-white transition-colors">Accueil</Link></li>
-                  <li><Link href="/about" className="hover:text-white transition-colors">À propos</Link></li>
+                  <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
+                  <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
                   <li><Link href="/institute" className="hover:text-white transition-colors">GeoSignal Institute</Link></li>
                   <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
                 </ul>
@@ -336,7 +346,7 @@ export default function MappingGISPage() {
 
               <div>
                 <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Réseaux
+                  Socials
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
                   <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
@@ -361,10 +371,7 @@ export default function MappingGISPage() {
                 />
               </div>
               <p className="text-slate-500 m-0">
-                Developed and designed by Dr. Innocent Oboué, PhD
-              </p>
-              <p className="text-slate-500 m-0">
-                © {currentYear ?? 2026} GeoSignal Analytics — Tous droits réservés
+                © {currentYear ?? 2026} GeoSignal Analytics — All Rights Reserved
               </p>
             </div>
           </div>
