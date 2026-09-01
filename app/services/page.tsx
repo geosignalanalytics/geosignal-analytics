@@ -142,8 +142,8 @@ export default function ServicesPage() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
+          {/* Desktop Navigation (Centré) */}
+          <ul className="hidden md:flex flex-1 justify-center items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
             <li><Link href="/" className="hover:text-slate-200 transition-colors">Home</Link></li>
             <li><Link href="/about" className="hover:text-slate-200 transition-colors">About</Link></li>
 
@@ -165,7 +165,7 @@ export default function ServicesPage() {
               </button>
 
               {isOpen && (
-                <div className="absolute right-0 mt-4 w-60 rounded-lg border border-slate-800 bg-[#0b1329] p-1.5 shadow-xl z-50">
+                <div className="absolute left-1/2 -translate-x-1/2 mt-4 w-60 rounded-lg border border-slate-800 bg-[#0b1329] p-1.5 shadow-xl z-50">
                   {NAV_DROPDOWN_ITEMS.map((item) => (
                     <Link
                       key={item.href}
@@ -184,6 +184,8 @@ export default function ServicesPage() {
               <Link href="/services" className="text-white border-b-2 border-cyan-500 pb-[18px] -mb-[14px]">
                 Services
               </Link>
+            </li>
+          </ul>
 
           <div className="flex items-center gap-3">
             <button
