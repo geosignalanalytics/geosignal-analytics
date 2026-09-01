@@ -16,38 +16,41 @@ const SUB_SERVICES = [
   {
     title: 'Environmental Impact Assessments (EIA)',
     summary:
-      'Comprehensive studies to identify and mitigate potential environmental effects of a project.',
-    focus: 'Baseline environmental conditions, impact forecasting, and mitigation measure design.',
-    edge: 'Combining geophysical data and GIS to model long-term impacts on soil and groundwater prior to project approval.',
+      'Comprehensive studies designed to identify, predict, and mitigate potential environmental impacts of development projects.',
+    focus: 'Baseline environmental studies, impact forecasting, and mitigation strategy design.',
+    edge: 'We combine geophysical data and GIS modeling to evaluate long-term soil and groundwater impacts prior to project approval.',
   },
   {
-    title: 'Environmental and Social Management Plans (ESMP)',
+    title: 'Environmental & Social Management Plans',
     summary:
-      'Actionable frameworks ensuring environmental and social commitments translate into measurable field actions.',
+      'Actionable frameworks ensuring environmental and social commitments are systematically executed on the ground.',
     focus: 'Compliance monitoring, social risk assessment, and stakeholder engagement strategies.',
-    edge: 'Real-time digital tracking of ESMP indicators to ensure continuous compliance throughout the project lifecycle.',
+    edge: 'Real-time digital tracking of ESMP indicators to guarantee continuous regulatory compliance across project lifecycles.',
   },
   {
-    title: 'Waste Management',
+    title: 'Waste Management Solutions',
     summary:
-      'Design of efficient systems for the reduction, collection, and safe disposal of industrial and municipal waste.',
+      'Efficient systems engineered for the reduction, safe handling, and disposal of municipal and industrial waste.',
     focus: 'Hazardous waste characterization, landfill site selection, and circular economy consulting.',
-    edge: 'ERT and GPR geophysics to monitor landfill site integrity and prevent leachate leakage into aquifers.',
+    edge: 'Applying ERT and GPR geophysics to monitor landfill liner integrity and prevent leachate leakage into aquifers.',
   },
   {
-    title: 'Ecosystem Protection and Monitoring',
+    title: 'Ecosystem Protection & Monitoring',
     summary:
-      'Continuous observation and active protection of sensitive habitats and natural resources.',
+      'Continuous observation and proactive conservation of sensitive habitats and natural resources.',
     focus: 'Biodiversity tracking, ecosystem health assessment, and land rehabilitation planning.',
-    edge: 'Remote sensing combined with ground sensors for early detection of ecosystem degradation signals.',
+    edge: 'Remote sensing combined with ground-based sensor networks to detect early indicators of ecological degradation.',
   },
 ];
 
 export default function EnvironmentalSolutionsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<'en' | 'fr'>('en');
   const [currentYear, setCurrentYear] = useState<number | null>(null);
+
   const dropdownRef = useRef<HTMLLIElement>(null);
+  const mobileNavRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
@@ -58,9 +61,15 @@ export default function EnvironmentalSolutionsPage() {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
+      if (mobileNavRef.current && !mobileNavRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
     }
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') setIsOpen(false);
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+        setMobileMenuOpen(false);
+      }
     }
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleKeyDown);
@@ -74,9 +83,9 @@ export default function EnvironmentalSolutionsPage() {
     <div className="min-h-screen bg-[#060a12] text-slate-100 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col antialiased">
 
       {/* NAVIGATION */}
-      <nav aria-label="Main Navigation" className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#060a12] px-6 py-3.5 md:px-12">
+      <nav aria-label="Main Navigation" ref={mobileNavRef} className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#060a12] px-6 py-3.5 md:px-12">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3">
             <div className="flex items-center rounded-md bg-white px-2.5 py-1">
               <Image
                 src="/images/logo.png"
@@ -89,9 +98,10 @@ export default function EnvironmentalSolutionsPage() {
             </div>
           </Link>
 
-          <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
+          {/* Desktop Navigation (Centered) */}
+          <ul className="hidden md:flex flex-1 justify-center items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
             <li><Link href="/" className="hover:text-slate-200 transition-colors">Home</Link></li>
-            <li><Link href="/about" className="hover:text-slate-200 transition-colors">About</Link></li>
+            <li><Link href="/about" className="hover:text-slate-200 transition-colors">About Us</Link></li>
 
             <li className="relative" ref={dropdownRef}>
               <button
@@ -111,7 +121,7 @@ export default function EnvironmentalSolutionsPage() {
               </button>
 
               {isOpen && (
-                <div className="absolute left-0 mt-4 w-56 rounded-lg border border-slate-800 bg-[#0b1329] p-1.5 shadow-xl z-50">
+                <div className="absolute left-1/2 -translate-x-1/2 mt-4 w-56 rounded-lg border border-slate-800 bg-[#0b1329] p-1.5 shadow-xl z-50">
                   {NAV_DROPDOWN_ITEMS.map((item) => (
                     <Link
                       key={item.href}
@@ -131,10 +141,18 @@ export default function EnvironmentalSolutionsPage() {
                 Services
               </Link>
             </li>
-            <li><Link href="/contact" className="hover:text-slate-200 transition-colors">Contact</Link></li>
           </ul>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
+              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              aria-label="Switch language"
+            >
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+            </button>
+
             <Link
               href="/contact"
               className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
@@ -144,7 +162,7 @@ export default function EnvironmentalSolutionsPage() {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8"
+              className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8"
               aria-label="Toggle menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -155,11 +173,12 @@ export default function EnvironmentalSolutionsPage() {
           </div>
         </div>
 
+        {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden mx-auto max-w-7xl mt-4 pb-2 border-t border-slate-800/70 pt-4">
             <ul className="flex flex-col gap-1 text-sm font-medium m-0 p-0 list-none">
               <li><Link href="/" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">About</Link></li>
+              <li><Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">About Us</Link></li>
               <li><Link href="/services" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-cyan-400 font-semibold">Services</Link></li>
               <li><Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Contact</Link></li>
             </ul>
@@ -175,6 +194,16 @@ export default function EnvironmentalSolutionsPage() {
                   {item.label}
                 </Link>
               ))}
+            </div>
+            <div className="flex items-center gap-2 mt-4 px-3 sm:hidden">
+              <span className="text-xs text-slate-500">Language</span>
+              <button
+                onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
+                className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              >
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+              </button>
             </div>
           </div>
         )}
@@ -207,21 +236,21 @@ export default function EnvironmentalSolutionsPage() {
               Environmental Solutions
             </h1>
             <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-10">
-              We support projects through environmental assessments, ecosystem protection,
-              and resource management, leveraging field data and advanced geophysical methods.
+              We support projects through rigorous environmental impact assessments, ecosystem protection, 
+              and natural resource management—powered by field data and advanced geophysical methodologies.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/contact"
                 className="rounded-md bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition-colors inline-block"
               >
-                Discuss your project
+                Discuss Your Project
               </Link>
               <Link
                 href="#sub-services"
                 className="rounded-md border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-200 hover:border-cyan-600 hover:text-white transition-colors inline-block"
               >
-                View domains
+                Explore Key Areas
               </Link>
             </div>
           </div>
@@ -242,11 +271,11 @@ export default function EnvironmentalSolutionsPage() {
 
                 <div className="border-t border-slate-800/80 pt-5 space-y-4">
                   <div className="space-y-1.5">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">What we cover</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">Scope &amp; Coverage</span>
                     <p className="text-xs sm:text-sm text-slate-400">{service.focus}</p>
                   </div>
                   <div className="space-y-1.5 pt-3 border-t border-slate-800/40">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">Our approach</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">Our Technical Edge</span>
                     <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">{service.edge}</p>
                   </div>
                 </div>
@@ -254,7 +283,7 @@ export default function EnvironmentalSolutionsPage() {
 
               <div className="mt-6 pt-4 border-t border-slate-800/40">
                 <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors">
-                  Learn more <span>→</span>
+                  Learn More <span>→</span>
                 </Link>
               </div>
             </article>
@@ -282,13 +311,12 @@ export default function EnvironmentalSolutionsPage() {
                 GeoSignal Analytics
               </h3>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-                Geophysics and artificial intelligence supporting exploration projects
-                and environmental studies.
+                Geophysics and artificial intelligence driving sustainable resource exploration and high-precision environmental assessments.
               </p>
 
               <div className="pt-3 space-y-2">
                 <label htmlFor="newsletter-email" className="block text-xs font-semibold text-white">
-                  Research updates, spam-free
+                  Research Updates (No Spam)
                 </label>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
                   <input
@@ -317,7 +345,7 @@ export default function EnvironmentalSolutionsPage() {
                   <li><Link href="/services/geoscience-and-exploration" className="hover:text-white transition-colors">Exploration</Link></li>
                   <li><Link href="/services/water-resources" className="hover:text-white transition-colors">Water Resources</Link></li>
                   <li><Link href="/services/mapping-gis-and-remote-sensing" className="hover:text-white transition-colors">GIS &amp; Remote Sensing</Link></li>
-                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environment</Link></li>
+                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environmental Solutions</Link></li>
                   <li><Link href="/services/qhse" className="hover:text-white transition-colors">QHSE Consulting</Link></li>
                 </ul>
               </div>
@@ -328,7 +356,7 @@ export default function EnvironmentalSolutionsPage() {
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
                   <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-                  <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
+                  <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
                   <li><Link href="/institute" className="hover:text-white transition-colors">GeoSignal Institute</Link></li>
                   <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
                 </ul>
@@ -361,7 +389,7 @@ export default function EnvironmentalSolutionsPage() {
                 />
               </div>
               <p className="text-slate-500 m-0">
-                © {currentYear ?? 2026} GeoSignal Analytics — All rights reserved
+                © {currentYear ?? 2026} GeoSignal Analytics — All Rights Reserved
               </p>
             </div>
           </div>
