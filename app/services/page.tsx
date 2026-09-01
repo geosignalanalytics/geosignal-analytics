@@ -90,6 +90,7 @@ const services = [
 export default function ServicesPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<'en' | 'fr'>('en');
   const [currentYear, setCurrentYear] = useState<number | null>(null);
 
   const dropdownRef = useRef<HTMLLIElement>(null);
@@ -188,6 +189,15 @@ export default function ServicesPage() {
           </ul>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              aria-label="Switch language"
+            >
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+            </button>
+
             <Link
               href="/contact"
               className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
@@ -229,6 +239,16 @@ export default function ServicesPage() {
                   {item.label}
                 </Link>
               ))}
+            </div>
+            <div className="flex items-center gap-2 mt-4 px-3 sm:hidden">
+              <span className="text-xs text-slate-500">Language</span>
+              <button
+                onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+                className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              >
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+              </button>
             </div>
           </div>
         )}
@@ -311,7 +331,7 @@ export default function ServicesPage() {
             Have a specific GeoAI requirement?
           </h3>
           <p className="text-slate-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-8">
-            Custom model development, expert review, or specialized DAS processing—let&apos;s discuss your project.
+            Custom model development, expert review, or specialized DAS processing. Let's discuss your project.
           </p>
           <Link
             href="/contact"

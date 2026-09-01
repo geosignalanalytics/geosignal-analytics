@@ -4,31 +4,29 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 
-const NAV_DROPDOWN_ITEMS = [
-  { href: '/institute', label: 'Overview' },
-  { href: '/institute/about', label: 'About Us' },
-  { href: '/institute/research', label: 'Research' },
-  { href: '/institute/publications', label: 'Publications' },
-  { href: '/institute/training', label: 'Training' },
-  { href: '/institute/people', label: 'People' },
-  { href: '/institute/events', label: 'Events & Seminars' },
-  { href: '/institute/news', label: 'News & Updates' },
-  { href: '/institute/software', label: 'Software & Open Source' },
-  { href: '/institute/careers', label: 'Careers & Opportunities' },
-  { href: '/institute/blog', label: 'Blog' },
-  { href: '/institute/contact', label: 'Contact' },
+const DROPDOWN_LINKS = [
+  { label: 'Overview', href: '/institute' },
+  { label: 'About Us', href: '/institute/about' },
+  { label: 'Research', href: '/institute/research' },
+  { label: 'Publications', href: '/institute/publications' },
+  { label: 'Training', href: '/institute/training' },
+  { label: 'People', href: '/institute/people' },
+  { label: 'Events & Seminars', href: '/institute/events' },
+  { label: 'News & Updates', href: '/institute/news' },
+  { label: 'Software & Open Source', href: '/institute/software' },
+  { label: 'Careers & Opportunities', href: '/institute/careers' },
+  { label: 'Blog', href: '/institute/blog' },
+  { label: 'Contact', href: '/institute/contact' },
 ];
 
 export default function ContactPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<'en' | 'fr'>('en');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [currentYear, setCurrentYear] = useState<number | null>(null);
-
-  const dropdownRef = useRef<HTMLLIElement>(null);
-  const mobileNavRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xaeywayk';
 
@@ -38,27 +36,17 @@ export default function ContactPage() {
     email: '',
     phone: '',
     subject: 'Research Collaboration',
-    message: '',
+    message: ''
   });
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
-      if (mobileNavRef.current && !mobileNavRef.current.contains(e.target as Node)) {
-        setMobileMenuOpen(false);
-      }
     }
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
-        setIsOpen(false);
-        setMobileMenuOpen(false);
-      }
+      if (e.key === 'Escape') setIsOpen(false);
     }
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleKeyDown);
@@ -84,37 +72,37 @@ export default function ContactPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify({
           name: `${formData.firstName} ${formData.lastName}`,
           email: formData.email,
           phone: formData.phone || 'N/A',
           subject: formData.subject,
-          message: formData.message,
-        }),
+          message: formData.message
+        })
       });
 
       if (response.ok) {
         setIsSubmitted(true);
       } else {
         const data = await response.json();
-        setErrorMessage(data?.error || "An error occurred while sending. Please try again.");
+        setErrorMessage(data?.error || 'An error occurred while sending your message. Please try again.');
       }
     } catch (error) {
-      setErrorMessage('Connection failed. Please check your network and try again.');
+      setErrorMessage('Network error. Please check your internet connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#060a12] text-slate-100 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col antialiased">
+    <div className="min-h-screen bg-[#060a12] text-slate-200 font-sans antialiased selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col">
 
       {/* NAVIGATION */}
-      <nav aria-label="Main Navigation" ref={mobileNavRef} className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#060a12] px-6 py-3.5 md:px-12">
+      <nav className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#060a12] px-6 py-3.5 md:px-12">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <div className="flex items-center rounded-md bg-white px-2.5 py-1">
               <Image
                 src="/images/logo-institute.jpeg"
@@ -127,7 +115,6 @@ export default function ContactPage() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
             <li><Link href="/" className="hover:text-slate-200 transition-colors">Home</Link></li>
             <li><Link href="/about" className="hover:text-slate-200 transition-colors">About</Link></li>
@@ -135,8 +122,9 @@ export default function ContactPage() {
             <li className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-1.5 text-slate-400 hover:text-slate-200 pb-[18px] -mb-[14px] focus:outline-none transition-colors"
+                className="flex items-center gap-1.5 text-slate-400 hover:text-slate-200 transition-colors focus:outline-none"
                 aria-expanded={isOpen}
+                aria-haspopup="true"
               >
                 GeoSignal Institute
                 <svg
@@ -151,7 +139,7 @@ export default function ContactPage() {
 
               {isOpen && (
                 <div className="absolute right-0 mt-4 w-60 rounded-lg border border-slate-800 bg-[#0b1329] p-1.5 shadow-xl z-50">
-                  {NAV_DROPDOWN_ITEMS.map((item) => (
+                  {DROPDOWN_LINKS.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
@@ -168,24 +156,28 @@ export default function ContactPage() {
             </li>
 
             <li><Link href="/services" className="hover:text-slate-200 transition-colors">Services</Link></li>
-            <li>
-              <Link href="/contact" className="text-white border-b-2 border-cyan-500 pb-[18px] -mb-[14px]">
-                Contact
-              </Link>
-            </li>
           </ul>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              aria-label="Switch language"
+            >
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+            </button>
+
             <Link
               href="/contact"
-              className="hidden md:inline-block rounded-md bg-cyan-600 px-4 py-1.5 text-[13.5px] font-medium text-white hover:bg-cyan-500 transition-colors"
+              className="hidden md:inline-block rounded-md border border-cyan-600 px-4 py-1.5 text-[13.5px] font-medium text-cyan-400"
             >
               Contact
             </Link>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex flex-col justify-center items-center gap-[5px] w-8 h-8"
+              className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8"
               aria-label="Toggle menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -196,18 +188,17 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden mx-auto max-w-7xl mt-4 pb-2 border-t border-slate-800/70 pt-4">
             <ul className="flex flex-col gap-1 text-sm font-medium m-0 p-0 list-none">
               <li><Link href="/" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Home</Link></li>
               <li><Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">About</Link></li>
               <li><Link href="/services" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Services</Link></li>
-              <li><Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-cyan-400 font-semibold">Contact</Link></li>
+              <li><Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-cyan-400 bg-[#0b1329] transition-colors">Contact</Link></li>
             </ul>
             <div className="mt-3 pt-3 border-t border-slate-800/70">
               <span className="block px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-cyan-500">GeoSignal Institute</span>
-              {NAV_DROPDOWN_ITEMS.map((item) => (
+              {DROPDOWN_LINKS.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -219,6 +210,16 @@ export default function ContactPage() {
                   {item.label}
                 </Link>
               ))}
+            </div>
+            <div className="flex items-center gap-2 mt-4 px-3 sm:hidden">
+              <span className="text-xs text-slate-500">Language</span>
+              <button
+                onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+                className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              >
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+              </button>
             </div>
           </div>
         )}
@@ -240,209 +241,217 @@ export default function ContactPage() {
         <div className="relative mx-auto max-w-7xl">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
-              Contact Us
+              Get in touch
             </p>
-            <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-5">
-              Get in Touch with the Institute Team
+            <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-7">
+              Talk to the team
             </h1>
-            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-2">
-              Have questions about our research, training programs, or potential collaborations? 
-              Send us a message and we will respond directly.
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed">
+              Questions about our research, training programs, or consulting work. Send us a note and
+              someone from the team will get back to you.
             </p>
           </div>
         </div>
       </section>
 
       {/* MAIN CONTENT */}
-      <main className="max-w-5xl mx-auto px-6 md:px-12 py-16 flex-1 w-full space-y-6">
+      <main className="relative z-10 mx-auto max-w-7xl px-6 py-16 md:px-12 flex-1 w-full">
+        <div className="max-w-5xl mx-auto space-y-12">
 
-        {/* CONTACT CARDS */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-6">
-            <h3 className="text-white font-semibold text-sm mb-2">Email</h3>
-            <p className="text-slate-400 text-xs leading-relaxed mb-4">
-              For general inquiries, technical details, or research inquiries.
-            </p>
-            <a href="mailto:io@geosignalanalytics.com" className="text-cyan-400 text-xs sm:text-sm font-medium hover:text-cyan-300 transition-colors break-all">
-              io@geosignalanalytics.com
-            </a>
-          </div>
+          {/* CONTACT INFO CARDS */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-          <div className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-6">
-            <h3 className="text-white font-semibold text-sm mb-2">Phone / WhatsApp</h3>
-            <p className="text-slate-400 text-xs leading-relaxed mb-4">
-              Monday through Friday, 8am–6pm GMT.
-            </p>
-            <div className="space-y-1">
-              <p className="text-cyan-400 text-xs sm:text-sm font-medium">+225 07 47 39 47 90</p>
-              <p className="text-slate-400 text-xs">+86 (131) 659-67530</p>
-            </div>
-          </div>
-
-          <div className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-6">
-            <h3 className="text-white font-semibold text-sm mb-2">Locations</h3>
-            <p className="text-slate-400 text-xs leading-relaxed mb-4">
-              Research activities and academic partnerships.
-            </p>
-            <p className="text-slate-300 text-xs font-medium">
-              Abidjan, Côte d&apos;Ivoire &amp; Hangzhou, China
-            </p>
-          </div>
-        </div>
-
-        {/* FORM */}
-        <article className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-8 md:p-10">
-          {isSubmitted ? (
-            <div className="py-8 text-center space-y-4">
-              <div className="w-14 h-14 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400 mx-auto text-xl">
-                ✓
+            <div className="bg-[#0b1329] border border-slate-800/80 p-6 rounded-xl flex flex-col justify-between">
+              <div className="space-y-3">
+                <h3 className="text-base font-bold text-white">Direct email</h3>
+                <p className="text-slate-400 text-xs leading-relaxed">For general inquiries, research, and technical support.</p>
               </div>
-              <h3 className="text-xl font-bold text-white">Message Sent</h3>
-              <p className="text-slate-400 text-sm max-w-md mx-auto leading-relaxed">
-                Thank you for reaching out. Our team will review your message and get back to you shortly.
+              <a href="mailto:io@geosignalanalytics.com" className="text-cyan-500 font-medium text-xs sm:text-sm hover:text-cyan-400 mt-4 block break-all">
+                io@geosignalanalytics.com
+              </a>
+            </div>
+
+            <div className="bg-[#0b1329] border border-slate-800/80 p-6 rounded-xl flex flex-col justify-between">
+              <div className="space-y-3">
+                <h3 className="text-base font-bold text-white">Phone &amp; WhatsApp</h3>
+                <p className="text-slate-400 text-xs leading-relaxed">Mon–Fri, 8:00 AM–6:00 PM GMT.</p>
+              </div>
+              <div className="mt-4 space-y-1">
+                <p className="text-cyan-500 font-medium text-xs sm:text-sm">+225 07 47 39 47 90</p>
+                <p className="text-slate-400 text-xs">+86 (131) 659-67530</p>
+              </div>
+            </div>
+
+            <div className="bg-[#0b1329] border border-slate-800/80 p-6 rounded-xl flex flex-col justify-between">
+              <div className="space-y-3">
+                <h3 className="text-base font-bold text-white">Primary hubs</h3>
+                <p className="text-slate-400 text-xs leading-relaxed">Research operations and academic partnerships.</p>
+              </div>
+              <p className="text-slate-300 font-medium text-xs mt-4">
+                Abidjan, Côte d'Ivoire &amp; Hangzhou, China
               </p>
-              <button
-                onClick={() => {
-                  setIsSubmitted(false);
-                  setFormData({ firstName: '', lastName: '', email: '', phone: '', subject: 'Research Collaboration', message: '' });
-                }}
-                className="mt-2 rounded-md border border-slate-700 px-5 py-2 text-xs font-medium text-slate-200 hover:border-slate-500 hover:text-white transition-colors"
-              >
-                Send another message
-              </button>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {errorMessage && (
-                <div className="p-3.5 rounded-md border border-red-500/30 bg-red-950/20 text-red-400 text-xs text-center">
-                  {errorMessage}
-                </div>
-              )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-1.5">
-                  <label htmlFor="firstName" className="block text-xs font-semibold text-slate-300">
-                    First Name <span className="text-cyan-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    className="w-full rounded-md border border-slate-800 bg-[#060a12] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
-                    required
-                  />
-                </div>
+          </div>
 
-                <div className="space-y-1.5">
-                  <label htmlFor="lastName" className="block text-xs font-semibold text-slate-300">
-                    Last Name <span className="text-cyan-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    className="w-full rounded-md border border-slate-800 bg-[#060a12] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
-                    required
-                  />
-                </div>
-              </div>
+          {/* FORM */}
+          <div className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-8 md:p-12">
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-1.5">
-                  <label htmlFor="email" className="block text-xs font-semibold text-slate-300">
-                    Email <span className="text-cyan-400">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full rounded-md border border-slate-800 bg-[#060a12] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label htmlFor="phone" className="block text-xs font-semibold text-slate-300">
-                    Phone / WhatsApp
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full rounded-md border border-slate-800 bg-[#060a12] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="subject" className="block text-xs font-semibold text-slate-300">
-                  Subject <span className="text-cyan-400">*</span>
-                </label>
-                <select
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full rounded-md border border-slate-800 bg-[#060a12] px-3.5 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none transition-colors"
+            {isSubmitted ? (
+              <div className="py-12 text-center space-y-4">
+                <h3 className="text-2xl font-bold text-white">Message sent</h3>
+                <p className="text-slate-400 text-sm max-w-md mx-auto leading-relaxed">
+                  Thanks for reaching out to GeoSignal Institute. Someone from the team will review your
+                  message and respond shortly.
+                </p>
+                <button
+                  onClick={() => {
+                    setIsSubmitted(false);
+                    setFormData({ firstName: '', lastName: '', email: '', phone: '', subject: 'Research Collaboration', message: '' });
+                  }}
+                  className="mt-6 px-6 py-2.5 bg-[#060a12] hover:bg-[#0f1a30] text-white text-xs font-semibold rounded-md transition-colors cursor-pointer border border-slate-700"
                 >
-                  <option value="Research Collaboration">Academic Collaboration &amp; Research</option>
-                  <option value="Training & Courses">Training &amp; Workshops</option>
-                  <option value="Consultancy & Software">DAS Data Processing &amp; Consultancy</option>
-                  <option value="General Inquiry">General Inquiry</option>
-                </select>
+                  Send another message
+                </button>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
 
-              <div className="space-y-1.5">
-                <label htmlFor="message" className="block text-xs font-semibold text-slate-300">
-                  Message <span className="text-cyan-400">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  placeholder="Describe your project, question, or training requirements..."
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full rounded-md border border-slate-800 bg-[#060a12] px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors resize-y min-h-[130px]"
-                  required
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full rounded-md bg-cyan-600 hover:bg-cyan-500 px-6 py-3 text-sm font-semibold text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {isSubmitting ? (
-                  <>
-                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Sending...
-                  </>
-                ) : (
-                  'Send Message'
+                {errorMessage && (
+                  <div className="p-4 rounded-md border border-red-500/30 bg-red-950/20 text-red-400 text-xs text-center">
+                    {errorMessage}
+                  </div>
                 )}
-              </button>
-            </form>
-          )}
-        </article>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label htmlFor="firstName" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      First name *
+                    </label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      placeholder="Jane"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      className="w-full rounded-md border border-slate-800 bg-[#060a12] px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="lastName" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      Last name *
+                    </label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      placeholder="Doe"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      className="w-full rounded-md border border-slate-800 bg-[#060a12] px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      Email address *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="jane@company.com"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full rounded-md border border-slate-800 bg-[#060a12] px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="phone" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
+                      Phone / WhatsApp
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      placeholder="+225 07 47 39 47 90"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full rounded-md border border-slate-800 bg-[#060a12] px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="subject" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
+                    Inquiry topic *
+                  </label>
+                  <select
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full rounded-md border border-slate-800 bg-[#060a12] px-4 py-3 text-sm text-white focus:border-cyan-500 focus:outline-none transition-colors cursor-pointer"
+                  >
+                    <option value="Research Collaboration">Academic &amp; Research Collaboration</option>
+                    <option value="Training & Courses">Geophysics Training &amp; Workshops</option>
+                    <option value="Consultancy & Software">DAS Data Processing &amp; Consultancy</option>
+                    <option value="General Inquiry">General Inquiry</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="message" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
+                    Message *
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    placeholder="Describe your project, goals, or what you'd like to discuss."
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full rounded-md border border-slate-800 bg-[#060a12] px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors resize-y min-h-[140px]"
+                    required
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full rounded-md bg-cyan-600 hover:bg-cyan-500 text-white py-3.5 text-sm font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Sending...
+                    </>
+                  ) : (
+                    'Submit inquiry'
+                  )}
+                </button>
+
+              </form>
+            )}
+          </div>
+
+        </div>
       </main>
 
       {/* FOOTER */}
-      <footer className="w-full border-t border-slate-800/80 bg-[#030712] px-6 py-14 text-slate-400 text-sm md:px-12 mt-auto">
+      <footer className="relative z-10 w-full border-t border-slate-800/80 bg-[#030712] px-6 py-14 text-slate-400 text-sm md:px-12 mt-auto">
         <div className="mx-auto max-w-7xl">
-
           <div className="grid grid-cols-1 gap-10 pb-12 lg:grid-cols-12">
 
             <div className="lg:col-span-5 space-y-4 pr-0 lg:pr-8">
@@ -450,23 +459,22 @@ export default function ContactPage() {
                 GeoSignal Institute
               </h3>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-                The research and publications division of GeoSignal Analytics.
+                The research and publications arm of GeoSignal Analytics.
               </p>
 
               <div className="pt-3 space-y-2">
-                <label htmlFor="newsletter-email" className="block text-xs font-semibold text-white">
-                  Research updates, zero spam
-                </label>
+                <span className="block text-xs font-semibold text-white">
+                  Occasional research updates, no spam
+                </span>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
                   <input
-                    id="newsletter-email"
                     type="email"
                     placeholder="name@email.com"
                     className="w-full rounded-md border border-slate-800 bg-[#0b1329]/70 px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
                   />
                   <button
                     type="submit"
-                    className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
+                    className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors cursor-pointer"
                   >
                     Subscribe
                   </button>
@@ -474,14 +482,12 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="lg:col-span-7 grid grid-cols-3 gap-6 text-xs sm:text-sm pt-2 lg:pt-0">
+            <div className="lg:col-span-7 grid grid-cols-3 gap-6 text-xs sm:text-sm">
               <div>
-                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Links
-                </h4>
-                <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">Links</h4>
+                <ul className="space-y-2.5 text-slate-400">
                   <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
-                  <li><Link href="/institute/about" className="hover:text-white transition-colors">The Institute</Link></li>
+                  <li><Link href="/institute/about" className="hover:text-white transition-colors">The Institute Approach</Link></li>
                   <li><Link href="/institute/publications" className="hover:text-white transition-colors">Publications</Link></li>
                   <li><Link href="/institute/training" className="hover:text-white transition-colors">Training</Link></li>
                   <li><Link href="/institute/software" className="hover:text-white transition-colors">Open Source</Link></li>
@@ -489,10 +495,8 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Pages
-                </h4>
-                <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">Pages</h4>
+                <ul className="space-y-2.5 text-slate-400">
                   <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
                   <li><Link href="/institute" className="hover:text-white transition-colors">Overview</Link></li>
                   <li><Link href="/institute/blog" className="hover:text-white transition-colors">Blog</Link></li>
@@ -502,18 +506,16 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Social
-                </h4>
-                <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">Socials &amp; Academic</h4>
+                <ul className="space-y-2.5 text-slate-400">
                   <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
                   <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a></li>
-                  <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a></li>
+                  <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter / X</a></li>
+                  <li><a href="https://www.researchgate.net" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">ResearchGate</a></li>
                   <li><a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Google Scholar</a></li>
                 </ul>
               </div>
             </div>
-
           </div>
 
           <div className="border-t border-slate-800/80 pt-6">
@@ -522,17 +524,16 @@ export default function ContactPage() {
                 <Image
                   src="/images/logo-institute.jpeg"
                   alt="GeoSignal Institute"
-                  width={120}
-                  height={35}
-                  className="h-8 w-auto object-contain"
+                  width={110}
+                  height={30}
+                  className="h-7 w-auto object-contain"
                 />
               </div>
-              <p className="text-slate-500 m-0">
-                © {currentYear ?? 2026} GeoSignal Research Institute — All rights reserved
+              <p className="text-slate-500">
+                © {new Date().getFullYear()} GeoSignal Institute — All Rights Reserved
               </p>
             </div>
           </div>
-
         </div>
       </footer>
     </div>
