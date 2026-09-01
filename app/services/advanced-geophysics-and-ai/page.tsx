@@ -390,9 +390,6 @@ export default function AdvancedGeophysicsPage() {
                 />
               </div>
               <p className="text-slate-500 m-0">
-                Developed and designed by Dr. Innocent Oboué, PhD
-              </p>
-              <p className="text-slate-500 m-0">
                 © {currentYear ?? 2026} GeoSignal Analytics — All rights reserved
               </p>
             </div>
