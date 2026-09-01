@@ -53,6 +53,7 @@ const METHODOLOGY = [
 export default function QHSEAuditingPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<'en' | 'fr'>('en');
   const [currentYear, setCurrentYear] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLLIElement>(null);
 
@@ -96,6 +97,7 @@ export default function QHSEAuditingPage() {
             </div>
           </Link>
 
+          {/* LISTE DES LIENS (DOUBLON DE CONTACT SUPPRIMÉ ICI) */}
           <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
             <li><Link href="/" className="hover:text-slate-200 transition-colors">Home</Link></li>
             <li><Link href="/about" className="hover:text-slate-200 transition-colors">About</Link></li>
@@ -103,7 +105,7 @@ export default function QHSEAuditingPage() {
             <li className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-1.5 text-slate-400 hover:text-slate-200 pb-[18px] -mb-[14px] focus:outline-none transition-colors"
+                className="flex items-center gap-1.5 text-slate-400 hover:text-slate-200 focus:outline-none transition-colors"
                 aria-expanded={isOpen}
               >
                 GeoSignal Institute
@@ -134,14 +136,23 @@ export default function QHSEAuditingPage() {
             </li>
 
             <li>
-              <Link href="/services" className="text-white border-b-2 border-cyan-500 pb-[18px] -mb-[14px]">
+              <Link href="/services" className="text-white border-b-2 border-cyan-500 pb-1">
                 Services
               </Link>
             </li>
-            <li><Link href="/contact" className="hover:text-slate-200 transition-colors">Contact</Link></li>
           </ul>
 
+          {/* SÉLECTEUR EN/FR ET BOUTON CONTACT */}
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
+              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              aria-label="Switch language"
+            >
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+            </button>
+
             <Link
               href="/contact"
               className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
