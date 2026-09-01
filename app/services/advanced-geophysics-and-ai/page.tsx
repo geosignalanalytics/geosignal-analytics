@@ -14,43 +14,43 @@ const NAV_DROPDOWN_ITEMS = [
 
 const SUB_SERVICES = [
   {
-    title: 'Levés sismiques',
+    title: 'Seismic Surveys',
     summary:
-      "Imagerie haute résolution des structures du sous-sol par réflexion, réfraction et surveillance microsismique.",
+      "High-resolution subsurface imaging via reflection, refraction, and microseismic monitoring.",
     details: [
-      { label: 'Imagerie & analyse', text: 'PSTM, PSDM et inversion par forme d\u2019onde complète (FWI).' },
-      { label: 'Technologies récentes', text: 'DAS (détection acoustique distribuée) et suivi 4D.' },
-      { label: 'Assisté par IA', text: 'Réseaux physiquement informés (PINN) et débruitage par deep learning.' },
+      { label: 'Imaging & Analysis', text: 'PSTM, PSDM, and Full Waveform Inversion (FWI).' },
+      { label: 'Emerging Tech', text: 'Distributed Acoustic Sensing (DAS) and 4D monitoring.' },
+      { label: 'AI-Assisted', text: 'Physics-Informed Neural Networks (PINNs) and deep learning denoising.' },
     ],
   },
   {
-    title: 'Méthodes électriques & EM',
+    title: 'Electrical & EM Methods',
     summary:
-      "Cartographie de la conductivité du sous-sol pour l'exploration minérale et la caractérisation structurale.",
+      "Subsurface conductivity mapping for mineral exploration and structural characterization.",
     details: [
-      { label: 'Résistivité & PI', text: 'Cartographie précise des corps minéralisés et des limites lithologiques.' },
-      { label: 'Sondage électromagnétique', text: 'Détection de conducteurs profonds par TDEM et FDEM.' },
-      { label: 'Automatisation', text: 'Détection d\u2019anomalies assistée par IA pour repérer des cibles discrètes.' },
+      { label: 'Resistivity & IP', text: 'Accurate mapping of ore bodies and lithological boundaries.' },
+      { label: 'Electromagnetic Sounding', text: 'Deep conductor detection via TDEM and FDEM.' },
+      { label: 'Automation', text: 'AI-assisted anomaly detection to pinpoint discrete targets.' },
     ],
   },
   {
-    title: 'Levés gravimétriques & magnétiques',
+    title: 'Gravity & Magnetic Surveys',
     summary:
-      "Reconnaissance structurale à grande échelle et analyse de bassins pour l'exploration régionale.",
+      "Large-scale structural reconnaissance and basin analysis for regional exploration.",
     details: [
-      { label: 'Architecture de bassin', text: 'Profondeur du socle et épaisseur des sédiments pour le pétrole, le gaz et les mines.' },
-      { label: 'Traitement avancé', text: 'Données aéroportées et terrestres — dérivées de tilt, prolongement vers le haut.' },
-      { label: 'Modélisation structurale', text: 'Inversion 3D intégrée des données de champs de potentiel.' },
+      { label: 'Basin Architecture', text: 'Basement depth and sediment thickness for oil, gas, and mining.' },
+      { label: 'Advanced Processing', text: 'Airborne and ground data — tilt derivative, upward continuation.' },
+      { label: 'Structural Modeling', text: 'Integrated 3D inversion of potential field data.' },
     ],
   },
   {
-    title: 'Géophysique des eaux souterraines',
+    title: 'Groundwater Geophysics',
     summary:
-      "Sécuriser des ressources en eau durables par la cartographie et le suivi scientifique des aquifères.",
+      "Securing sustainable water resources through aquifer mapping and scientific monitoring.",
     details: [
-      { label: 'Caractérisation d\u2019aquifères', text: 'Profondeur, épaisseur et productivité des formations aquifères.' },
-      { label: 'Salinité & pollution', text: 'Cartographie des intrusions salines et des panaches de contamination.' },
-      { label: 'Implantation de forages', text: 'Ciblage précis pour maximiser le taux de réussite des forages.' },
+      { label: 'Aquifer Characterization', text: 'Depth, thickness, and productivity of water-bearing formations.' },
+      { label: 'Salinity & Pollution', text: 'Mapping saline intrusion and contamination plumes.' },
+      { label: 'Borehole Siting', text: 'Precision targeting to maximize drilling success rates.' },
     ],
   },
 ];
@@ -58,6 +58,7 @@ const SUB_SERVICES = [
 export default function AdvancedGeophysicsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lang, setLang] = useState<'en' | 'fr'>('en');
   const [currentYear, setCurrentYear] = useState<number | null>(null);
   
   const dropdownRef = useRef<HTMLLIElement>(null);
@@ -109,8 +110,8 @@ export default function AdvancedGeophysicsPage() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
+          {/* Desktop Navigation (Centered) */}
+          <ul className="hidden md:flex flex-1 justify-center items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
             <li><Link href="/" className="hover:text-slate-200 transition-colors">Home</Link></li>
             <li><Link href="/about" className="hover:text-slate-200 transition-colors">About</Link></li>
 
@@ -132,7 +133,7 @@ export default function AdvancedGeophysicsPage() {
               </button>
 
               {isOpen && (
-                <div className="absolute left-0 mt-4 w-56 rounded-lg border border-slate-800 bg-[#0b1329] p-1.5 shadow-xl z-50">
+                <div className="absolute left-1/2 -translate-x-1/2 mt-4 w-56 rounded-lg border border-slate-800 bg-[#0b1329] p-1.5 shadow-xl z-50">
                   {NAV_DROPDOWN_ITEMS.map((item) => (
                     <Link
                       key={item.href}
@@ -152,10 +153,18 @@ export default function AdvancedGeophysicsPage() {
                 Services
               </Link>
             </li>
-            <li><Link href="/contact" className="hover:text-slate-200 transition-colors">Contact</Link></li>
           </ul>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              aria-label="Switch language"
+            >
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+            </button>
+
             <Link
               href="/contact"
               className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
@@ -198,6 +207,16 @@ export default function AdvancedGeophysicsPage() {
                 </Link>
               ))}
             </div>
+            <div className="flex items-center gap-2 mt-4 px-3 sm:hidden">
+              <span className="text-xs text-slate-500">Language</span>
+              <button
+                onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+                className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              >
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+                <span className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+              </button>
+            </div>
           </div>
         )}
       </nav>
@@ -218,28 +237,28 @@ export default function AdvancedGeophysicsPage() {
         <div className="relative mx-auto max-w-7xl">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
-              Domaine d&apos;expertise
+              Area of Expertise
             </p>
             <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-5">
-              Géophysique avancée &amp; IA
+              Advanced Geophysics &amp; AI
             </h1>
             <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-10">
-              GeoSignal Analytics combine méthodes de terrain classiques et outils de calcul avancés
-              pour produire des données géologiques fiables, utiles à l&apos;exploration, à l&apos;ingénierie
-              et à la gestion environnementale.
+              GeoSignal Analytics combines classical field methods with advanced computational tools
+              to deliver reliable geological insights for exploration, engineering,
+              and environmental management.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/contact"
                 className="rounded-md bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition-colors inline-block"
               >
-                Discuter de votre projet
+                Discuss Your Project
               </Link>
               <Link
                 href="#sub-services"
                 className="rounded-md border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-200 hover:border-cyan-600 hover:text-white transition-colors inline-block"
               >
-                Voir les domaines
+                Explore Domains
               </Link>
             </div>
           </div>
@@ -265,7 +284,7 @@ export default function AdvancedGeophysicsPage() {
                         <svg className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                         </svg>
-                        <span><strong className="text-slate-200">{d.label} :</strong> {d.text}</span>
+                        <span><strong className="text-slate-200">{d.label}:</strong> {d.text}</span>
                       </li>
                     ))}
                   </ul>
@@ -274,7 +293,7 @@ export default function AdvancedGeophysicsPage() {
 
               <div className="mt-6 pt-4 border-t border-slate-800/40">
                 <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors">
-                  En savoir plus <span>→</span>
+                  Learn More <span>→</span>
                 </Link>
               </div>
             </article>
@@ -293,13 +312,12 @@ export default function AdvancedGeophysicsPage() {
                 GeoSignal Analytics
               </h3>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-                Géophysique et intelligence artificielle, au service de projets d&apos;exploration
-                et d&apos;études environnementales.
+                Geophysics and artificial intelligence driving exploration and environmental assessment projects.
               </p>
 
               <div className="pt-3 space-y-2">
                 <label htmlFor="newsletter-email" className="block text-xs font-semibold text-white">
-                  Actualités de recherche, sans spam
+                  Spam-free research updates
                 </label>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
                   <input
@@ -312,7 +330,7 @@ export default function AdvancedGeophysicsPage() {
                     type="submit"
                     className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
                   >
-                    S&apos;inscrire
+                    Subscribe
                   </button>
                 </form>
               </div>
@@ -324,12 +342,12 @@ export default function AdvancedGeophysicsPage() {
                   Services
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
-                  <li><Link href="/services/advanced-geophysics-and-ai" className="hover:text-white transition-colors">Géophysique avancée</Link></li>
+                  <li><Link href="/services/advanced-geophysics-and-ai" className="hover:text-white transition-colors">Advanced Geophysics</Link></li>
                   <li><Link href="/services/geoscience-and-exploration" className="hover:text-white transition-colors">Exploration</Link></li>
-                  <li><Link href="/services/water-resources" className="hover:text-white transition-colors">Ressources en eau</Link></li>
-                  <li><Link href="/services/mapping-gis-and-remote-sensing" className="hover:text-white transition-colors">SIG &amp; télédétection</Link></li>
-                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environnement</Link></li>
-                  <li><Link href="/services/qhse" className="hover:text-white transition-colors">Conseil QHSE</Link></li>
+                  <li><Link href="/services/water-resources" className="hover:text-white transition-colors">Water Resources</Link></li>
+                  <li><Link href="/services/mapping-gis-and-remote-sensing" className="hover:text-white transition-colors">GIS &amp; Remote Sensing</Link></li>
+                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environment</Link></li>
+                  <li><Link href="/services/qhse" className="hover:text-white transition-colors">QHSE Consulting</Link></li>
                 </ul>
               </div>
 
@@ -338,8 +356,8 @@ export default function AdvancedGeophysicsPage() {
                   Pages
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
-                  <li><Link href="/" className="hover:text-white transition-colors">Accueil</Link></li>
-                  <li><Link href="/about" className="hover:text-white transition-colors">À propos</Link></li>
+                  <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
+                  <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
                   <li><Link href="/institute" className="hover:text-white transition-colors">GeoSignal Institute</Link></li>
                   <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
                 </ul>
@@ -347,7 +365,7 @@ export default function AdvancedGeophysicsPage() {
 
               <div>
                 <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Réseaux
+                  Social
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
                   <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
@@ -375,7 +393,7 @@ export default function AdvancedGeophysicsPage() {
                 Developed and designed by Dr. Innocent Oboué, PhD
               </p>
               <p className="text-slate-500 m-0">
-                © {currentYear ?? 2026} GeoSignal Analytics — Tous droits réservés
+                © {currentYear ?? 2026} GeoSignal Analytics — All rights reserved
               </p>
             </div>
           </div>
