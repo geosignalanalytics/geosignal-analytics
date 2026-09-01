@@ -4,11 +4,49 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 
+const NAV_DROPDOWN_ITEMS = [
+  { href: '/institute', label: 'Overview' },
+  { href: '/institute/about', label: 'About Us' },
+  { href: '/institute/training', label: 'Training' },
+  { href: '/institute/research', label: 'Research' },
+  { href: '/institute/publications', label: 'Publications' },
+];
+
+const SUB_SERVICES = [
+  {
+    title: 'Geological Studies',
+    summary:
+      'Detailed surface and subsurface mapping to understand the geological framework of a project.',
+    focus: 'Lithological mapping, structural analysis, stratigraphic correlation.',
+    edge: 'Satellite imagery and automated lineament detection for regional geological modeling.',
+  },
+  {
+    title: 'Mineral Exploration',
+    summary:
+      'Targeted exploration programs to identify and evaluate mineral potential.',
+    focus: 'From greenfield to brownfield, geochemical sampling, drilling supervision, core logging.',
+    edge: 'Combining geophysical signatures and geochemical data through multivariate analysis for precise targeting.',
+  },
+  {
+    title: 'Soil and Terrain Studies',
+    summary:
+      'Evaluation of soil and terrain properties for agricultural, industrial, or urban projects.',
+    focus: 'Soil science, soil fertility assessment, land suitability mapping.',
+    edge: 'GIS and remote sensing to monitor soil degradation and land use changes over time.',
+  },
+  {
+    title: 'Feasibility Studies',
+    summary:
+      'Technical and economic evaluations to determine the viability of a resource or infrastructure project.',
+    focus: 'Resource estimation, technical risk assessment, preliminary environmental impact scoping.',
+    edge: 'Data-driven decision models combining technical geosciences and cost-benefit analysis.',
+  },
+];
+
 export default function GeoscienceExplorationPage() {
   const [isOpen, setIsOpen] = useState(false);
-  const [lang, setLang] = useState<'en' | 'fr'>('en');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentYear, setCurrentYear] = useState<number | null>(null);
-
   const dropdownRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
@@ -21,294 +59,248 @@ export default function GeoscienceExplorationPage() {
         setIsOpen(false);
       }
     }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') setIsOpen(false);
+    }
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050b14] text-slate-100 font-sans selection:bg-cyan-500 selection:text-white flex flex-col antialiased">
-      
-      {/* 1. BARRE DE NAVIGATION */}
-      <nav className="sticky top-0 z-50 border-b border-slate-800 bg-[#050b14]/90 px-6 py-4 backdrop-blur-md md:px-12">
+    <div className="min-h-screen bg-[#060a12] text-slate-100 font-sans selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col antialiased">
+
+      {/* NAVIGATION */}
+      <nav aria-label="Main Navigation" className="sticky top-0 z-50 border-b border-slate-800/70 bg-[#060a12] px-6 py-3.5 md:px-12">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex items-center rounded-lg bg-white px-2.5 py-1 transition-transform group-hover:scale-105 shadow-md">
-              <Image 
-                src="/images/logo.png" 
-                alt="GeoSignal Analytics Logo" 
-                width={150} 
-                height={40} 
-                className="h-8 w-auto object-contain"
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex items-center rounded-md bg-white px-2.5 py-1">
+              <Image
+                src="/images/logo.png"
+                alt="GeoSignal Analytics"
+                width={150}
+                height={40}
+                className="h-7 w-auto object-contain"
                 priority
               />
             </div>
           </Link>
 
-          <ul className="hidden md:flex items-center gap-8 font-medium text-slate-400 text-sm md:text-base m-0 p-0 list-none">
-            <li>
-              <Link href="/" className="transition-colors hover:text-white">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="transition-colors hover:text-white">
-                About
-              </Link>
-            </li>
-            
-            {/* DROPDOWN INSTITUTE */}
+          <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
+            <li><Link href="/" className="hover:text-slate-200 transition-colors">Home</Link></li>
+            <li><Link href="/about" className="hover:text-slate-200 transition-colors">About</Link></li>
+
             <li className="relative" ref={dropdownRef}>
-              <button 
-                onClick={() => setIsOpen(!isOpen)} 
-                className="flex items-center gap-1.5 transition-colors hover:text-white focus:outline-none"
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex items-center gap-1.5 text-slate-400 hover:text-slate-200 pb-[18px] -mb-[14px] focus:outline-none transition-colors"
+                aria-expanded={isOpen}
               >
-                <span>GeoSignal Institute</span>
-                <span className="text-xs transition-transform duration-200" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-                  ▼
-                </span>
+                GeoSignal Institute
+                <svg
+                  className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180 text-cyan-400' : 'text-slate-500'}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </button>
 
               {isOpen && (
-                <div className="absolute left-0 mt-3 w-56 rounded-xl border border-slate-800 bg-[#0b1329] p-2 shadow-2xl backdrop-blur-xl transition-all z-50">
-                  <Link href="/institute" onClick={() => setIsOpen(false)} className="block rounded-lg px-4 py-2 text-xs font-medium text-slate-300 hover:bg-[#1e293b] hover:text-white transition-colors">Overview</Link>
-                  <Link href="/institute/about" onClick={() => setIsOpen(false)} className="block rounded-lg px-4 py-2 text-xs font-medium text-slate-300 hover:bg-[#1e293b] hover:text-white transition-colors">About Us</Link>
-                  <Link href="/institute/training" onClick={() => setIsOpen(false)} className="block rounded-lg px-4 py-2 text-xs font-medium text-slate-300 hover:bg-[#1e293b] hover:text-white transition-colors">Training</Link>
-                  <Link href="/institute/research" onClick={() => setIsOpen(false)} className="block rounded-lg px-4 py-2 text-xs font-medium text-slate-300 hover:bg-[#1e293b] hover:text-white transition-colors">Research</Link>
-                  <Link href="/institute/publications" onClick={() => setIsOpen(false)} className="block rounded-lg px-4 py-2 text-xs font-medium text-slate-300 hover:bg-[#1e293b] hover:text-white transition-colors">Publications</Link>
+                <div className="absolute left-0 mt-4 w-56 rounded-lg border border-slate-800 bg-[#0b1329] p-1.5 shadow-xl z-50">
+                  {NAV_DROPDOWN_ITEMS.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="block rounded-md px-3.5 py-2 text-[13px] text-slate-400 transition-colors hover:bg-[#060a12] hover:text-white"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
               )}
             </li>
 
             <li>
-              <Link href="/services" className="text-cyan-400 font-semibold transition-colors">
+              <Link href="/services" className="text-white border-b-2 border-cyan-500 pb-[18px] -mb-[14px]">
                 Services
               </Link>
             </li>
+            <li><Link href="/contact" className="hover:text-slate-200 transition-colors">Contact</Link></li>
           </ul>
 
-          {/* SÉLECTEUR DE LANGUE EN/FR & BOUTON CONTACT */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
-              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
-              aria-label="Switch language"
-            >
-              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
-              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
-            </button>
-
             <Link
               href="/contact"
               className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
             >
               Contact
             </Link>
-          </div>
 
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8"
+              aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-transform duration-200 ${mobileMenuOpen ? 'rotate-45 translate-y-[6.5px]' : ''}`} />
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-opacity duration-200 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block h-[1.5px] w-6 bg-slate-200 transition-transform duration-200 ${mobileMenuOpen ? '-rotate-45 -translate-y-[6.5px]' : ''}`} />
+            </button>
+          </div>
         </div>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden mx-auto max-w-7xl mt-4 pb-2 border-t border-slate-800/70 pt-4">
+            <ul className="flex flex-col gap-1 text-sm font-medium m-0 p-0 list-none">
+              <li><Link href="/" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Home</Link></li>
+              <li><Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">About</Link></li>
+              <li><Link href="/services" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-cyan-400 font-semibold">Services</Link></li>
+              <li><Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Contact</Link></li>
+            </ul>
+            <div className="mt-3 pt-3 border-t border-slate-800/70">
+              <span className="block px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-cyan-500">GeoSignal Institute</span>
+              {NAV_DROPDOWN_ITEMS.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block rounded-md px-3 py-2 text-[13px] text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* 2. SECTION HERO / INTRODUCTION */}
-      <section 
-        className="relative border-b border-slate-800/80 bg-[#050b14] py-20 px-6 text-center md:py-32 md:px-12 overflow-hidden bg-cover bg-center bg-no-repeat"
+      {/* HERO */}
+      <section
+        className="relative border-b border-slate-800/70 px-6 pt-20 pb-24 md:px-12 md:pt-28 md:pb-32 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "linear-gradient(rgba(5, 11, 20, 0.75), rgba(5, 11, 20, 0.9)), url('/images/geoscience-bg.jpg')"
+          backgroundImage:
+            "linear-gradient(rgba(6, 10, 18, 0.85), rgba(6, 10, 18, 0.92)), url('/images/geoscience-bg.jpg')",
         }}
       >
-        {/* Effet d'onde géophysique en arrière-plan */}
-        <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
-          <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/10 animate-ping [animation-duration:4s]" />
-          <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/5 animate-ping [animation-duration:6s] delay-1000" />
-        </div>
+        <div
+          className="absolute inset-0 opacity-[0.06] pointer-events-none"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+            maskImage: 'radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 100%)',
+          }}
+        />
 
-        {/* Conteneur principal */}
-        <div className="mx-auto max-w-4xl relative z-10">
-          <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-[#0b1329] border border-cyan-500/30 rounded-full mb-6">
-            Subsurface Intelligence
-          </span>
-          
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl leading-tight mb-6 bg-gradient-to-r from-white via-cyan-400 to-white bg-[length:200%_auto] text-transparent bg-clip-text animate-[gradient_8s_ease_infinite]">
-            Geoscience &amp; Exploration
-          </h1>
-          
-          <p className="text-slate-200 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed mb-10 font-normal">
-            We deliver integrated geoscience expertise to support resource exploration, infrastructure development, and environmental risk assessment. Our approach combines traditional field geology with advanced analytical modeling to de-risk your projects.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link 
-              href="/contact" 
-              className="inline-flex items-center gap-2 rounded-xl bg-cyan-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-cyan-600/20 hover:bg-cyan-500 transition-all duration-300"
-            >
-              Discuss Your Project
-            </Link>
-            <Link 
-              href="#sub-services" 
-              className="inline-flex items-center gap-2 rounded-xl bg-[#0b1329] border border-slate-700 hover:border-cyan-500 px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300"
-            >
-              Explore Solutions
-            </Link>
+        <div className="relative mx-auto max-w-7xl">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
+              Exploration
+            </p>
+            <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-5">
+              Geoscience &amp; Exploration
+            </h1>
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-10">
+              We support resource exploration, infrastructure development, and
+              environmental risk assessment by combining field geology with
+              analytical modeling.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/contact"
+                className="rounded-md bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition-colors inline-block"
+              >
+                Discuss your project
+              </Link>
+              <Link
+                href="#sub-services"
+                className="rounded-md border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-200 hover:border-cyan-600 hover:text-white transition-colors inline-block"
+              >
+                View domains
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 3. SECTION CONTENUS / SOUS-SERVICES */}
-      <main id="sub-services" className="mx-auto max-w-7xl px-6 py-16 md:py-24 w-full flex-1">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          
-          {/* Carte 1 : Geological Studies */}
-          <div className="group relative rounded-2xl border border-slate-800/80 bg-[#0b1329] p-8 flex flex-col justify-between shadow-xl hover:border-cyan-500/50 transition-all duration-300 overflow-hidden">
-            <div className="absolute top-0 right-0 -mr-12 -mt-12 w-40 h-40 bg-cyan-500/5 rounded-full blur-3xl group-hover:bg-cyan-500/10 transition-all"></div>
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-3">Geological Studies</h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Detailed surface and subsurface mapping to understand the geological framework of your project.
-              </p>
-              <div className="border-t border-slate-800/80 pt-5 space-y-4">
-                <div className="space-y-1.5">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">Focus Points</span>
-                  <p className="text-xs sm:text-sm text-slate-300">Lithological mapping, structural analysis, and stratigraphic correlation.</p>
-                </div>
-                <div className="space-y-1.5 pt-2 border-t border-slate-800/40">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">The GeoSignal Edge</span>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Integration of satellite imagery and AI-driven lineament detection for regional geological modeling.
-                  </p>
+      {/* SUB-SERVICES */}
+      <main id="sub-services" className="max-w-6xl mx-auto px-6 md:px-12 py-16 flex-1 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {SUB_SERVICES.map((service) => (
+            <article
+              key={service.title}
+              className="bg-[#0b1329] border border-slate-800/80 rounded-xl p-8 flex flex-col justify-between"
+            >
+              <div>
+                <h2 className="text-xl font-bold text-white mb-3">{service.title}</h2>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">{service.summary}</p>
+
+                <div className="border-t border-slate-800/80 pt-5 space-y-4">
+                  <div className="space-y-1.5">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">What we cover</span>
+                    <p className="text-xs sm:text-sm text-slate-400">{service.focus}</p>
+                  </div>
+                  <div className="space-y-1.5 pt-3 border-t border-slate-800/40">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">Our approach</span>
+                    <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">{service.edge}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="mt-8 pt-4 border-t border-slate-800/40">
-              <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors">
-                Learn More <span>→</span>
-              </Link>
-            </div>
-          </div>
 
-          {/* Carte 2 : Mineral Exploration */}
-          <div className="group relative rounded-2xl border border-slate-800/80 bg-[#0b1329] p-8 flex flex-col justify-between shadow-xl hover:border-cyan-500/50 transition-all duration-300 overflow-hidden">
-            <div className="absolute top-0 right-0 -mr-12 -mt-12 w-40 h-40 bg-cyan-500/5 rounded-full blur-3xl group-hover:bg-cyan-500/10 transition-all"></div>
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-3">Mineral Exploration</h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Targeted exploration programs designed to identify and evaluate mineral potential.
-              </p>
-              <div className="border-t border-slate-800/80 pt-5 space-y-4">
-                <div className="space-y-1.5">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">Focus Points</span>
-                  <p className="text-xs sm:text-sm text-slate-300">From Greenfield exploration to Brownfield expansion, geochemical sampling, drilling supervision, and core logging.</p>
-                </div>
-                <div className="space-y-1.5 pt-2 border-t border-slate-800/40">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">The GeoSignal Edge</span>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Combining geophysical signatures with geochemical data through multivariate analysis for precise targeting.
-                  </p>
-                </div>
+              <div className="mt-6 pt-4 border-t border-slate-800/40">
+                <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors">
+                  Learn more <span>→</span>
+                </Link>
               </div>
-            </div>
-            <div className="mt-8 pt-4 border-t border-slate-800/40">
-              <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors">
-                Learn More <span>→</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Carte 3 : Soil & Land Studies */}
-          <div className="group relative rounded-2xl border border-slate-800/80 bg-[#0b1329] p-8 flex flex-col justify-between shadow-xl hover:border-cyan-500/50 transition-all duration-300 overflow-hidden">
-            <div className="absolute top-0 right-0 -mr-12 -mt-12 w-40 h-40 bg-cyan-500/5 rounded-full blur-3xl group-hover:bg-cyan-500/10 transition-all"></div>
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-3">Soil &amp; Land Studies</h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Comprehensive evaluation of land and soil properties for agricultural, industrial, or urban development.
-              </p>
-              <div className="border-t border-slate-800/80 pt-5 space-y-4">
-                <div className="space-y-1.5">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">Focus Points</span>
-                  <p className="text-xs sm:text-sm text-slate-300">Pedology, soil fertility assessment, and land suitability mapping.</p>
-                </div>
-                <div className="space-y-1.5 pt-2 border-t border-slate-800/40">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">The GeoSignal Edge</span>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Using GIS and remote sensing to monitor soil degradation and land-use changes over time.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-8 pt-4 border-t border-slate-800/40">
-              <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors">
-                Learn More <span>→</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Carte 4 : Feasibility Studies */}
-          <div className="group relative rounded-2xl border border-slate-800/80 bg-[#0b1329] p-8 flex flex-col justify-between shadow-xl hover:border-cyan-500/50 transition-all duration-300 overflow-hidden">
-            <div className="absolute top-0 right-0 -mr-12 -mt-12 w-40 h-40 bg-cyan-500/5 rounded-full blur-3xl group-hover:bg-cyan-500/10 transition-all"></div>
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-3">Feasibility Studies</h3>
-              <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                Technical and economic evaluations to determine the viability of resource and infrastructure projects.
-              </p>
-              <div className="border-t border-slate-800/80 pt-5 space-y-4">
-                <div className="space-y-1.5">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">Focus Points</span>
-                  <p className="text-xs sm:text-sm text-slate-300">Resource estimation, technical risk assessment, and environmental impact pre-scoping.</p>
-                </div>
-                <div className="space-y-1.5 pt-2 border-t border-slate-800/40">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">The GeoSignal Edge</span>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Data-driven decision support models that integrate technical geosciences with cost-benefit analysis.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-8 pt-4 border-t border-slate-800/40">
-              <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors">
-                Learn More <span>→</span>
-              </Link>
-            </div>
-          </div>
-
+            </article>
+          ))}
         </div>
 
-        {/* Bouton CTA */}
-        <div className="mt-14 flex justify-center">
-          <Link 
-            href="/contact" 
-            className="inline-flex items-center gap-2 rounded-xl bg-cyan-600 px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-cyan-600/20 hover:bg-cyan-500 transition-all duration-300"
+        <div className="mt-12 flex justify-center">
+          <Link
+            href="/contact"
+            className="inline-block rounded-md bg-cyan-600 hover:bg-cyan-500 px-8 py-3.5 text-sm font-semibold text-white transition-colors"
           >
-            Get In Touch ↗
+            Contact Us
           </Link>
         </div>
       </main>
 
-      {/* 4. FOOTER */}
+      {/* FOOTER */}
       <footer className="w-full border-t border-slate-800/80 bg-[#030712] px-6 py-14 text-slate-400 text-sm md:px-12 mt-auto">
         <div className="mx-auto max-w-7xl">
-          
+
           <div className="grid grid-cols-1 gap-10 pb-12 lg:grid-cols-12">
-            
-            {/* BRAND & NEWSLETTER */}
+
             <div className="lg:col-span-5 space-y-4 pr-0 lg:pr-8">
               <h3 className="text-lg font-bold text-white tracking-wide">
                 GeoSignal Analytics
               </h3>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-                Where Geophysics Meets Artificial Intelligence. Delivering high-fidelity subsurface and environmental solutions across the globe.
+                Geophysics and artificial intelligence supporting exploration projects
+                and environmental studies.
               </p>
 
               <div className="pt-3 space-y-2">
-                <span className="block text-xs font-semibold text-white">
-                  Join our newsletter
-                </span>
+                <label htmlFor="newsletter-email" className="block text-xs font-semibold text-white">
+                  Research updates, spam-free
+                </label>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
-                  <input 
-                    type="email" 
-                    placeholder="name@email.com" 
-                    className="w-full rounded-lg border border-slate-800 bg-[#0b1329]/70 px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
+                  <input
+                    id="newsletter-email"
+                    type="email"
+                    placeholder="name@email.com"
+                    className="w-full rounded-md border border-slate-800 bg-[#0b1329]/70 px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors"
                   />
-                  <button 
-                    type="submit" 
-                    className="shrink-0 rounded-lg bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
+                  <button
+                    type="submit"
+                    className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
                   >
                     Subscribe
                   </button>
@@ -316,8 +308,7 @@ export default function GeoscienceExplorationPage() {
               </div>
             </div>
 
-            {/* NAVIGATION LINKS */}
-            <div className="lg:col-span-7 grid grid-cols-3 gap-6 text-xs sm:text-sm">
+            <div className="lg:col-span-7 grid grid-cols-3 gap-6 text-xs sm:text-sm pt-2 lg:pt-0">
               <div>
                 <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
                   Services
@@ -327,8 +318,8 @@ export default function GeoscienceExplorationPage() {
                   <li><Link href="/services/geoscience-and-exploration" className="hover:text-white transition-colors">Exploration</Link></li>
                   <li><Link href="/services/water-resources" className="hover:text-white transition-colors">Water Resources</Link></li>
                   <li><Link href="/services/mapping-gis-and-remote-sensing" className="hover:text-white transition-colors">GIS &amp; Remote Sensing</Link></li>
-                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environmental</Link></li>
-                  <li><Link href="/services/qhse" className="hover:text-white transition-colors">QHSE Advisory</Link></li>
+                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environment</Link></li>
+                  <li><Link href="/services/qhse" className="hover:text-white transition-colors">QHSE Consulting</Link></li>
                 </ul>
               </div>
 
@@ -346,7 +337,7 @@ export default function GeoscienceExplorationPage() {
 
               <div>
                 <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Socials
+                  Social
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
                   <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
@@ -359,30 +350,25 @@ export default function GeoscienceExplorationPage() {
 
           </div>
 
-          {/* BOTTOM BAR */}
           <div className="border-t border-slate-800/80 pt-6">
-            <div className="flex flex-col items-center justify-between gap-4 text-xs text-slate-400 text-center md:flex-row md:text-left">
-              
-              <div className="bg-white rounded-lg px-3 py-1.5 shadow-md flex items-center justify-center">
-                <Image 
-                  src="/images/logo.png" 
-                  alt="GeoSignal Analytics Logo" 
-                  width={120} 
-                  height={35} 
+            <div className="flex flex-col items-center justify-between gap-4 text-xs text-slate-500 text-center md:flex-row md:text-left">
+              <div className="bg-white rounded-md px-3 py-1.5 flex items-center justify-center">
+                <Image
+                  src="/images/logo.png"
+                  alt="GeoSignal Analytics"
+                  width={120}
+                  height={35}
                   className="h-8 w-auto object-contain"
                 />
               </div>
-
               <p className="text-slate-500 m-0">
-                © {currentYear ?? 2026} GeoSignal Analytics — All Rights Reserved
+                © {currentYear ?? 2026} GeoSignal Analytics — All rights reserved
               </p>
-
             </div>
           </div>
 
         </div>
       </footer>
-
     </div>
   );
 }

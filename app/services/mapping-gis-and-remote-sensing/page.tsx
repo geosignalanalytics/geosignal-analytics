@@ -14,36 +14,36 @@ const NAV_DROPDOWN_ITEMS = [
 
 const SUB_SERVICES = [
   {
-    title: 'Geological Studies',
+    title: "Diagnostic de l'état des lieux",
     summary:
-      'Detailed surface and subsurface mapping to understand the geological framework of a project.',
-    focus: 'Lithological mapping, structural analysis, stratigraphic correlation.',
-    edge: 'Satellite imagery and automated lineament detection for regional geological modeling.',
+      "Cartographie de référence pour évaluer l'état actuel d'un site ou d'une région avant le démarrage d'un projet.",
+    focus: 'Classification de l\u2019occupation du sol, analyse topographique (MNT/MNS), inventaire des infrastructures.',
+    edge: "Imagerie satellite multi-temporelle pour suivre l'évolution du site et les changements environnementaux passés.",
   },
   {
-    title: 'Mineral Exploration',
+    title: 'Collecte de données et conception de bases de données',
     summary:
-      'Targeted exploration programs to identify and evaluate mineral potential.',
-    focus: 'From greenfield to brownfield, geochemical sampling, drilling supervision, core logging.',
-    edge: 'Combining geophysical signatures and geochemical data through multivariate analysis for precise targeting.',
+      "Construction de bases de données géospatiales robustes, capables d'intégrer des sources de données variées.",
+    focus: 'Relevés GPS/GNSS sur le terrain, intégration des données géophysiques et de forage, architecture Cloud-GIS.',
+    edge: 'Workflows automatisés pour nettoyer et standardiser des données hétérogènes venant de différents services techniques.',
   },
   {
-    title: 'Soil and Terrain Studies',
+    title: 'Cartographie thématique',
     summary:
-      'Evaluation of soil and terrain properties for agricultural, industrial, or urban projects.',
-    focus: 'Soil science, soil fertility assessment, land suitability mapping.',
-    edge: 'GIS and remote sensing to monitor soil degradation and land use changes over time.',
+      "Production cartographique adaptée à des objectifs industriels, environnementaux ou sociaux précis.",
+    focus: 'Cartes de potentiel minéral, zones à risque d\u2019inondation, vulnérabilité des eaux souterraines, plans d\u2019urbanisme.',
+    edge: "Extraction automatique d'éléments (bâtiments, état de la végétation) à partir d'imagerie haute résolution.",
   },
   {
-    title: 'Feasibility Studies',
+    title: 'Analyse de scénarios et planification',
     summary:
-      'Technical and economic evaluations to determine the viability of a resource or infrastructure project.',
-    focus: 'Resource estimation, technical risk assessment, preliminary environmental impact scoping.',
-    edge: 'Data-driven decision models combining technical geosciences and cost-benefit analysis.',
+      "Modélisation prédictive et simulations spatiales pour appuyer la planification stratégique d'infrastructures et de ressources.",
+    focus: "Analyse multicritère pour le choix de sites, simulations d'impact environnemental, optimisation logistique.",
+    edge: "Modèles 3D interactifs permettant aux parties prenantes de visualiser l'impact d'un projet avant sa mise en œuvre.",
   },
 ];
 
-export default function GeoscienceExplorationPage() {
+export default function MappingGISPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentYear, setCurrentYear] = useState<number | null>(null);
@@ -185,7 +185,7 @@ export default function GeoscienceExplorationPage() {
         className="relative border-b border-slate-800/70 px-6 pt-20 pb-24 md:px-12 md:pt-28 md:pb-32 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(6, 10, 18, 0.85), rgba(6, 10, 18, 0.92)), url('/images/geoscience-bg.jpg')",
+            "linear-gradient(rgba(6, 10, 18, 0.85), rgba(6, 10, 18, 0.92)), url('/images/mapping-gis-bg.jpg')",
         }}
       >
         <div
@@ -201,28 +201,27 @@ export default function GeoscienceExplorationPage() {
         <div className="relative mx-auto max-w-7xl">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
-              Exploration
+              Données spatiales
             </p>
             <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-5">
-              Geoscience &amp; Exploration
+              Cartographie, SIG &amp; télédétection
             </h1>
             <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-10">
-              We support resource exploration, infrastructure development, and
-              environmental risk assessment by combining field geology with
-              analytical modeling.
+              On transforme des données spatiales complexes en informations exploitables, pour appuyer
+              vos décisions, le suivi environnemental et la planification de projet.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/contact"
                 className="rounded-md bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition-colors inline-block"
               >
-                Discuss your project
+                Discuter de votre projet
               </Link>
               <Link
                 href="#sub-services"
                 className="rounded-md border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-200 hover:border-cyan-600 hover:text-white transition-colors inline-block"
               >
-                View domains
+                Voir les domaines
               </Link>
             </div>
           </div>
@@ -243,11 +242,11 @@ export default function GeoscienceExplorationPage() {
 
                 <div className="border-t border-slate-800/80 pt-5 space-y-4">
                   <div className="space-y-1.5">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">What we cover</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">Ce qu&apos;on couvre</span>
                     <p className="text-xs sm:text-sm text-slate-400">{service.focus}</p>
                   </div>
                   <div className="space-y-1.5 pt-3 border-t border-slate-800/40">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">Our approach</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 block">Notre approche</span>
                     <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">{service.edge}</p>
                   </div>
                 </div>
@@ -255,7 +254,7 @@ export default function GeoscienceExplorationPage() {
 
               <div className="mt-6 pt-4 border-t border-slate-800/40">
                 <Link href="/contact" className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors">
-                  Learn more <span>→</span>
+                  En savoir plus <span>→</span>
                 </Link>
               </div>
             </article>
@@ -267,7 +266,7 @@ export default function GeoscienceExplorationPage() {
             href="/contact"
             className="inline-block rounded-md bg-cyan-600 hover:bg-cyan-500 px-8 py-3.5 text-sm font-semibold text-white transition-colors"
           >
-            Contact Us
+            Nous contacter
           </Link>
         </div>
       </main>
@@ -283,13 +282,13 @@ export default function GeoscienceExplorationPage() {
                 GeoSignal Analytics
               </h3>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-                Geophysics and artificial intelligence supporting exploration projects
-                and environmental studies.
+                Géophysique et intelligence artificielle, au service de projets d&apos;exploration
+                et d&apos;études environnementales.
               </p>
 
               <div className="pt-3 space-y-2">
                 <label htmlFor="newsletter-email" className="block text-xs font-semibold text-white">
-                  Research updates, spam-free
+                  Actualités de recherche, sans spam
                 </label>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
                   <input
@@ -302,7 +301,7 @@ export default function GeoscienceExplorationPage() {
                     type="submit"
                     className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
                   >
-                    Subscribe
+                    S&apos;inscrire
                   </button>
                 </form>
               </div>
@@ -314,12 +313,12 @@ export default function GeoscienceExplorationPage() {
                   Services
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
-                  <li><Link href="/services/advanced-geophysics-and-ai" className="hover:text-white transition-colors">Advanced Geophysics</Link></li>
+                  <li><Link href="/services/advanced-geophysics-and-ai" className="hover:text-white transition-colors">Géophysique avancée</Link></li>
                   <li><Link href="/services/geoscience-and-exploration" className="hover:text-white transition-colors">Exploration</Link></li>
-                  <li><Link href="/services/water-resources" className="hover:text-white transition-colors">Water Resources</Link></li>
-                  <li><Link href="/services/mapping-gis-and-remote-sensing" className="hover:text-white transition-colors">GIS &amp; Remote Sensing</Link></li>
-                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environment</Link></li>
-                  <li><Link href="/services/qhse" className="hover:text-white transition-colors">QHSE Consulting</Link></li>
+                  <li><Link href="/services/water-resources" className="hover:text-white transition-colors">Ressources en eau</Link></li>
+                  <li><Link href="/services/mapping-gis-and-remote-sensing" className="hover:text-white transition-colors">SIG &amp; télédétection</Link></li>
+                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environnement</Link></li>
+                  <li><Link href="/services/qhse" className="hover:text-white transition-colors">Conseil QHSE</Link></li>
                 </ul>
               </div>
 
@@ -328,8 +327,8 @@ export default function GeoscienceExplorationPage() {
                   Pages
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
-                  <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-                  <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
+                  <li><Link href="/" className="hover:text-white transition-colors">Accueil</Link></li>
+                  <li><Link href="/about" className="hover:text-white transition-colors">À propos</Link></li>
                   <li><Link href="/institute" className="hover:text-white transition-colors">GeoSignal Institute</Link></li>
                   <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
                 </ul>
@@ -337,7 +336,7 @@ export default function GeoscienceExplorationPage() {
 
               <div>
                 <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Social
+                  Réseaux
                 </h4>
                 <ul className="space-y-2.5 text-slate-400 list-none p-0 m-0">
                   <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
@@ -362,7 +361,10 @@ export default function GeoscienceExplorationPage() {
                 />
               </div>
               <p className="text-slate-500 m-0">
-                © {currentYear ?? 2026} GeoSignal Analytics — All rights reserved
+                Developed and designed by Dr. Innocent Oboué, PhD
+              </p>
+              <p className="text-slate-500 m-0">
+                © {currentYear ?? 2026} GeoSignal Analytics — Tous droits réservés
               </p>
             </div>
           </div>
