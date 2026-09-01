@@ -6,7 +6,14 @@ import { useState, useEffect, useRef } from 'react';
 
 export default function GeoscienceExplorationPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [lang, setLang] = useState<'en' | 'fr'>('en');
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
+
   const dropdownRef = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -78,12 +85,27 @@ export default function GeoscienceExplorationPage() {
                 Services
               </Link>
             </li>
-            <li>
-              <Link href="/contact" className="transition-colors hover:text-white">
-                Contact
-              </Link>
-            </li>
           </ul>
+
+          {/* SÉLECTEUR DE LANGUE EN/FR & BOUTON CONTACT */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
+              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
+              aria-label="Switch language"
+            >
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
+              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
+            </button>
+
+            <Link
+              href="/contact"
+              className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
+            >
+              Contact
+            </Link>
+          </div>
+
         </div>
       </nav>
 
@@ -100,13 +122,12 @@ export default function GeoscienceExplorationPage() {
           <div className="absolute h-[300px] w-[300px] md:h-[600px] md:w-[600px] rounded-full border border-cyan-500/5 animate-ping [animation-duration:6s] delay-1000" />
         </div>
 
-        {/* Conteneur principal (z-10 pour rester au-dessus de l'onde) */}
+        {/* Conteneur principal */}
         <div className="mx-auto max-w-4xl relative z-10">
           <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-[#0b1329] border border-cyan-500/30 rounded-full mb-6">
             Subsurface Intelligence
           </span>
           
-          {/* Titre avec dégradé cyan animé */}
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl leading-tight mb-6 bg-gradient-to-r from-white via-cyan-400 to-white bg-[length:200%_auto] text-transparent bg-clip-text animate-[gradient_8s_ease_infinite]">
             Geoscience &amp; Exploration
           </h1>
@@ -352,12 +373,8 @@ export default function GeoscienceExplorationPage() {
                 />
               </div>
 
-              <p className="text-slate-400 m-0">
-                Developed and designed by Dr. Innocent Oboué, PhD
-              </p>
-
               <p className="text-slate-500 m-0">
-                © {new Date().getFullYear()} GeoSignal Analytics — All Rights Reserved
+                © {currentYear ?? 2026} GeoSignal Analytics — All Rights Reserved
               </p>
 
             </div>
