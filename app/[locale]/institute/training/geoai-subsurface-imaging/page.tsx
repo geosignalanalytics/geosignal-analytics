@@ -38,7 +38,7 @@ export default function GeoAiSubsurfaceImagingPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [lang, setLang] = useState<'en' | 'fr'>('en');
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

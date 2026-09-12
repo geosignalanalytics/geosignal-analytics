@@ -105,7 +105,7 @@ export default function CareersPage() {
     coverLetter: '',
   });
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

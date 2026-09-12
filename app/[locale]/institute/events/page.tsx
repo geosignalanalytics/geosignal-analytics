@@ -58,7 +58,7 @@ export default function EventsPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [lang, setLang] = useState<'en' | 'fr'>('en');
   const [filterStatus, setFilterStatus] = useState<string>('All');
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {

@@ -40,7 +40,7 @@ export default function SignalProcessingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [lang, setLang] = useState<'en' | 'fr'>('en');
   const [currentYear, setCurrentYear] = useState<number | null>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());

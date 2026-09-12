@@ -9,7 +9,7 @@ import { usePathname, useRouter } from 'next/navigation';
 export default function InstitutePage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLLIElement>(null);
 
   const tNav = useTranslations('Navigation');
   const tMenu = useTranslations('InstituteMenu');
