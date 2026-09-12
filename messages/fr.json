@@ -1,0 +1,346 @@
+{
+  "Navigation": {
+    "home": "Accueil",
+    "about": "À propos",
+    "institute": "GeoSignal Institute",
+    "services": "Services",
+    "contact": "Contact",
+    "language": "Langue"
+  },
+  "Hero": {
+    "badge": "Géophysique appliquée & science des données terrestres",
+    "title": "Imagerie du sous-sol et traitement du signal pour les organisations qui ont besoin de savoir ce que contient réellement le sol.",
+    "subtitle": "Nous traitons des données sismiques et géospatiales avec des méthodes fondées sur la physique, affinées par apprentissage automatique. Nos clients travaillent dans l'exploration de ressources, les infrastructures hydrauliques et l'ingénierie foncière, des domaines où une mauvaise lecture du sous-sol coûte cher.",
+    "ctaServices": "Voir nos services",
+    "ctaContact": "Parler à notre équipe"
+  },
+  "Services": {
+    "badge": "Ce que nous faisons",
+    "title": "Six domaines, une seule méthode",
+    "subtitle": "Chaque mission commence de la même façon : comprendre le problème physique avant de choisir l'outil. Voici où cette méthode s'applique.",
+    "readMore": "En savoir plus sur ce service",
+    "s1_title": "Géophysique avancée & IA",
+    "s1_desc": "Traitement de données sismiques fondé sur des solveurs d'équations d'ondes, complété par des modèles d'apprentissage automatique là où ils apportent une réelle valeur, principalement pour la suppression du bruit et le comblement des lacunes de couverture spatiale. Nous restons proches de la physique ; le modèle n'a pas le droit d'inventer un sous-sol qui n'existe pas.",
+    "s2_title": "Géosciences & Exploration",
+    "s2_desc": "Lectures géologiques et géophysiques combinées pour cibler précisément où une campagne de terrain doit se concentrer, avant que l'argent ne soit dépensé sur le terrain.",
+    "s3_title": "Ressources en eau",
+    "s3_desc": "Levés hydrogéophysiques et cartographie des aquifères pour éclairer les décisions sur l'emplacement réel de l'eau et ses mouvements.",
+    "s4_title": "Cartographie, SIG & télédétection",
+    "s4_desc": "Données spatiales réunies en une image cohérente : imagerie satellite, cartographie thématique et suivi dans le temps.",
+    "s5_title": "Solutions environnementales",
+    "s5_desc": "Imagerie du sous-sol peu profond pour les contrôles de risques et les études de référence, réalisée sans perturber le site.",
+    "s6_title": "Conseil QHSE",
+    "s6_desc": "Cadres de sécurité et de gestion des risques pour les programmes d'acquisition de terrain, alignés sur les normes ISO et conçus par des personnes ayant réellement dirigé des équipes de terrain, pas seulement rédigé la politique."
+  },
+  "Methodology": {
+    "badge": "Notre approche",
+    "title": "La physique d'abord, l'apprentissage automatique ensuite",
+    "subtitle": "Un modèle qui produit une image nette mais qui viole la physique des ondes n'est pas utile. Ce n'est que du bruit qui a l'air confiant, et tout ce que nous faisons vise à éviter ce piège.",
+    "m1_title": "Traitement fondé sur la physique",
+    "m1_desc": "La théorie du champ d'ondes fixe les limites ; le modèle d'apprentissage travaille à l'intérieur de celles-ci. C'est plus long à construire qu'un pipeline purement piloté par les données, mais cela n'invente pas de structures qui contredisent la physique de base.",
+    "m2_title": "Lectures interdisciplinaires",
+    "m2_desc": "Les données sismiques, hydrogéologiques et SIG sont rarement examinées ensemble, alors qu'elles devraient l'être. Nous les lisons comme un seul jeu de données, ce qui est généralement là où se cache la vraie réponse.",
+    "m3_title": "Implication sur tout le cycle",
+    "m3_desc": "Nous intervenons dès la conception du levé jusqu'au modèle 3D final et au rapport. Il est rare qu'on nous confie un jeu de données à mi-parcours en nous demandant de le rendre présentable.",
+    "m4_title": "Conformité aux normes",
+    "m4_desc": "Pratiques QHSE alignées sur ISO tout au long de la conception du levé, de la collecte et du traitement des données. Pas un certificat accroché au mur, mais une liste de contrôle réellement suivie sur le terrain."
+  },
+  "CaseStudy": {
+    "badge": "Étude de cas",
+    "title": "Lire à travers le bruit sur un volume sismique fortement affecté par le repliement spectral",
+    "desc": "Le repliement spectral spatial et le bruit aléatoire sont fréquents sur les jeux de données sismiques bruts et tendent à introduire une incertitude structurelle précisément là où la précision compte le plus. Sur un volume récent, nous avons appliqué une approche de reconstruction 5D pour reconstruire le champ d'ondes avant l'étape d'interprétation. C'est le genre d'étape facile à sauter, et coûteuse à mal sauter.",
+    "point1": "Rapport signal/bruit amélioré sans lisser la structure réelle",
+    "point2": "Variations d'amplitude préservées, ce qui compte pour l'interprétation ultérieure",
+    "point3": "Pipeline de traitement gardé assez léger pour tourner sur du matériel de terrain standard",
+    "caption": "Volume 3D reconstruit après correction du repliement spectral, avant transmission pour interprétation."
+  },
+  "TrackRecord": {
+    "badge": "Références",
+    "title": "Testé sur des données réelles, pas des démonstrations propres",
+    "subtitle": "Les méthodes qui ne fonctionnent que sur des jeux de données synthétiques bien nets ne survivent pas au contact d'un terrain réel. Les nôtres sont construites et testées dans l'autre sens.",
+    "card1_title": "Conçu pour gérer les mauvaises données",
+    "card1_desc": "Nos méthodes de filtrage, dont la réduction de rang et l'inversion parcimonieuse adaptative, sont testées sur des données de terrain volontairement corrompues avant d'être approuvées pour un projet réel. Si une méthode ne fonctionne bien que sur des données propres, elle ne quitte pas le laboratoire.",
+    "card2_title": "La recherche alimente la pratique",
+    "card2_desc": "Le GeoSignal Institute s'occupe du volet académique : publications, recherche ouverte, formation. Ce qui tient la route là-bas finit par intégrer le travail client, pas l'inverse."
+  },
+  "Faq": {
+    "badge": "Questions qu'on nous pose vraiment",
+    "title": "FAQ",
+    "q1": "Comment GeoSignal Analytics intègre-t-il l'IA dans le traitement des données sismiques ?",
+    "a1": "Nous ne laissons pas un modèle tourner sans contrainte. L'apprentissage automatique gère la suppression du bruit et le comblement des lacunes, mais il repose sur des solveurs d'équations d'ondes standards, donc un résultat physiquement implausible est rejeté avant d'atteindre l'interprétation.",
+    "q2": "Quelle est la différence entre GeoSignal Analytics et GeoSignal Institute ?",
+    "a2": "Analytics est le volet commercial : conseil et traitement pour les clients. L'Institute est là où se déroulent la recherche, les publications et la formation. Les méthodes sont généralement validées à l'Institute avant d'être utilisées sur des projets payants.",
+    "q3": "Avec quels secteurs travaillez-vous habituellement ?",
+    "a3": "Principalement l'exploration de ressources (minéraux et hydrocarbures), les infrastructures hydrauliques, l'ingénierie géotechnique, et dans une moindre mesure la conformité environnementale.",
+    "q4": "Vos livrables fonctionneront-ils avec les logiciels que nous utilisons déjà ?",
+    "a4": "Dans la plupart des cas, oui. Nous exportons en SEG-Y, GeoTIFF, SHP ou NetCDF selon le livrable. Si votre environnement nécessite quelque chose de particulier, mieux vaut vérifier avec nous avant le début du projet plutôt qu'après."
+  },
+  "AboutHero": {
+    "badge": "À propos",
+    "title": "Un ancrage dans la recherche, appliqué à des projets concrets",
+    "body1": "GeoSignal Analytics est né de travaux académiques en géophysique computationnelle, mis en pratique au quotidien dans des projets liés à l'énergie, à l'eau et à l'environnement. Le volet recherche ne s'est pas arrêté quand le conseil a commencé ; les deux continuent de s'alimenter mutuellement.",
+    "body2": "En pratique, cela se traduit par des travaux d'exploration du sous-sol, de gestion des ressources en eau et de conformité QHSE, fondés sur la physique plutôt que sur la simple estimation d'un modèle."
+  },
+  "WhoWeAre": {
+    "badge": "Qui nous sommes",
+    "title": "Une petite équipe, plusieurs disciplines",
+    "subtitle": "Géophysiciens, géoscientifiques, data scientists et ingénieurs travaillant sur les mêmes problématiques sous des angles différents. Ce mélange est délibéré : une question liée au sous-sol a rarement une réponse mono-disciplinaire.",
+    "c1_title": "Plusieurs disciplines, un seul projet",
+    "c1_desc": "De l'inversion sismique à l'audit QHSE, un même projet est généralement examiné sous plus d'un angle technique avant d'être considéré comme terminé.",
+    "c2_title": "Présents en Afrique et en Asie",
+    "c2_desc": "Des standards de recherche d'un côté, des contraintes industrielles de terrain de l'autre. Les deux doivent tenir pour que le travail soit utile.",
+    "c3_title": "Concevoir les modèles, pas seulement les exécuter",
+    "c3_desc": "Lorsqu'un outil standard ne correspond pas au problème, nous en construisons un qui convient, plutôt que de forcer les données à s'adapter à l'outil."
+  },
+  "Values": {
+    "badge": "Ce à quoi nous tenons",
+    "title": "Quelques principes sur lesquels nous ne transigeons pas",
+    "subtitle": "Ce n'est pas une déclaration de mission. Juste ce qui détermine concrètement la façon dont un projet est mené ici.",
+    "v1_title": "Rigueur scientifique",
+    "v1_desc": "Un résultat qui ne peut être rattaché à une explication physique ne sort pas sous notre nom, aussi convaincant soit-il sur une diapositive.",
+    "v2_title": "Construire, pas seulement appliquer",
+    "v2_desc": "Lorsqu'une méthode existante ne correspond pas suffisamment bien à un problème, notre réflexe est de l'adapter ou d'en construire une, plutôt que de forcer les données dans le mauvais outil.",
+    "v3_title": "Des partenariats réels",
+    "v3_desc": "Nos relations de travail avec des groupes académiques en Afrique et en Chine sont utiles précisément parce qu'elles sont durables, et non parce qu'un logo fait bien sur une page.",
+    "v4_title": "Penser au-delà du projet",
+    "v4_desc": "Les décisions relatives au sous-sol et aux ressources en eau survivent généralement au rapport dont elles sont issues ; nous essayons donc de laisser aux clients quelque chose qui tienne encore la route des années plus tard."
+  },
+  "WhyWork": {
+    "badge": "Pourquoi travailler avec nous",
+    "title": "Deux choses que nos clients mentionnent souvent",
+    "subtitle": "Aucun des deux n'est un facteur différenciant à lui seul. Ensemble, ils sont plus rares à trouver réunis au même endroit.",
+    "w1_title": "Le volet technique tient la route",
+    "w1_desc1": "Des modèles fondés sur la physique plutôt que sur la simple reconnaissance de motifs dans des données historiques. Une imagerie sismique et une inversion de données conçues pour la précision plutôt que pour un résultat qui a l'air convaincant rapidement. Une modélisation des ressources en eau pensée pour être revisitée, pas simplement livrée une fois.",
+    "w1_desc2": "Rien de tout cela n'existe isolément. C'est alimenté par une recherche continue, pas par une boîte à outils figée datant de plusieurs années.",
+    "w2_title": "Le volet opérationnel reste maîtrisable",
+    "w2_desc1": "Les projets qui s'étendent de la Chine à l'Afrique et au-delà nécessitent un suivi cohérent, du signal brut jusqu'au rapport final, et non une transmission entre équipes déconnectées. L'audit QHSE est intégré au flux de travail plutôt qu'ajouté à la fin.",
+    "w2_desc2": "En pratique, cela se traduit généralement par moins de surprises et des rapports moins fragmentés pour le client."
+  },
+  "Team": {
+    "badge": "Qui est impliqué",
+    "title": "Direction et réseau",
+    "subtitle": "Une petite équipe centrale, complétée par un réseau sollicité en fonction des besoins réels de chaque projet, et non une liste figée gonflée pour l'apparence.",
+    "t1_name": "Dr. Innocent Oboué, PhD",
+    "t1_role": "Fondateur & géophysicien principal",
+    "t1_desc": "Doctorat de l'Université du Zhejiang, spécialisé en IA fondée sur la physique et en géophysique computationnelle. Il définit l'orientation technique et reste impliqué dans le volet recherche, pas seulement commercial.",
+    "t2_name": "Réseau de recherche",
+    "t2_role": "Partenaires académiques et industriels",
+    "t2_desc": "Contacts permanents avec des chercheurs et des laboratoires en Chine, aux États-Unis et en Afrique. Quand une nouveauté émerge de ces travaux, elle se retrouve généralement dans les projets clients la même année, pas cinq ans plus tard.",
+    "t3_name": "Spécialistes projets",
+    "t3_role": "Auditeurs, spécialistes SIG et ingénieurs data",
+    "t3_desc": "Mobilisés en fonction des besoins réels d'un projet donné : auditeurs QHSE, spécialistes SIG, ingénieurs data. Cela permet de garder une équipe centrale légère sans limiter ce que nous pouvons prendre en charge."
+  },
+  "AboutFaq": {
+    "badge": "Questions qu'on nous pose",
+    "title": "FAQ",
+    "q1": "Qu'est-ce qui distingue l'« IA fondée sur la physique » de l'IA standard ?",
+    "a1": "L'IA standard apprend surtout à partir de motifs présents dans des données historiques. La nôtre s'appuie sur les lois physiques qui régissent la propagation des ondes et le comportement du sous-sol, de sorte qu'un résultat géologiquement implausible est rejeté, même si les données seules l'avaient suggéré.",
+    "q2": "Dans quelles régions travaillez-vous réellement ?",
+    "a2": "L'essentiel de notre travail se situe en Afrique de l'Ouest et dans la région Asie-Pacifique, mais notre infrastructure est pensée numérique en priorité, ce qui nous permet aussi de prendre en charge des projets d'analyse computationnelle et de conseil ailleurs.",
+    "q3": "Réalisez-vous des levés de terrain, ou vous contentez-vous d'analyser des données collectées par d'autres ?",
+    "a3": "Les deux, selon le projet. Nous sommes spécialisés dans le volet computationnel (analyse, inversion) et coordonnons l'acquisition de terrain avec des partenaires locaux, avec un suivi garantissant une qualité de données homogène.",
+    "q4": "Comment gérez-vous la confidentialité des données industrielles sensibles ?",
+    "a4": "Des accords de confidentialité standards, et un travail computationnel réalisé dans des environnements chiffrés. Rien d'inhabituel ici, mais il est utile de le préciser clairement puisque la question revient souvent.",
+    "q5": "Est-ce réservé aux opérations à grande échelle ?",
+    "a5": "Non. Les mêmes modèles s'adaptent à plus petite échelle. Nous travaillons aussi souvent avec des projets régionaux de gestion de l'eau qu'avec de grandes opérations minières, et tarifons le travail en conséquence."
+  },
+  "AboutCta": {
+    "title": "Un projet en tête ?",
+    "body": "La meilleure façon de savoir si cela correspond à vos besoins est d'en discuter en détail. Contactez-nous et nous vous dirons honnêtement si c'est quelque chose que nous pouvons vous aider à réaliser.",
+    "cta": "Nous contacter"
+  },
+  "InstituteMenu": {
+    "overview": "Aperçu",
+    "about": "À propos",
+    "research": "Recherche",
+    "publications": "Publications",
+    "training": "Formation",
+    "people": "Équipe",
+    "events": "Événements & séminaires",
+    "news": "Actualités",
+    "software": "Logiciels & open source",
+    "careers": "Carrières & opportunités",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "ContactHero": {
+    "badge": "Nous contacter",
+    "title": "Parlez à notre équipe",
+    "subtitle": "Des questions sur nos recherches, nos programmes de formation ou nos missions de conseil ? Envoyez-nous un message, un membre de l'équipe vous répondra."
+  },
+  "ContactInfo": {
+    "card1_title": "E-mail direct",
+    "card1_desc": "Pour les demandes générales, la recherche et le support technique.",
+    "card2_title": "Téléphone & WhatsApp",
+    "card2_desc": "Lun–ven, 8h00–18h00 GMT.",
+    "card3_title": "Sites principaux",
+    "card3_desc": "Opérations de recherche et partenariats académiques.",
+    "card3_location": "Abidjan, Côte d'Ivoire & Hangzhou, Chine"
+  },
+  "ContactForm": {
+    "firstNameLabel": "Prénom *",
+    "lastNameLabel": "Nom *",
+    "emailLabel": "Adresse e-mail *",
+    "phoneLabel": "Téléphone / WhatsApp",
+    "subjectLabel": "Sujet de la demande *",
+    "subjectOption1": "Collaboration académique & recherche",
+    "subjectOption2": "Formations & ateliers de géophysique",
+    "subjectOption3": "Traitement de données DAS & conseil",
+    "subjectOption4": "Demande générale",
+    "messageLabel": "Message *",
+    "messagePlaceholder": "Décrivez votre projet, vos objectifs, ou ce dont vous souhaitez discuter.",
+    "submitButton": "Envoyer la demande",
+    "sending": "Envoi en cours...",
+    "successTitle": "Message envoyé",
+    "successDesc": "Merci d'avoir contacté GeoSignal Institute. Un membre de l'équipe examinera votre message et vous répondra sous peu.",
+    "sendAnother": "Envoyer un autre message",
+    "errorDefault": "Une erreur s'est produite lors de l'envoi de votre message. Veuillez réessayer.",
+    "errorNetwork": "Erreur réseau. Vérifiez votre connexion internet et réessayez."
+  },
+  "InstituteFooter": {
+    "tagline": "Le pôle recherche et publications de GeoSignal Analytics.",
+    "newsletterTitle": "Actualités de recherche occasionnelles, sans spam",
+    "subscribe": "S'inscrire",
+    "linksHeader": "Liens",
+    "link_approach": "L'approche de l'Institute",
+    "link_opensource": "Open source",
+    "pagesHeader": "Pages",
+    "socialsHeader": "Réseaux & académique",
+    "copyright": "© {year} GeoSignal Institute — Tous droits réservés"
+  },
+  "Footer": {
+    "about": "Géophysique appliquée, science des données et évaluation des risques environnementaux pour l'industrie et la recherche.",
+    "newsletterTitle": "Notes techniques occasionnelles, sans spam",
+    "subscribe": "S'inscrire",
+    "company": "Entreprise",
+    "connect": "Suivre",
+    "copyright": "© {year} GeoSignal Analytics — Tous droits réservés"
+  },
+  "InstituteHero": {
+    "title": "Le volet recherche de GeoSignal Analytics",
+    "subtitle": "Nous travaillons sur l'imagerie du sous-sol, le traitement du signal et les problématiques de données environnementales de la même façon qu'un laboratoire universitaire, puis intégrons ce qui tient la route dans des projets réels.",
+    "ctaResearch": "Découvrir la recherche",
+    "ctaAbout": "À propos du GSI"
+  },
+  "InstituteOverview": {
+    "title": "Où se situe le volet recherche",
+    "body1": "Le GeoSignal Institute est le bras académique et scientifique de GeoSignal Analytics, géré séparément du travail de conseil mais qui l'alimente.",
+    "body2": "C'est là que se déroulent la recherche de long terme, les publications évaluées par les pairs et le développement méthodologique, sur un calendrier qui n'a pas à correspondre à une échéance client. Ce qui tient la route ici finit par intégrer le travail de projet payant."
+  },
+  "InstituteCoreAreas": {
+    "badge": "Ce que fait l'Institute",
+    "title": "Quatre choses dont il est réellement responsable",
+    "c1_title": "Faire la recherche",
+    "c1_desc": "Travailler sur des problématiques de géophysique et de traitement du signal trop ouvertes pour une mission client, sur un calendrier qui laisse la place aux impasses.",
+    "c2_title": "La publier",
+    "c2_desc": "Des articles évalués par les pairs et des collaborations académiques, afin que le travail puisse être vérifié par des personnes extérieures à l'entreprise, et non simplement pris sur parole.",
+    "c3_title": "Garder des méthodes reproductibles",
+    "c3_desc": "Une méthode qu'une seule personne peut relancer n'est pas encore une méthode. Nous construisons des choses qui peuvent être transmises et répétées.",
+    "c4_title": "La faire passer à l'usage réel",
+    "c4_desc": "Une recherche qui ne quitte jamais un article est un effort gâché. Le but est qu'elle finisse par apparaître dans un projet concret.",
+    "learnMore": "En savoir plus sur le GSI"
+  },
+  "InstituteResearchAreas": {
+    "badge": "Domaines de recherche",
+    "title": "Vers où pointe actuellement la recherche",
+    "subtitle": "Quatre directions, toutes construites sur le même principe : la modélisation physique et l'apprentissage automatique résolvant ensemble des problèmes de système terrestre, l'un ne remplaçant pas l'autre.",
+    "r1_title": "Géophysique computationnelle & fondée sur la physique",
+    "r1_desc": "Combiner les lois physiques et l'apprentissage profond pour construire des modèles du sous-sol qui restent interprétables, à l'aide des PINN et d'autres méthodes contraintes par la physique.",
+    "r2_title": "Exploration minière augmentée par l'IA",
+    "r2_desc": "Appliquer une IA guidée par la physique à la prospection minière, en travaillant sur des données de magnétométrie, gravimétrie et polarisation provoquée.",
+    "r3_title": "Imagerie sismique & surveillance fondée sur la physique",
+    "r3_desc": "Cartographier les structures du sous-sol à partir de données sismiques actives et passives, via l'inversion haute résolution et la prévision des risques.",
+    "r4_title": "Caractérisation du sous-sol & de l'environnement",
+    "r4_desc": "Appliquer des méthodes géophysiques à des problématiques d'ingénierie environnementale : exploration des eaux souterraines et évaluation de la sécurité en sub-surface.",
+    "readMore": "En savoir plus",
+    "seeAll": "Voir tous les programmes de recherche"
+  },
+  "ServicesHero": {
+    "badge": "Services",
+    "title": "Services techniques et industriels",
+    "subtitle": "Des workflows GeoAI, du traitement du signal sur mesure et de l'imagerie du sous-sol au service des opérations énergétiques, minières et hydrogéologiques.",
+    "cta": "Demander une consultation technique"
+  },
+  "ServicesList": {
+    "highlightsLabel": "Points clés",
+    "subsurface-imaging": {
+      "title": "Imagerie du sous-sol assistée par IA",
+      "tagline": "Traitement sismique et géophysique haute résolution",
+      "description": "Nous utilisons des modèles d'apprentissage automatique pour améliorer la résolution sismique, accélérer l'interprétation structurale et révéler des détails géologiques difficiles à percevoir dans des jeux de données complexes.",
+      "features": [
+        "Détection automatique des failles et horizons",
+        "Inversion sismique assistée par IA",
+        "Atténuation du bruit et amélioration du signal",
+        "Modélisation structurale 3D/4D"
+      ]
+    },
+    "das-processing": {
+      "title": "Traitement DAS et traitement du signal",
+      "tagline": "Traitement avancé pour la détection acoustique distribuée",
+      "description": "Nous traitons des flux DAS (Distributed Acoustic Sensing) continus et volumineux à l'aide d'algorithmes sur mesure conçus pour préserver l'intégrité du signal, filtrer le bruit ambiant et fournir un suivi en temps réel.",
+      "features": [
+        "Algorithmes de réduction de bruit sur mesure",
+        "Interprétation acoustique en temps réel",
+        "Optimisation de workflows à haut débit",
+        "Applications fibre optique pour l'énergie et les infrastructures"
+      ]
+    },
+    "resource-exploration": {
+      "title": "GeoAI pour l'exploration des ressources",
+      "tagline": "Évaluation des réserves d'eau, des minéraux et de l'énergie",
+      "description": "Nos modèles prédictifs combinent des données géophysiques multi-physiques, des contraintes géologiques et de l'imagerie satellite pour identifier les zones à fort potentiel et réduire le risque d'exploration.",
+      "features": [
+        "Modélisation prédictive pour la cartographie des eaux souterraines",
+        "Génération de cibles pour l'exploration minière",
+        "Fusion multi-données (sismique, gravité, magnétisme, forage)",
+        "Quantification de l'incertitude dans les estimations de ressources"
+      ]
+    },
+    "custom-geoai": {
+      "title": "Développement GeoAI sur mesure",
+      "tagline": "Pipelines d'apprentissage automatique adaptés à vos données",
+      "description": "Nous construisons des workflows GeoAI spécifiques à vos jeux de données et besoins opérationnels, intégrés directement à votre pile logicielle existante.",
+      "features": [
+        "Architectures PyTorch / TensorFlow sur mesure",
+        "Classification automatisée des éléments géologiques",
+        "Intégration à vos plateformes SIG et géophysiques",
+        "Déploiement cloud et edge à grande échelle"
+      ]
+    },
+    "consulting-audit": {
+      "title": "Conseil géophysique et audit des risques",
+      "tagline": "Expertise technique indépendante",
+      "description": "Revue indépendante de vos interprétations géophysiques, de vos designs d'acquisition et de vos implémentations de modèles IA, afin d'assurer la rigueur scientifique et de limiter le risque d'exploration.",
+      "features": [
+        "Revue par les pairs des interprétations sismiques et géophysiques",
+        "Audit de la stratégie et du design d'acquisition",
+        "Évaluation des risques pour les décisions de forage",
+        "Conseil stratégique sur l'adoption de la GeoAI"
+      ]
+    }
+  },
+  "ServicesCta": {
+    "title": "Un besoin GeoAI spécifique ?",
+    "body": "Développement de modèle sur mesure, revue d'expert, ou traitement DAS spécialisé. Discutons de votre projet.",
+    "cta": "Contacter l'équipe"
+  },
+  "ServicesFooter": {
+    "title": "GeoSignal Research Institute",
+    "tagline": "Le pôle recherche et publications de GeoSignal Analytics.",
+    "newsletterLabel": "Actualités de recherche, sans spam",
+    "subscribe": "S'inscrire",
+    "pagesHeader": "Pages",
+    "socialHeader": "Réseaux",
+    "link_subsurface": "Imagerie du sous-sol",
+    "link_das": "Traitement DAS",
+    "link_resource": "Exploration des ressources",
+    "link_custom": "GeoAI sur mesure",
+    "link_consulting": "Conseil & audit",
+    "copyright": "© {year} GeoSignal Research Institute — Tous droits réservés"
+  },
+  "Metadata": {
+    "siteName": "GeoSignal Analytics",
+    "title": "GeoSignal Analytics — Géophysique appliquée & science des données terrestres",
+    "description": "Traitement de données sismiques et géospatiales fondé sur la physique et affiné par apprentissage automatique, pour l'exploration de ressources, les infrastructures hydrauliques et l'ingénierie foncière."
+  }
+}

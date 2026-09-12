@@ -1,32 +1,53 @@
-'use client';
+ 'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
-
-const DROPDOWN_LINKS = [
-  { label: 'Overview', href: '/institute' },
-  { label: 'About Us', href: '/institute/about' },
-  { label: 'Research', href: '/institute/research' },
-  { label: 'Publications', href: '/institute/publications' },
-  { label: 'Training', href: '/institute/training' },
-  { label: 'People', href: '/institute/people' },
-  { label: 'Events & Seminars', href: '/institute/events' },
-  { label: 'News & Updates', href: '/institute/news' },
-  { label: 'Software & Open Source', href: '/institute/software' },
-  { label: 'Careers & Opportunities', href: '/institute/careers' },
-  { label: 'Blog', href: '/institute/blog' },
-  { label: 'Contact', href: '/institute/contact' },
-];
+import { useTranslations, useLocale } from 'next-intl';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function ContactPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [lang, setLang] = useState<'en' | 'fr'>('en');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const tNav = useTranslations('Navigation');
+  const tMenu = useTranslations('InstituteMenu');
+  const tHero = useTranslations('ContactHero');
+  const tInfo = useTranslations('ContactInfo');
+  const tForm = useTranslations('ContactForm');
+  const tFooter = useTranslations('InstituteFooter');
+
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const switchLanguage = (newLocale: 'en' | 'fr') => {
+    if (newLocale === locale) return;
+    const barePath = pathname.startsWith('/fr')
+      ? pathname.replace(/^\/fr/, '') || '/'
+      : pathname;
+    const newPath = newLocale === 'fr' ? `/fr${barePath === '/' ? '' : barePath}` : barePath;
+    router.push(newPath || '/');
+  };
+
+  const DROPDOWN_LINKS = [
+    { key: 'overview', href: '/institute' },
+    { key: 'about', href: '/institute/about' },
+    { key: 'research', href: '/institute/research' },
+    { key: 'publications', href: '/institute/publications' },
+    { key: 'training', href: '/institute/training' },
+    { key: 'people', href: '/institute/people' },
+    { key: 'events', href: '/institute/events' },
+    { key: 'news', href: '/institute/news' },
+    { key: 'software', href: '/institute/software' },
+    { key: 'careers', href: '/institute/careers' },
+    { key: 'blog', href: '/institute/blog' },
+    { key: 'contact', href: '/institute/contact' },
+  ];
 
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xaeywayk';
 
@@ -87,10 +108,10 @@ export default function ContactPage() {
         setIsSubmitted(true);
       } else {
         const data = await response.json();
-        setErrorMessage(data?.error || 'An error occurred while sending your message. Please try again.');
+        setErrorMessage(data?.error || tForm('errorDefault'));
       }
     } catch (error) {
-      setErrorMessage('Network error. Please check your internet connection and try again.');
+      setErrorMessage(tForm('errorNetwork'));
     } finally {
       setIsSubmitting(false);
     }
@@ -116,8 +137,8 @@ export default function ContactPage() {
           </Link>
 
           <ul className="hidden md:flex items-center gap-9 text-[13.5px] font-medium text-slate-400 m-0 p-0 list-none">
-            <li><Link href="/" className="hover:text-slate-200 transition-colors">Home</Link></li>
-            <li><Link href="/about" className="hover:text-slate-200 transition-colors">About</Link></li>
+            <li><Link href="/" className="hover:text-slate-200 transition-colors">{tNav('home')}</Link></li>
+            <li><Link href="/about" className="hover:text-slate-200 transition-colors">{tNav('about')}</Link></li>
 
             <li className="relative" ref={dropdownRef}>
               <button
@@ -126,7 +147,7 @@ export default function ContactPage() {
                 aria-expanded={isOpen}
                 aria-haspopup="true"
               >
-                GeoSignal Institute
+                {tNav('institute')}
                 <svg
                   className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180 text-cyan-400' : 'text-slate-500'}`}
                   fill="none"
@@ -148,31 +169,37 @@ export default function ContactPage() {
                         item.href === '/institute/contact' ? 'text-cyan-400 font-semibold' : 'text-slate-400'
                       }`}
                     >
-                      {item.label}
+                      {tMenu(item.key)}
                     </Link>
                   ))}
                 </div>
               )}
             </li>
 
-            <li><Link href="/services" className="hover:text-slate-200 transition-colors">Services</Link></li>
+            <li><Link href="/services" className="hover:text-slate-200 transition-colors">{tNav('services')}</Link></li>
           </ul>
 
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
-              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
-              aria-label="Switch language"
-            >
-              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
-              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
-            </button>
+            <div className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden">
+              <button
+                onClick={() => switchLanguage('en')}
+                className={`px-2.5 py-1.5 transition-colors ${locale === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => switchLanguage('fr')}
+                className={`px-2.5 py-1.5 transition-colors ${locale === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}
+              >
+                FR
+              </button>
+            </div>
 
             <Link
               href="/contact"
               className="hidden md:inline-block rounded-md border border-cyan-600 px-4 py-1.5 text-[13.5px] font-medium text-cyan-400"
             >
-              Contact
+              {tNav('contact')}
             </Link>
 
             <button
@@ -191,13 +218,13 @@ export default function ContactPage() {
         {mobileMenuOpen && (
           <div className="md:hidden mx-auto max-w-7xl mt-4 pb-2 border-t border-slate-800/70 pt-4">
             <ul className="flex flex-col gap-1 text-sm font-medium m-0 p-0 list-none">
-              <li><Link href="/" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">About</Link></li>
-              <li><Link href="/services" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">Services</Link></li>
-              <li><Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-cyan-400 bg-[#0b1329] transition-colors">Contact</Link></li>
+              <li><Link href="/" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">{tNav('home')}</Link></li>
+              <li><Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">{tNav('about')}</Link></li>
+              <li><Link href="/services" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors">{tNav('services')}</Link></li>
+              <li><Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block rounded-md px-3 py-2.5 text-cyan-400 bg-[#0b1329] transition-colors">{tNav('contact')}</Link></li>
             </ul>
             <div className="mt-3 pt-3 border-t border-slate-800/70">
-              <span className="block px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-cyan-500">GeoSignal Institute</span>
+              <span className="block px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-cyan-500">{tNav('institute')}</span>
               {DROPDOWN_LINKS.map((item) => (
                 <Link
                   key={item.href}
@@ -207,19 +234,26 @@ export default function ContactPage() {
                     item.href === '/institute/contact' ? 'text-cyan-400 font-semibold' : 'text-slate-400'
                   }`}
                 >
-                  {item.label}
+                  {tMenu(item.key)}
                 </Link>
               ))}
             </div>
             <div className="flex items-center gap-2 mt-4 px-3 sm:hidden">
-              <span className="text-xs text-slate-500">Language</span>
-              <button
-                onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
-                className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
-              >
-                <span className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
-                <span className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
-              </button>
+              <span className="text-xs text-slate-500">{tNav('language')}</span>
+              <div className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden">
+                <button
+                  onClick={() => switchLanguage('en')}
+                  className={`px-2.5 py-1 transition-colors ${locale === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}
+                >
+                  EN
+                </button>
+                <button
+                  onClick={() => switchLanguage('fr')}
+                  className={`px-2.5 py-1 transition-colors ${locale === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}
+                >
+                  FR
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -241,14 +275,13 @@ export default function ContactPage() {
         <div className="relative mx-auto max-w-7xl">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
-              Get in touch
+              {tHero('badge')}
             </p>
             <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-7">
-              Talk to the team
+              {tHero('title')}
             </h1>
             <p className="text-slate-400 text-base md:text-lg leading-relaxed">
-              Questions about our research, training programs, or consulting work. Send us a note and
-              someone from the team will get back to you.
+              {tHero('subtitle')}
             </p>
           </div>
         </div>
@@ -263,8 +296,8 @@ export default function ContactPage() {
 
             <div className="bg-[#0b1329] border border-slate-800/80 p-6 rounded-xl flex flex-col justify-between">
               <div className="space-y-3">
-                <h3 className="text-base font-bold text-white">Direct email</h3>
-                <p className="text-slate-400 text-xs leading-relaxed">For general inquiries, research, and technical support.</p>
+                <h3 className="text-base font-bold text-white">{tInfo('card1_title')}</h3>
+                <p className="text-slate-400 text-xs leading-relaxed">{tInfo('card1_desc')}</p>
               </div>
               <a href="mailto:io@geosignalanalytics.com" className="text-cyan-500 font-medium text-xs sm:text-sm hover:text-cyan-400 mt-4 block break-all">
                 io@geosignalanalytics.com
@@ -273,8 +306,8 @@ export default function ContactPage() {
 
             <div className="bg-[#0b1329] border border-slate-800/80 p-6 rounded-xl flex flex-col justify-between">
               <div className="space-y-3">
-                <h3 className="text-base font-bold text-white">Phone &amp; WhatsApp</h3>
-                <p className="text-slate-400 text-xs leading-relaxed">Mon–Fri, 8:00 AM–6:00 PM GMT.</p>
+                <h3 className="text-base font-bold text-white">{tInfo('card2_title')}</h3>
+                <p className="text-slate-400 text-xs leading-relaxed">{tInfo('card2_desc')}</p>
               </div>
               <div className="mt-4 space-y-1">
                 <p className="text-cyan-500 font-medium text-xs sm:text-sm">+225 07 47 39 47 90</p>
@@ -284,11 +317,11 @@ export default function ContactPage() {
 
             <div className="bg-[#0b1329] border border-slate-800/80 p-6 rounded-xl flex flex-col justify-between">
               <div className="space-y-3">
-                <h3 className="text-base font-bold text-white">Primary hubs</h3>
-                <p className="text-slate-400 text-xs leading-relaxed">Research operations and academic partnerships.</p>
+                <h3 className="text-base font-bold text-white">{tInfo('card3_title')}</h3>
+                <p className="text-slate-400 text-xs leading-relaxed">{tInfo('card3_desc')}</p>
               </div>
               <p className="text-slate-300 font-medium text-xs mt-4">
-                Abidjan, Côte d'Ivoire &amp; Hangzhou, China
+                {tInfo('card3_location')}
               </p>
             </div>
 
@@ -299,10 +332,9 @@ export default function ContactPage() {
 
             {isSubmitted ? (
               <div className="py-12 text-center space-y-4">
-                <h3 className="text-2xl font-bold text-white">Message sent</h3>
+                <h3 className="text-2xl font-bold text-white">{tForm('successTitle')}</h3>
                 <p className="text-slate-400 text-sm max-w-md mx-auto leading-relaxed">
-                  Thanks for reaching out to GeoSignal Institute. Someone from the team will review your
-                  message and respond shortly.
+                  {tForm('successDesc')}
                 </p>
                 <button
                   onClick={() => {
@@ -311,7 +343,7 @@ export default function ContactPage() {
                   }}
                   className="mt-6 px-6 py-2.5 bg-[#060a12] hover:bg-[#0f1a30] text-white text-xs font-semibold rounded-md transition-colors cursor-pointer border border-slate-700"
                 >
-                  Send another message
+                  {tForm('sendAnother')}
                 </button>
               </div>
             ) : (
@@ -326,7 +358,7 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="firstName" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
-                      First name *
+                      {tForm('firstNameLabel')}
                     </label>
                     <input
                       type="text"
@@ -342,7 +374,7 @@ export default function ContactPage() {
 
                   <div className="space-y-2">
                     <label htmlFor="lastName" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
-                      Last name *
+                      {tForm('lastNameLabel')}
                     </label>
                     <input
                       type="text"
@@ -360,7 +392,7 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
-                      Email address *
+                      {tForm('emailLabel')}
                     </label>
                     <input
                       type="email"
@@ -376,7 +408,7 @@ export default function ContactPage() {
 
                   <div className="space-y-2">
                     <label htmlFor="phone" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
-                      Phone / WhatsApp
+                      {tForm('phoneLabel')}
                     </label>
                     <input
                       type="tel"
@@ -392,7 +424,7 @@ export default function ContactPage() {
 
                 <div className="space-y-2">
                   <label htmlFor="subject" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
-                    Inquiry topic *
+                    {tForm('subjectLabel')}
                   </label>
                   <select
                     id="subject"
@@ -401,22 +433,22 @@ export default function ContactPage() {
                     onChange={handleChange}
                     className="w-full rounded-md border border-slate-800 bg-[#060a12] px-4 py-3 text-sm text-white focus:border-cyan-500 focus:outline-none transition-colors cursor-pointer"
                   >
-                    <option value="Research Collaboration">Academic &amp; Research Collaboration</option>
-                    <option value="Training & Courses">Geophysics Training &amp; Workshops</option>
-                    <option value="Consultancy & Software">DAS Data Processing &amp; Consultancy</option>
-                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Research Collaboration">{tForm('subjectOption1')}</option>
+                    <option value="Training & Courses">{tForm('subjectOption2')}</option>
+                    <option value="Consultancy & Software">{tForm('subjectOption3')}</option>
+                    <option value="General Inquiry">{tForm('subjectOption4')}</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
                   <label htmlFor="message" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
-                    Message *
+                    {tForm('messageLabel')}
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     rows={5}
-                    placeholder="Describe your project, goals, or what you'd like to discuss."
+                    placeholder={tForm('messagePlaceholder')}
                     value={formData.message}
                     onChange={handleChange}
                     className="w-full rounded-md border border-slate-800 bg-[#060a12] px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-colors resize-y min-h-[140px]"
@@ -435,10 +467,10 @@ export default function ContactPage() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Sending...
+                      {tForm('sending')}
                     </>
                   ) : (
-                    'Submit inquiry'
+                    tForm('submitButton')
                   )}
                 </button>
 
@@ -459,12 +491,12 @@ export default function ContactPage() {
                 GeoSignal Institute
               </h3>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-                The research and publications arm of GeoSignal Analytics.
+                {tFooter('tagline')}
               </p>
 
               <div className="pt-3 space-y-2">
                 <span className="block text-xs font-semibold text-white">
-                  Occasional research updates, no spam
+                  {tFooter('newsletterTitle')}
                 </span>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
                   <input
@@ -476,7 +508,7 @@ export default function ContactPage() {
                     type="submit"
                     className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors cursor-pointer"
                   >
-                    Subscribe
+                    {tFooter('subscribe')}
                   </button>
                 </form>
               </div>
@@ -484,29 +516,29 @@ export default function ContactPage() {
 
             <div className="lg:col-span-7 grid grid-cols-3 gap-6 text-xs sm:text-sm">
               <div>
-                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">Links</h4>
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">{tFooter('linksHeader')}</h4>
                 <ul className="space-y-2.5 text-slate-400">
-                  <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
-                  <li><Link href="/institute/about" className="hover:text-white transition-colors">The Institute Approach</Link></li>
-                  <li><Link href="/institute/publications" className="hover:text-white transition-colors">Publications</Link></li>
-                  <li><Link href="/institute/training" className="hover:text-white transition-colors">Training</Link></li>
-                  <li><Link href="/institute/software" className="hover:text-white transition-colors">Open Source</Link></li>
+                  <li><Link href="/services" className="hover:text-white transition-colors">{tNav('services')}</Link></li>
+                  <li><Link href="/institute/about" className="hover:text-white transition-colors">{tFooter('link_approach')}</Link></li>
+                  <li><Link href="/institute/publications" className="hover:text-white transition-colors">{tMenu('publications')}</Link></li>
+                  <li><Link href="/institute/training" className="hover:text-white transition-colors">{tMenu('training')}</Link></li>
+                  <li><Link href="/institute/software" className="hover:text-white transition-colors">{tFooter('link_opensource')}</Link></li>
                 </ul>
               </div>
 
               <div>
-                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">Pages</h4>
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">{tFooter('pagesHeader')}</h4>
                 <ul className="space-y-2.5 text-slate-400">
-                  <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-                  <li><Link href="/institute" className="hover:text-white transition-colors">Overview</Link></li>
-                  <li><Link href="/institute/blog" className="hover:text-white transition-colors">Blog</Link></li>
-                  <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-                  <li><Link href="/institute/careers" className="hover:text-white transition-colors">Careers</Link></li>
+                  <li><Link href="/" className="hover:text-white transition-colors">{tNav('home')}</Link></li>
+                  <li><Link href="/institute" className="hover:text-white transition-colors">{tMenu('overview')}</Link></li>
+                  <li><Link href="/institute/blog" className="hover:text-white transition-colors">{tMenu('blog')}</Link></li>
+                  <li><Link href="/contact" className="hover:text-white transition-colors">{tNav('contact')}</Link></li>
+                  <li><Link href="/institute/careers" className="hover:text-white transition-colors">{tMenu('careers')}</Link></li>
                 </ul>
               </div>
 
               <div>
-                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">Socials &amp; Academic</h4>
+                <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">{tFooter('socialsHeader')}</h4>
                 <ul className="space-y-2.5 text-slate-400">
                   <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
                   <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a></li>
@@ -530,7 +562,7 @@ export default function ContactPage() {
                 />
               </div>
               <p className="text-slate-500">
-                © {new Date().getFullYear()} GeoSignal Institute — All Rights Reserved
+                {tFooter('copyright', { year: new Date().getFullYear() })}
               </p>
             </div>
           </div>

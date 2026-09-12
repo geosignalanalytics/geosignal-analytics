@@ -1,11 +1,10 @@
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 const nextConfig: NextConfig = {
-  typescript: {
-    // Permet d'effectuer le déploiement sur Vercel même si le projet contient des erreurs TypeScript
-    ignoreBuildErrors: true,
-  },
-  // Gardez le reste de votre configuration existante ici s'il y en a une
+  // ... conserve ici ta config Next.js existante (images, redirects, etc.)
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

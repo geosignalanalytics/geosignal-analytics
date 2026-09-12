@@ -3,40 +3,57 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslations, useLocale } from 'next-intl';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [lang, setLang] = useState<'en' | 'fr'>('en');
+
+  const tNav = useTranslations('Navigation');
+  const tHero = useTranslations('Hero');
+  const tServices = useTranslations('Services');
+  const tMethodology = useTranslations('Methodology');
+  const tCaseStudy = useTranslations('CaseStudy');
+  const tTrackRecord = useTranslations('TrackRecord');
+  const tFaq = useTranslations('Faq');
+  const tFooter = useTranslations('Footer');
+
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
+  // Changement de langue, cohérent avec routing.ts : defaultLocale = 'en' (sans préfixe),
+  // 'fr' porte le préfixe /fr (localePrefix: 'as-needed').
+  const switchLanguage = (newLocale: 'en' | 'fr') => {
+    if (newLocale === locale) return;
+
+    // Retire un préfixe /fr existant pour obtenir le chemin "nu"
+    const bareePath = pathname.startsWith('/fr')
+      ? pathname.replace(/^\/fr/, '') || '/'
+      : pathname;
+
+    const newPath = newLocale === 'fr' ? `/fr${bareePath === '/' ? '' : bareePath}` : bareePath;
+
+    router.push(newPath || '/');
+  };
+
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/institute', label: 'GeoSignal Institute' },
-    { href: '/services', label: 'Services' },
+    { href: '/', label: tNav('home') },
+    { href: '/about', label: tNav('about') },
+    { href: '/institute', label: tNav('institute') },
+    { href: '/services', label: tNav('services') },
   ];
 
   const faqs = [
-    {
-      q: "How does GeoSignal Analytics integrate AI into seismic data processing?",
-      a: "We don't let a model run unconstrained. Machine learning handles noise suppression and gap-filling, but it's built on top of standard wave-equation solvers, so a result that isn't physically plausible gets rejected before it reaches interpretation."
-    },
-    {
-      q: "What's the difference between GeoSignal Analytics and GeoSignal Institute?",
-      a: "Analytics is the commercial side: consulting and processing work for clients. The Institute is where the research, publications and training happen. Methods generally get proven at the Institute before they're used on paid work."
-    },
-    {
-      q: "Which industries do you typically work with?",
-      a: "Mostly resource exploration (minerals and hydrocarbons), water infrastructure, geotechnical engineering, and a smaller amount of environmental compliance work."
-    },
-    {
-      q: "Will your output work with the software we already use?",
-      a: "In most cases, yes. We export in SEG-Y, GeoTIFF, SHP or NetCDF depending on the deliverable. If your stack needs something unusual, it's worth checking with us before the project starts rather than after."
-    }
+    { q: tFaq('q1'), a: tFaq('a1') },
+    { q: tFaq('q2'), a: tFaq('a2') },
+    { q: tFaq('q3'), a: tFaq('a3') },
+    { q: tFaq('q4'), a: tFaq('a4') },
   ];
 
   return (
@@ -79,24 +96,26 @@ export default function Home() {
           {/* Zone droite : langue + contact + burger */}
           <div className="flex items-center gap-3">
             {/* Sélecteur de langue */}
-            <button
-              onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
-              className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
-              aria-label="Switch language"
-            >
-              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>
+            <div className="hidden sm:flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden">
+              <button
+                onClick={() => switchLanguage('en')}
+                className={`px-2.5 py-1.5 transition-colors ${locale === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500 hover:text-slate-300'}`}
+              >
                 EN
-              </span>
-              <span className={`px-2.5 py-1.5 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>
+              </button>
+              <button
+                onClick={() => switchLanguage('fr')}
+                className={`px-2.5 py-1.5 transition-colors ${locale === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500 hover:text-slate-300'}`}
+              >
                 FR
-              </span>
-            </button>
+              </button>
+            </div>
 
             <Link
               href="/contact"
               className="hidden md:inline-block rounded-md border border-slate-700 px-4 py-1.5 text-[13.5px] font-medium text-slate-200 hover:border-cyan-600 hover:text-white transition-colors"
             >
-              Contact
+              {tNav('contact')}
             </Link>
 
             {/* Burger mobile */}
@@ -136,21 +155,28 @@ export default function Home() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="block rounded-md px-3 py-2.5 text-slate-400 hover:bg-[#0b1329] hover:text-white transition-colors"
                 >
-                  Contact
+                  {tNav('contact')}
                 </Link>
               </li>
             </ul>
 
             {/* Sélecteur langue mobile */}
             <div className="flex items-center gap-2 mt-4 px-3 sm:hidden">
-              <span className="text-xs text-slate-500">Language</span>
-              <button
-                onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
-                className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden"
-              >
-                <span className={`px-2.5 py-1 transition-colors ${lang === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>EN</span>
-                <span className={`px-2.5 py-1 transition-colors ${lang === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}>FR</span>
-              </button>
+              <span className="text-xs text-slate-500">{tNav('language')}</span>
+              <div className="flex items-center rounded-md border border-slate-700 text-[11px] font-semibold overflow-hidden">
+                <button
+                  onClick={() => switchLanguage('en')}
+                  className={`px-2.5 py-1 transition-colors ${locale === 'en' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}
+                >
+                  EN
+                </button>
+                <button
+                  onClick={() => switchLanguage('fr')}
+                  className={`px-2.5 py-1 transition-colors ${locale === 'fr' ? 'bg-slate-700 text-white' : 'text-slate-500'}`}
+                >
+                  FR
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -171,17 +197,15 @@ export default function Home() {
         <div className="relative mx-auto max-w-7xl">
           <div className="max-w-4xl">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-5">
-              Applied Geophysics &amp; Earth Data Science
+              {tHero('badge')}
             </p>
 
             <h1 className="text-[2.3rem] leading-[1.12] sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-7">
-              Subsurface imaging and signal processing for organizations that need to know what the ground actually looks like.
+              {tHero('title')}
             </h1>
 
             <p className="text-slate-400 text-base md:text-lg max-w-2xl mb-10 leading-relaxed">
-              We process seismic and geospatial data using physics-based methods refined with machine learning.
-              Our clients work in resource exploration, water infrastructure, and land engineering, where a wrong
-              reading of the subsurface isn't something you can afford.
+              {tHero('subtitle')}
             </p>
 
             <div className="flex flex-wrap gap-3">
@@ -189,13 +213,13 @@ export default function Home() {
                 href="#sectors"
                 className="rounded-md bg-cyan-600 px-6 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition-colors"
               >
-                See our services
+                {tHero('ctaServices')}
               </Link>
               <Link
                 href="/contact"
                 className="rounded-md border border-slate-700 px-6 py-3 text-sm font-semibold text-slate-200 hover:border-slate-500 hover:text-white transition-colors"
               >
-                Talk to our team
+                {tHero('ctaContact')}
               </Link>
             </div>
           </div>
@@ -209,14 +233,13 @@ export default function Home() {
         <section id="sectors" className="scroll-mt-24">
           <div className="max-w-2xl mb-14">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-3">
-              What we do
+              {tServices('badge')}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
-              Six areas, one working method
+              {tServices('title')}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-              Each engagement starts the same way: understand the physical problem before choosing the tool.
-              Below is where that method gets applied.
+              {tServices('subtitle')}
             </p>
           </div>
 
@@ -225,85 +248,78 @@ export default function Home() {
             <div className="lg:col-span-7 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col justify-between">
               <div>
                 <span className="text-xs font-mono text-slate-600">01</span>
-                <h3 className="text-xl font-bold text-white mt-2 mb-3">Advanced Geophysics &amp; AI</h3>
+                <h3 className="text-xl font-bold text-white mt-2 mb-3">{tServices('s1_title')}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Seismic data processing built on wave-equation solvers, extended with machine learning models
-                  where they genuinely help, mainly for noise suppression and filling gaps in spatial coverage.
-                  We stay close to the physics; the model doesn't get to invent a subsurface that isn't there.
+                  {tServices('s1_desc')}
                 </p>
               </div>
               <Link href="/services/advanced-geophysics-and-ai" className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
-                Read about this service
+                {tServices('readMore')}
               </Link>
             </div>
 
             <div className="lg:col-span-5 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col justify-between">
               <div>
                 <span className="text-xs font-mono text-slate-600">02</span>
-                <h3 className="text-lg font-bold text-white mt-2 mb-3">Geoscience &amp; Exploration</h3>
+                <h3 className="text-lg font-bold text-white mt-2 mb-3">{tServices('s2_title')}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Combined geological and geophysical reads to narrow down where a field campaign should
-                  actually focus, before money gets spent on the ground.
+                  {tServices('s2_desc')}
                 </p>
               </div>
               <Link href="/services/geoscience-and-exploration" className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
-                Read about this service
+                {tServices('readMore')}
               </Link>
             </div>
 
             <div className="lg:col-span-4 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col justify-between">
               <div>
                 <span className="text-xs font-mono text-slate-600">03</span>
-                <h3 className="text-lg font-bold text-white mt-2 mb-3">Water Resources</h3>
+                <h3 className="text-lg font-bold text-white mt-2 mb-3">{tServices('s3_title')}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Hydrogeophysical surveys and aquifer mapping to support decisions on where water actually is,
-                  and how it moves.
+                  {tServices('s3_desc')}
                 </p>
               </div>
               <Link href="/services/water-resources" className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
-                Read about this service
+                {tServices('readMore')}
               </Link>
             </div>
 
             <div className="lg:col-span-4 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col justify-between">
               <div>
                 <span className="text-xs font-mono text-slate-600">04</span>
-                <h3 className="text-lg font-bold text-white mt-2 mb-3">Mapping, GIS &amp; Remote Sensing</h3>
+                <h3 className="text-lg font-bold text-white mt-2 mb-3">{tServices('s4_title')}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Spatial data brought into one coherent picture: satellite imagery, thematic mapping,
-                  and monitoring over time.
+                  {tServices('s4_desc')}
                 </p>
               </div>
               <Link href="/services/mapping-gis-and-remote-sensing" className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
-                Read about this service
+                {tServices('readMore')}
               </Link>
             </div>
 
             <div className="lg:col-span-4 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col justify-between">
               <div>
                 <span className="text-xs font-mono text-slate-600">05</span>
-                <h3 className="text-lg font-bold text-white mt-2 mb-3">Environmental Solutions</h3>
+                <h3 className="text-lg font-bold text-white mt-2 mb-3">{tServices('s5_title')}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Shallow subsurface imaging for hazard checks and baseline studies, done without disturbing
-                  the site.
+                  {tServices('s5_desc')}
                 </p>
               </div>
               <Link href="/services/environmental-solutions" className="text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
-                Read about this service
+                {tServices('readMore')}
               </Link>
             </div>
 
             <div className="lg:col-span-12 bg-[#0b1329] p-8 rounded-xl border border-slate-800/80 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="md:max-w-2xl">
                 <span className="text-xs font-mono text-slate-600">06</span>
-                <h3 className="text-lg font-bold text-white mt-2 mb-2">QHSE Advisory</h3>
+                <h3 className="text-lg font-bold text-white mt-2 mb-2">{tServices('s6_title')}</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
-                  Safety and risk frameworks for field acquisition programs, aligned with ISO practice
-                  and built by people who've actually run field crews, not just written the policy.
+                  {tServices('s6_desc')}
                 </p>
               </div>
               <Link href="/services/qhse" className="shrink-0 text-sm font-medium text-cyan-500 hover:text-cyan-400 transition-colors">
-                Read about this service
+                {tServices('readMore')}
               </Link>
             </div>
 
@@ -314,14 +330,13 @@ export default function Home() {
         <section>
           <div className="max-w-2xl mb-14">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-3">
-              How we work
+              {tMethodology('badge')}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
-              Physics first, machine learning second
+              {tMethodology('title')}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-              A model that produces a clean-looking image but violates wave physics isn't useful. It's just
-              confident-looking noise, and everything we do is built around avoiding that trap.
+              {tMethodology('subtitle')}
             </p>
           </div>
 
@@ -329,37 +344,33 @@ export default function Home() {
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 py-7">
               <span className="md:col-span-2 text-xs font-mono text-slate-600">01</span>
-              <h3 className="md:col-span-3 text-base font-bold text-white">Physics-informed processing</h3>
+              <h3 className="md:col-span-3 text-base font-bold text-white">{tMethodology('m1_title')}</h3>
               <p className="md:col-span-7 text-slate-400 text-sm leading-relaxed">
-                Wavefield theory sets the boundaries; the learning model works inside them. It's slower to build
-                than a purely data-driven pipeline, but it doesn't hallucinate structure that contradicts basic physics.
+                {tMethodology('m1_desc')}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 py-7">
               <span className="md:col-span-2 text-xs font-mono text-slate-600">02</span>
-              <h3 className="md:col-span-3 text-base font-bold text-white">Cross-discipline reads</h3>
+              <h3 className="md:col-span-3 text-base font-bold text-white">{tMethodology('m2_title')}</h3>
               <p className="md:col-span-7 text-slate-400 text-sm leading-relaxed">
-                Seismic, hydrogeological and GIS data rarely get looked at together, even though they should be.
-                We read them as one dataset, which is usually where the real answer is hiding.
+                {tMethodology('m2_desc')}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 py-7">
               <span className="md:col-span-2 text-xs font-mono text-slate-600">03</span>
-              <h3 className="md:col-span-3 text-base font-bold text-white">Full-lifecycle involvement</h3>
+              <h3 className="md:col-span-3 text-base font-bold text-white">{tMethodology('m3_title')}</h3>
               <p className="md:col-span-7 text-slate-400 text-sm leading-relaxed">
-                We're involved from survey design through to the final 3D model and reporting. It's rare that
-                we're handed a dataset midway and asked to make it look presentable.
+                {tMethodology('m3_desc')}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-8 py-7">
               <span className="md:col-span-2 text-xs font-mono text-slate-600">04</span>
-              <h3 className="md:col-span-3 text-base font-bold text-white">Standards compliance</h3>
+              <h3 className="md:col-span-3 text-base font-bold text-white">{tMethodology('m4_title')}</h3>
               <p className="md:col-span-7 text-slate-400 text-sm leading-relaxed">
-                ISO-aligned QHSE practice across survey design, data collection and processing. Not a
-                certificate on a wall, but a checklist that actually gets followed on site.
+                {tMethodology('m4_desc')}
               </p>
             </div>
 
@@ -372,29 +383,26 @@ export default function Home() {
 
             <div className="lg:col-span-5 space-y-5">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500">
-                Case study
+                {tCaseStudy('badge')}
               </p>
               <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
-                Reading through the noise on a heavily aliased seismic volume
+                {tCaseStudy('title')}
               </h2>
               <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-                Spatial aliasing and random noise are common on raw seismic datasets and tend to introduce
-                structural uncertainty right where accuracy matters most. On a recent volume, we applied a
-                5D reconstruction approach to rebuild the wavefield before it reached the interpretation stage.
-                It's the kind of step that's easy to skip, and expensive to skip badly.
+                {tCaseStudy('desc')}
               </p>
               <ul className="space-y-2.5 text-slate-400 text-sm pt-1">
                 <li className="flex gap-2.5">
                   <span className="text-slate-600">—</span>
-                  Signal-to-noise ratio improved without smoothing over real structure
+                  {tCaseStudy('point1')}
                 </li>
                 <li className="flex gap-2.5">
                   <span className="text-slate-600">—</span>
-                  Amplitude variations preserved, which matters for later interpretation
+                  {tCaseStudy('point2')}
                 </li>
                 <li className="flex gap-2.5">
                   <span className="text-slate-600">—</span>
-                  Processing pipeline kept lean enough to run on standard field hardware
+                  {tCaseStudy('point3')}
                 </li>
               </ul>
             </div>
@@ -410,7 +418,7 @@ export default function Home() {
                 />
               </div>
               <p className="text-xs text-slate-600 mt-3">
-                Reconstructed 3D volume after aliasing correction, prior to interpretation handoff.
+                {tCaseStudy('caption')}
               </p>
             </div>
 
@@ -421,32 +429,28 @@ export default function Home() {
         <section>
           <div className="max-w-2xl mb-14">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-3">
-              Track record
+              {tTrackRecord('badge')}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
-              Tested against real data, not clean demos
+              {tTrackRecord('title')}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-              Methods that only work on tidy synthetic datasets don't survive contact with a real field.
-              Ours are built and stress-tested the other way around.
+              {tTrackRecord('subtitle')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-[#0b1329] p-8 rounded-xl border border-slate-800/80">
-              <h3 className="text-lg font-bold text-white mb-3">Built to handle bad data</h3>
+              <h3 className="text-lg font-bold text-white mb-3">{tTrackRecord('card1_title')}</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
-                Our filtering methods, including rank-reduction and adaptive sparse inversion, get run
-                against deliberately corrupted field data before they're trusted on a real project. If a
-                method only performs well on clean input, it doesn't leave the lab.
+                {tTrackRecord('card1_desc')}
               </p>
             </div>
 
             <div className="bg-[#0b1329] p-8 rounded-xl border border-slate-800/80">
-              <h3 className="text-lg font-bold text-white mb-3">Research feeding practice</h3>
+              <h3 className="text-lg font-bold text-white mb-3">{tTrackRecord('card2_title')}</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
-                The GeoSignal Institute handles the academic side: publications, open research, training.
-                What holds up there is what eventually makes it into client-facing work, not the reverse.
+                {tTrackRecord('card2_desc')}
               </p>
             </div>
           </div>
@@ -456,10 +460,10 @@ export default function Home() {
         <section>
           <div className="max-w-2xl mb-12">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-500 mb-3">
-              Questions we actually get asked
+              {tFaq('badge')}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
-              FAQ
+              {tFaq('title')}
             </h2>
           </div>
 
@@ -504,13 +508,12 @@ export default function Home() {
                 GeoSignal Analytics
               </h3>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md">
-                Applied geophysics, computational data science, and environmental risk assessment
-                for industry and research.
+                {tFooter('about')}
               </p>
 
               <div className="pt-3 space-y-2">
                 <span className="block text-xs font-semibold text-white">
-                  Occasional technical notes, no spam
+                  {tFooter('newsletterTitle')}
                 </span>
                 <form onSubmit={(e) => e.preventDefault()} className="flex items-center gap-2 max-w-md">
                   <input
@@ -522,7 +525,7 @@ export default function Home() {
                     type="submit"
                     className="shrink-0 rounded-md bg-[#1e293b] hover:bg-[#283853] px-4 py-2 text-xs font-medium text-white border border-slate-700 transition-colors"
                   >
-                    Subscribe
+                    {tFooter('subscribe')}
                   </button>
                 </form>
               </div>
@@ -532,33 +535,33 @@ export default function Home() {
             <div className="lg:col-span-7 grid grid-cols-3 gap-6 text-xs sm:text-sm">
               <div>
                 <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Services
+                  {tNav('services')}
                 </h4>
                 <ul className="space-y-2.5 text-slate-400">
-                  <li><Link href="/services/advanced-geophysics-and-ai" className="hover:text-white transition-colors">Advanced Geophysics</Link></li>
-                  <li><Link href="/services/geoscience-and-exploration" className="hover:text-white transition-colors">Exploration</Link></li>
-                  <li><Link href="/services/water-resources" className="hover:text-white transition-colors">Water Resources</Link></li>
-                  <li><Link href="/services/mapping-gis-and-remote-sensing" className="hover:text-white transition-colors">GIS &amp; Remote Sensing</Link></li>
-                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">Environmental</Link></li>
-                  <li><Link href="/services/qhse" className="hover:text-white transition-colors">QHSE Advisory</Link></li>
+                  <li><Link href="/services/advanced-geophysics-and-ai" className="hover:text-white transition-colors">{tServices('s1_title')}</Link></li>
+                  <li><Link href="/services/geoscience-and-exploration" className="hover:text-white transition-colors">{tServices('s2_title')}</Link></li>
+                  <li><Link href="/services/water-resources" className="hover:text-white transition-colors">{tServices('s3_title')}</Link></li>
+                  <li><Link href="/services/mapping-gis-and-remote-sensing" className="hover:text-white transition-colors">{tServices('s4_title')}</Link></li>
+                  <li><Link href="/services/environmental-solutions" className="hover:text-white transition-colors">{tServices('s5_title')}</Link></li>
+                  <li><Link href="/services/qhse" className="hover:text-white transition-colors">{tServices('s6_title')}</Link></li>
                 </ul>
               </div>
 
               <div>
                 <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Company
+                  {tFooter('company')}
                 </h4>
                 <ul className="space-y-2.5 text-slate-400">
-                  <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-                  <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
-                  <li><Link href="/institute" className="hover:text-white transition-colors">GeoSignal Institute</Link></li>
-                  <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+                  <li><Link href="/" className="hover:text-white transition-colors">{tNav('home')}</Link></li>
+                  <li><Link href="/about" className="hover:text-white transition-colors">{tNav('about')}</Link></li>
+                  <li><Link href="/institute" className="hover:text-white transition-colors">{tNav('institute')}</Link></li>
+                  <li><Link href="/contact" className="hover:text-white transition-colors">{tNav('contact')}</Link></li>
                 </ul>
               </div>
 
               <div>
                 <h4 className="mb-4 text-xs font-bold uppercase tracking-wider text-white">
-                  Connect
+                  {tFooter('connect')}
                 </h4>
                 <ul className="space-y-2.5 text-slate-400">
                   <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a></li>
@@ -585,7 +588,7 @@ export default function Home() {
               </div>
 
               <p className="text-slate-500">
-                © {new Date().getFullYear()} GeoSignal Analytics — All Rights Reserved
+                {tFooter('copyright', { year: new Date().getFullYear() })}
               </p>
 
             </div>

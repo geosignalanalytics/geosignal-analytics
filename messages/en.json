@@ -1,0 +1,346 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "institute": "GeoSignal Institute",
+    "services": "Services",
+    "contact": "Contact",
+    "language": "Language"
+  },
+  "Hero": {
+    "badge": "Applied Geophysics & Earth Data Science",
+    "title": "Subsurface imaging and signal processing for organizations that need to know what the ground actually looks like.",
+    "subtitle": "We process seismic and geospatial data using physics-based methods refined with machine learning. Our clients work in resource exploration, water infrastructure, and land engineering, where a wrong reading of the subsurface isn't something you can afford.",
+    "ctaServices": "See our services",
+    "ctaContact": "Talk to our team"
+  },
+  "Services": {
+    "badge": "What we do",
+    "title": "Six areas, one working method",
+    "subtitle": "Each engagement starts the same way: understand the physical problem before choosing the tool. Below is where that method gets applied.",
+    "readMore": "Read about this service",
+    "s1_title": "Advanced Geophysics & AI",
+    "s1_desc": "Seismic data processing built on wave-equation solvers, extended with machine learning models where they genuinely help, mainly for noise suppression and filling gaps in spatial coverage. We stay close to the physics; the model doesn't get to invent a subsurface that isn't there.",
+    "s2_title": "Geoscience & Exploration",
+    "s2_desc": "Combined geological and geophysical reads to narrow down where a field campaign should actually focus, before money gets spent on the ground.",
+    "s3_title": "Water Resources",
+    "s3_desc": "Hydrogeophysical surveys and aquifer mapping to support decisions on where water actually is, and how it moves.",
+    "s4_title": "Mapping, GIS & Remote Sensing",
+    "s4_desc": "Spatial data brought into one coherent picture: satellite imagery, thematic mapping, and monitoring over time.",
+    "s5_title": "Environmental Solutions",
+    "s5_desc": "Shallow subsurface imaging for hazard checks and baseline studies, done without disturbing the site.",
+    "s6_title": "QHSE Advisory",
+    "s6_desc": "Safety and risk frameworks for field acquisition programs, aligned with ISO practice and built by people who've actually run field crews, not just written the policy."
+  },
+  "Methodology": {
+    "badge": "How we work",
+    "title": "Physics first, machine learning second",
+    "subtitle": "A model that produces a clean-looking image but violates wave physics isn't useful. It's just confident-looking noise, and everything we do is built around avoiding that trap.",
+    "m1_title": "Physics-informed processing",
+    "m1_desc": "Wavefield theory sets the boundaries; the learning model works inside them. It's slower to build than a purely data-driven pipeline, but it doesn't hallucinate structure that contradicts basic physics.",
+    "m2_title": "Cross-discipline reads",
+    "m2_desc": "Seismic, hydrogeological and GIS data rarely get looked at together, even though they should be. We read them as one dataset, which is usually where the real answer is hiding.",
+    "m3_title": "Full-lifecycle involvement",
+    "m3_desc": "We're involved from survey design through to the final 3D model and reporting. It's rare that we're handed a dataset midway and asked to make it look presentable.",
+    "m4_title": "Standards compliance",
+    "m4_desc": "ISO-aligned QHSE practice across survey design, data collection and processing. Not a certificate on a wall, but a checklist that actually gets followed on site."
+  },
+  "CaseStudy": {
+    "badge": "Case study",
+    "title": "Reading through the noise on a heavily aliased seismic volume",
+    "desc": "Spatial aliasing and random noise are common on raw seismic datasets and tend to introduce structural uncertainty right where accuracy matters most. On a recent volume, we applied a 5D reconstruction approach to rebuild the wavefield before it reached the interpretation stage. It's the kind of step that's easy to skip, and expensive to skip badly.",
+    "point1": "Signal-to-noise ratio improved without smoothing over real structure",
+    "point2": "Amplitude variations preserved, which matters for later interpretation",
+    "point3": "Processing pipeline kept lean enough to run on standard field hardware",
+    "caption": "Reconstructed 3D volume after aliasing correction, prior to interpretation handoff."
+  },
+  "TrackRecord": {
+    "badge": "Track record",
+    "title": "Tested against real data, not clean demos",
+    "subtitle": "Methods that only work on tidy synthetic datasets don't survive contact with a real field. Ours are built and stress-tested the other way around.",
+    "card1_title": "Built to handle bad data",
+    "card1_desc": "Our filtering methods, including rank-reduction and adaptive sparse inversion, get run against deliberately corrupted field data before they're trusted on a real project. If a method only performs well on clean input, it doesn't leave the lab.",
+    "card2_title": "Research feeding practice",
+    "card2_desc": "The GeoSignal Institute handles the academic side: publications, open research, training. What holds up there is what eventually makes it into client-facing work, not the reverse."
+  },
+  "Faq": {
+    "badge": "Questions we actually get asked",
+    "title": "FAQ",
+    "q1": "How does GeoSignal Analytics integrate AI into seismic data processing?",
+    "a1": "We don't let a model run unconstrained. Machine learning handles noise suppression and gap-filling, but it's built on top of standard wave-equation solvers, so a result that isn't physically plausible gets rejected before it reaches interpretation.",
+    "q2": "What's the difference between GeoSignal Analytics and GeoSignal Institute?",
+    "a2": "Analytics is the commercial side: consulting and processing work for clients. The Institute is where the research, publications and training happen. Methods generally get proven at the Institute before they're used on paid work.",
+    "q3": "Which industries do you typically work with?",
+    "a3": "Mostly resource exploration (minerals and hydrocarbons), water infrastructure, geotechnical engineering, and a smaller amount of environmental compliance work.",
+    "q4": "Will your output work with the software we already use?",
+    "a4": "In most cases, yes. We export in SEG-Y, GeoTIFF, SHP or NetCDF depending on the deliverable. If your stack needs something unusual, it's worth checking with us before the project starts rather than after."
+  },
+  "AboutHero": {
+    "badge": "About us",
+    "title": "A research background, applied to real projects",
+    "body1": "GeoSignal Analytics grew out of academic work in computational geophysics, brought into daily use across energy, water, and environmental projects. The research side didn't stop when the consulting side started; the two still feed each other.",
+    "body2": "In practice, that means subsurface exploration, water resource management, and QHSE compliance work that's grounded in physics rather than in a model's best guess."
+  },
+  "WhoWeAre": {
+    "badge": "Who we are",
+    "title": "A small team, several disciplines",
+    "subtitle": "Geophysicists, geoscientists, data scientists and engineers working on the same problems from different angles. That mix is deliberate: a subsurface question rarely has a single-discipline answer.",
+    "c1_title": "Several disciplines, one project",
+    "c1_desc": "From seismic inversion to QHSE auditing, the same project usually gets looked at from more than one technical angle before we call it done.",
+    "c2_title": "Working across Africa and Asia",
+    "c2_desc": "Research standards on one side, on-the-ground industrial constraints on the other. Both ends need to hold for the work to be useful.",
+    "c3_title": "Building the models, not just running them",
+    "c3_desc": "Where an off-the-shelf tool doesn't fit the problem, we build something that does, rather than forcing the data to fit the tool."
+  },
+  "Values": {
+    "badge": "What we hold to",
+    "title": "A few things we don't compromise on",
+    "subtitle": "Not a mission statement. Just the things that shape how a project actually gets run here.",
+    "v1_title": "Scientific integrity",
+    "v1_desc": "A result that can't be traced back to a physical explanation doesn't go out under our name, no matter how good it looks on a slide.",
+    "v2_title": "Building, not just applying",
+    "v2_desc": "When an existing method doesn't fit a problem well enough, the default here is to adapt or build one, rather than force the data through the wrong tool.",
+    "v3_title": "Real partnerships",
+    "v3_desc": "Working relationships with academic groups across Africa and China are useful precisely because they're ongoing, not because a logo looks good on a page.",
+    "v4_title": "Thinking past the project",
+    "v4_desc": "Subsurface and water resource decisions tend to outlive the report they came from, so we try to leave clients with something that still holds up years later."
+  },
+  "WhyWork": {
+    "badge": "Why work with us",
+    "title": "Two things clients tend to mention",
+    "subtitle": "Neither is a differentiator on its own. Together, they're harder to find in one place.",
+    "w1_title": "The technical side holds up",
+    "w1_desc1": "Physics-informed models instead of pattern-matching on historical data. Seismic imaging and data inversion built for precision rather than a quick-looking result. Water resource modeling meant to be revisited, not just delivered once.",
+    "w1_desc2": "None of it exists in isolation. It's fed by ongoing research, not a fixed toolkit from a few years ago.",
+    "w2_title": "The operational side is manageable",
+    "w2_desc1": "Projects that span China, Africa and beyond need consistent oversight from raw signal to final report, not a handoff between disconnected teams. QHSE auditing is built into the workflow rather than bolted on at the end.",
+    "w2_desc2": "In practice, that tends to mean fewer surprises and less fragmented reporting for the client."
+  },
+  "Team": {
+    "badge": "Who's involved",
+    "title": "Leadership and network",
+    "subtitle": "A small core team plus a network we call on depending on what a project actually needs, not a fixed roster padded out for appearances.",
+    "t1_name": "Dr. Innocent Oboué, PhD",
+    "t1_role": "Founder & Lead Geophysicist",
+    "t1_desc": "PhD from Zhejiang University, focused on physics-informed AI and computational geophysics. Sets the technical direction and stays involved on the research side, not just the business one.",
+    "t2_name": "Research network",
+    "t2_role": "Academic & industrial partners",
+    "t2_desc": "Ongoing contact with researchers and labs in China, the US, and Africa. When something new comes out of that work, it tends to show up in client projects within the same year, not five years later.",
+    "t3_name": "Project specialists",
+    "t3_role": "Auditors, GIS & data engineers",
+    "t3_desc": "Brought in based on what a given project actually calls for: QHSE auditors, GIS specialists, data engineers. It keeps the core team lean without limiting what we can take on."
+  },
+  "AboutFaq": {
+    "badge": "Questions we get",
+    "title": "FAQ",
+    "q1": "What makes \"physics-informed AI\" different from standard AI?",
+    "a1": "Standard AI mostly learns from patterns in historical data. Ours is built on top of the physical laws that govern wave propagation and subsurface behavior, so a result that isn't geologically plausible gets rejected even if the data alone would have suggested it.",
+    "q2": "Which regions do you actually work in?",
+    "a2": "Most of our work is in West Africa and the Asia-Pacific region, but the infrastructure is digital-first, so we take on computational analysis and consulting projects elsewhere too.",
+    "q3": "Do you run field surveys, or just analyze data someone else collected?",
+    "a3": "Both, depending on the project. We specialize in the computational side (analysis, inversion), and coordinate with local partners for field acquisition, with oversight to keep data quality consistent.",
+    "q4": "How do you handle confidentiality on sensitive industrial data?",
+    "a4": "Standard NDAs, and computational work runs in encrypted environments. Nothing unusual here, but it's worth stating plainly since it comes up often.",
+    "q5": "Is this only for large-scale operations?",
+    "a5": "No. The same models scale down. We work with regional water management projects as often as with larger mining operations, and price the work accordingly."
+  },
+  "AboutCta": {
+    "title": "Have a project in mind?",
+    "body": "The best way to know if this is a fit is to talk through the specifics. Reach out and we'll tell you honestly whether it's something we can help with.",
+    "cta": "Get in touch"
+  },
+  "InstituteMenu": {
+    "overview": "Overview",
+    "about": "About Us",
+    "research": "Research",
+    "publications": "Publications",
+    "training": "Training",
+    "people": "People",
+    "events": "Events & Seminars",
+    "news": "News & Updates",
+    "software": "Software & Open Source",
+    "careers": "Careers & Opportunities",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "ContactHero": {
+    "badge": "Get in touch",
+    "title": "Talk to the team",
+    "subtitle": "Questions about our research, training programs, or consulting work. Send us a note and someone from the team will get back to you."
+  },
+  "ContactInfo": {
+    "card1_title": "Direct email",
+    "card1_desc": "For general inquiries, research, and technical support.",
+    "card2_title": "Phone & WhatsApp",
+    "card2_desc": "Mon–Fri, 8:00 AM–6:00 PM GMT.",
+    "card3_title": "Primary hubs",
+    "card3_desc": "Research operations and academic partnerships.",
+    "card3_location": "Abidjan, Côte d'Ivoire & Hangzhou, China"
+  },
+  "ContactForm": {
+    "firstNameLabel": "First name *",
+    "lastNameLabel": "Last name *",
+    "emailLabel": "Email address *",
+    "phoneLabel": "Phone / WhatsApp",
+    "subjectLabel": "Inquiry topic *",
+    "subjectOption1": "Academic & Research Collaboration",
+    "subjectOption2": "Geophysics Training & Workshops",
+    "subjectOption3": "DAS Data Processing & Consultancy",
+    "subjectOption4": "General Inquiry",
+    "messageLabel": "Message *",
+    "messagePlaceholder": "Describe your project, goals, or what you'd like to discuss.",
+    "submitButton": "Submit inquiry",
+    "sending": "Sending...",
+    "successTitle": "Message sent",
+    "successDesc": "Thanks for reaching out to GeoSignal Institute. Someone from the team will review your message and respond shortly.",
+    "sendAnother": "Send another message",
+    "errorDefault": "An error occurred while sending your message. Please try again.",
+    "errorNetwork": "Network error. Please check your internet connection and try again."
+  },
+  "InstituteFooter": {
+    "tagline": "The research and publications arm of GeoSignal Analytics.",
+    "newsletterTitle": "Occasional research updates, no spam",
+    "subscribe": "Subscribe",
+    "linksHeader": "Links",
+    "link_approach": "The Institute Approach",
+    "link_opensource": "Open Source",
+    "pagesHeader": "Pages",
+    "socialsHeader": "Socials & Academic",
+    "copyright": "© {year} GeoSignal Institute — All Rights Reserved"
+  },
+  "Footer": {
+    "about": "Applied geophysics, computational data science, and environmental risk assessment for industry and research.",
+    "newsletterTitle": "Occasional technical notes, no spam",
+    "subscribe": "Subscribe",
+    "company": "Company",
+    "connect": "Connect",
+    "copyright": "© {year} GeoSignal Analytics — All Rights Reserved"
+  },
+  "InstituteHero": {
+    "title": "The research side of GeoSignal Analytics",
+    "subtitle": "We work on subsurface imaging, signal processing, and environmental data problems the same way a university lab would, then bring what holds up into real projects.",
+    "ctaResearch": "Explore research",
+    "ctaAbout": "About GSI"
+  },
+  "InstituteOverview": {
+    "title": "Where the research side lives",
+    "body1": "The GeoSignal Institute is the academic and scientific arm of GeoSignal Analytics, run separately from the consulting work but feeding into it.",
+    "body2": "It's where longer-term research, peer-reviewed publications, and methodology development happen, on a timeline that doesn't have to match a client deadline. What holds up here eventually makes its way into paid project work."
+  },
+  "InstituteCoreAreas": {
+    "badge": "What the Institute does",
+    "title": "Four things it's actually responsible for",
+    "c1_title": "Doing the research",
+    "c1_desc": "Working on geophysics and signal processing problems that are too open-ended for a client engagement, on a timeline that allows for dead ends.",
+    "c2_title": "Publishing it",
+    "c2_desc": "Peer-reviewed papers and academic collaborations, so the work can be checked by people outside the company, not just trusted on our word.",
+    "c3_title": "Keeping methods reproducible",
+    "c3_desc": "A method that only one person can rerun isn't a method yet. We build things that can be handed off and repeated.",
+    "c4_title": "Getting it into real use",
+    "c4_desc": "Research that never leaves a paper is a wasted effort. The point is for it to eventually show up in an actual project.",
+    "learnMore": "Learn more about GSI"
+  },
+  "InstituteResearchAreas": {
+    "badge": "Focus areas",
+    "title": "Where the research is currently pointed",
+    "subtitle": "Four directions, all built on the same principle: physical modeling and machine learning solving Earth-system problems together, not one replacing the other.",
+    "r1_title": "Computational & Physics-Informed Geophysics",
+    "r1_desc": "Combining physical laws with deep learning to build subsurface models that stay interpretable, using PINNs and other physics-constrained methods.",
+    "r2_title": "Mineral & AI-Enhanced Exploration",
+    "r2_desc": "Applying physics-guided AI to mineral prospecting, working across magnetometry, gravimetry, and induced polarization data.",
+    "r3_title": "Seismic Imaging & Physics-Based Monitoring",
+    "r3_desc": "Mapping subsurface structures from active and passive seismic data, through high-resolution inversion and hazard forecasting.",
+    "r4_title": "Subsurface & Environmental Characterization",
+    "r4_desc": "Bringing geophysical methods to environmental engineering problems: groundwater exploration and near-surface safety assessment.",
+    "readMore": "Read more",
+    "seeAll": "See all research programs"
+  },
+  "ServicesHero": {
+    "badge": "Services",
+    "title": "Technical and Industrial Services",
+    "subtitle": "GeoAI workflows, custom signal processing, and subsurface imaging serving energy, mining, and hydrogeology operations.",
+    "cta": "Request a technical consultation"
+  },
+  "ServicesList": {
+    "highlightsLabel": "Key highlights",
+    "subsurface-imaging": {
+      "title": "AI-assisted subsurface imaging",
+      "tagline": "High-resolution seismic and geophysical processing",
+      "description": "We use machine learning models to improve seismic resolution, accelerate structural interpretation, and reveal geological details that are difficult to see in complex datasets.",
+      "features": [
+        "Automatic fault and horizon detection",
+        "AI-assisted seismic inversion",
+        "Noise attenuation and signal enhancement",
+        "3D/4D structural modeling"
+      ]
+    },
+    "das-processing": {
+      "title": "DAS and signal processing",
+      "tagline": "Advanced processing for distributed acoustic sensing",
+      "description": "We process continuous, high-volume DAS (Distributed Acoustic Sensing) streams with custom-built algorithms designed to preserve signal integrity, filter ambient noise, and provide real-time monitoring.",
+      "features": [
+        "Custom noise reduction algorithms",
+        "Real-time acoustic interpretation",
+        "High-throughput workflow optimization",
+        "Fiber optic applications for energy and infrastructure"
+      ]
+    },
+    "resource-exploration": {
+      "title": "GeoAI for resource exploration",
+      "tagline": "Evaluation of water reservoirs, minerals, and energy",
+      "description": "Our predictive models combine multi-physics geophysical data, geological constraints, and satellite imagery to identify high-potential target zones and reduce exploration risk.",
+      "features": [
+        "Predictive modeling for groundwater mapping",
+        "Target generation for mineral exploration",
+        "Multi-data fusion (seismic, gravity, magnetic, borehole)",
+        "Uncertainty quantification in resource estimates"
+      ]
+    },
+    "custom-geoai": {
+      "title": "Custom GeoAI development",
+      "tagline": "Machine learning pipelines tailored to your data",
+      "description": "We build GeoAI workflows specific to your datasets and operational needs, integrated directly into your existing software stack.",
+      "features": [
+        "Custom PyTorch / TensorFlow architectures",
+        "Automated classification of geological features",
+        "Integration with your GIS and geophysical platforms",
+        "Cloud and edge deployment at scale"
+      ]
+    },
+    "consulting-audit": {
+      "title": "Geophysical consulting and risk audit",
+      "tagline": "Independent technical expertise",
+      "description": "Independent review of your geophysical interpretations, acquisition designs, and AI model implementations to ensure scientific rigor and mitigate exploration risk.",
+      "features": [
+        "Peer review of seismic and geophysical interpretations",
+        "Audit of acquisition strategy and design",
+        "Risk evaluation for drilling decisions",
+        "Strategic advice on GeoAI adoption"
+      ]
+    }
+  },
+  "ServicesCta": {
+    "title": "Have a specific GeoAI requirement?",
+    "body": "Custom model development, expert review, or specialized DAS processing. Let's discuss your project.",
+    "cta": "Contact the team"
+  },
+  "ServicesFooter": {
+    "title": "GeoSignal Research Institute",
+    "tagline": "The research and publications hub of GeoSignal Analytics.",
+    "newsletterLabel": "Research updates, spam-free",
+    "subscribe": "Subscribe",
+    "pagesHeader": "Pages",
+    "socialHeader": "Social",
+    "link_subsurface": "Subsurface imaging",
+    "link_das": "DAS processing",
+    "link_resource": "Resource exploration",
+    "link_custom": "Custom GeoAI",
+    "link_consulting": "Consulting & audit",
+    "copyright": "© {year} GeoSignal Research Institute — All rights reserved"
+  },
+  "Metadata": {
+    "siteName": "GeoSignal Analytics",
+    "title": "GeoSignal Analytics — Applied Geophysics & Earth Data Science",
+    "description": "Physics-based seismic and geospatial data processing refined with machine learning, for resource exploration, water infrastructure, and land engineering."
+  }
+}
